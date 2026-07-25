@@ -1,6 +1,7 @@
 import os
+from io import BytesIO
 from jinja2 import Environment, FileSystemLoader
-from weasyprint import HTML
+from xhtml2pdf import pisa
 from app.services import texto_nota_marginal
 
 
@@ -53,5 +54,10 @@ def render_acta_html(acta) -> str:
 
 def generate_acta_pdf(acta) -> bytes:
     html_content = render_acta_html(acta)
-    pdf = HTML(string=html_content, base_url=TEMPLATE_DIR).write_pdf()
-    return pdf
+    output = BytesIO()
+    logo_path = os.path.join(TEMPLATE_DIR, "cne_logo.png")
+    html_content = html_content.replace('src="cne_logo.png"', f'src="{logo_path}"')
+    pisa_status = pisa.CreatePDF(html_content, dest=output, path=TEMPLATE_DIR)
+    if pisa_status.err:
+        raise RuntimeError("Error generating PDF")
+    return output.getvalue()
