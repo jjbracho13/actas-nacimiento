@@ -1,6 +1,13 @@
 #!/bin/bash
-# Build script for Render
+# Build script for Render Python runtime
 set -e
+
+echo "=== Installing Node.js ==="
+curl -fsSL https://nodejs.org/dist/v20.18.0/node-v20.18.0-linux-x64.tar.xz | tar -xJ -C /usr/local --strip-components=1
+
+echo "=== Verifying Node ==="
+node --version
+npm --version
 
 echo "=== Installing backend dependencies ==="
 pip install -r backend/requirements.txt
