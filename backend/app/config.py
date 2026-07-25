@@ -1,41 +1,37 @@
 import os
-import json
-from pydantic_settings import BaseSettings
-from typing import List
 
+DATABASE_URL = os.getenv(
+    "DATABASE_URL",
+    "sqlite+aiosqlite:///./actas_nacimiento.db",
+)
+SECRET_KEY = os.getenv("SECRET_KEY", "dev-secret-key-change-in-production")
+ALGORITHM = "HS256"
+ACCESS_TOKEN_EXPIRE_MINUTES = 60
 
-class Settings(BaseSettings):
-    DATABASE_URL: str = "sqlite+aiosqlite:///./actas_nacimiento.db"
-    SECRET_KEY: str = "dev-secret-key-change-in-production"
-    ALGORITHM: str = "HS256"
-    ACCESS_TOKEN_EXPIRE_MINUTES: int = 60
-    CORS_ORIGINS: str = "[]"
-
-    class Config:
-        extra = "allow"
-
-
-settings = Settings()
-
-# Override from env vars explicitly
-settings.DATABASE_URL = os.getenv("DATABASE_URL", settings.DATABASE_URL)
-settings.SECRET_KEY = os.getenv("SECRET_KEY", settings.SECRET_KEY)
-
-# Parse CORS_ORIGINS from env var
+# Parse CORS_ORIGINS
 cors_raw = os.getenv("CORS_ORIGINS", "")
 if cors_raw:
+    import json
     try:
-        settings.CORS_ORIGINS = json.loads(cors_raw)
+        CORS_ORIGINS = json.loads(cors_raw)
     except json.JSONDecodeError:
-        settings.CORS_ORIGINS = [u.strip() for u in cors_raw.split(",")]
+        CORS_ORIGINS = [u.strip() for u in cors_raw.split(",")]
 else:
-    settings.CORS_ORIGINS = [
-        "http://localhost:3000",
-        "http://localhost:5173",
-    ]
+    CORS_ORIGINS = ["http://localhost:3000", "http://localhost:5173"]
 
-# Fix Render PostgreSQL URL (postgres:// → postgresql+asyncpg://)
-if settings.DATABASE_URL.startswith("postgres://"):
-    settings.DATABASE_URL = settings.DATABASE_URL.replace("postgres://", "postgresql+asyncpg://", 1)
-elif settings.DATABASE_URL.startswith("postgresql://") and "asyncpg" not in settings.DATABASE_URL:
-    settings.DATABASE_URL = settings.DATABASE_URL.replace("postgresql://", "postgresql+asyncpg://", 1)
+# Fix Render PostgreSQL URL
+if DATABASE_URL.startswith("postgres://"):
+    DATABASE_URL = DATABASE_URL.replace("postgres://", "postgresql+asyncpg://", 1)
+elif DATABASE_URL.startswith("postgresql://") and "asyncpg" not in DATABASE_URL:
+    DATABASE_URL = DATABASE_URL.replace("postgresql://", "postgresql+asyncpg://", 1)
+
+
+class _Settings:
+    DATABASE_URL = DATABASE_URL
+    SECRET_KEY = SECRET_KEY
+    ALGORITHM = ALGORITHM
+    ACCESS_TOKEN_EXPIRE_MINUTES = ACCESS_TOKEN_EXPIRE_MINUTES
+    CORS_ORIGINS = CORS_ORIGINS
+
+
+settings = _Settings()
