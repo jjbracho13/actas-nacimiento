@@ -5,12 +5,12 @@
     <style>
         @page {
             size: 216mm 356mm;
-            margin: 10mm 12mm;
+            margin: 8mm 10mm;
         }
         body {
             font-family: "Times New Roman", Times, serif;
-            font-size: 10pt;
-            line-height: 1.2;
+            font-size: 9pt;
+            line-height: 1.15;
             color: #000;
         }
         table {
@@ -23,25 +23,25 @@
         /* ===== HEADER ===== */
         .header-table {
             width: 100%;
-            margin-bottom: 2mm;
+            margin-bottom: 1mm;
         }
         .header-table td {
-            padding: 2mm 5mm;
+            padding: 1mm 3mm;
             vertical-align: top;
         }
         .logo-cell {
-            width: 55px;
+            width: 50px;
         }
         .logo-cell img {
-            width: 50px;
+            width: 45px;
         }
         .title-cell {
             text-align: center;
         }
         .title-line {
-            font-size: 11pt;
+            font-size: 10pt;
             font-weight: bold;
-            margin: 1px 0;
+            margin: 0;
         }
 
         /* ===== INFO ROW ===== */
@@ -50,7 +50,7 @@
             margin-bottom: 1mm;
         }
         .info-table td {
-            padding: 0 5mm;
+            padding: 0 3mm;
         }
 
         /* ===== SECTION DIVIDERS ===== */
@@ -71,7 +71,7 @@
         .section-title-cell {
             padding: 2px 8px;
             font-weight: bold;
-            font-size: 9pt;
+            font-size: 8.5pt;
         }
 
         /* ===== DATA TABLES ===== */
@@ -81,16 +81,16 @@
         }
         .data-table td {
             border: 1px solid #000;
-            padding: 1.5px 3px;
-            height: 14px;
+            padding: 1px 3px;
+            height: 13px;
         }
         .label {
             font-weight: bold;
-            font-size: 8pt;
-            color: #333;
+            font-size: 7.5pt;
+            color: #000;
         }
         .value {
-            font-size: 9.5pt;
+            font-size: 9pt;
         }
         .center {
             text-align: center;
@@ -115,27 +115,27 @@
         /* ===== SIGNATURE ===== */
         .signature-table {
             width: 100%;
-            margin-top: 8mm;
+            margin-top: 6mm;
         }
         .signature-table td {
             text-align: center;
             vertical-align: bottom;
-            padding: 0 5mm;
+            padding: 0 3mm;
         }
         .sig-line {
-            width: 200px;
+            width: 180px;
             border-top: 1px solid #000;
             margin: 0 auto;
             padding-top: 2px;
-            font-size: 9pt;
+            font-size: 8pt;
         }
 
         /* ===== NOTA MARGINAL ===== */
         .nota-box {
             border: 1px solid #000;
-            padding: 3px 5px;
-            margin: 2mm 5mm;
-            font-size: 8pt;
+            padding: 2px 4px;
+            margin: 1mm 3mm;
+            font-size: 7.5pt;
         }
     </style>
 </head>
@@ -159,28 +159,28 @@
 <!-- ===== LOCATION + ACTA NUMBER ===== -->
 <table class="info-table">
     <tr>
-        <td style="width:60%; font-weight:bold; font-size:10pt; border:none;">
+        <td style="width:60%; font-weight:bold; font-size:9pt; border:none;">
             Estado Falcón<br/>
             Municipio Falcón<br/>
             Parroquia Adaure
         </td>
-        <td style="width:40%; text-align:right; border:none; font-size:10pt;">
+        <td style="width:40%; text-align:right; border:none; font-size:9pt;">
             <table style="border-collapse:collapse; float:right;">
                 <tr>
-                    <td style="border:1px solid #000; padding:1px 5px; font-weight:bold; font-size:9pt;">ACTA N°</td>
-                    <td style="border:1px solid #000; padding:1px 5px; font-size:10pt; min-width:35px;">{{ acta.numero_acta }}</td>
+                    <td style="border:1px solid #000; padding:1px 4px; font-weight:bold; font-size:8pt;">ACTA N°</td>
+                    <td style="border:1px solid #000; padding:1px 4px; font-size:9pt; min-width:30px;">{{ acta.numero_acta }}</td>
                 </tr>
                 <tr>
-                    <td style="border:1px solid #000; padding:1px 5px; font-size:9pt;">DIA</td>
-                    <td style="border:1px solid #000; padding:1px 5px; text-align:center;">{{ acta.fecha_dia }}</td>
+                    <td style="border:1px solid #000; padding:1px 4px; font-size:8pt;">DIA</td>
+                    <td style="border:1px solid #000; padding:1px 4px; text-align:center;">{{ acta.fecha_dia }}</td>
                 </tr>
                 <tr>
-                    <td style="border:1px solid #000; padding:1px 5px; font-size:9pt;">MES</td>
-                    <td style="border:1px solid #000; padding:1px 5px; text-align:center;">{{ acta.fecha_mes }}</td>
+                    <td style="border:1px solid #000; padding:1px 4px; font-size:8pt;">MES</td>
+                    <td style="border:1px solid #000; padding:1px 4px; text-align:center;">{{ acta.fecha_mes }}</td>
                 </tr>
                 <tr>
-                    <td style="border:1px solid #000; padding:1px 5px; font-size:9pt;">AÑO</td>
-                    <td style="border:1px solid #000; padding:1px 5px; text-align:center;">{{ acta.fecha_anio }}</td>
+                    <td style="border:1px solid #000; padding:1px 4px; font-size:8pt;">AÑO</td>
+                    <td style="border:1px solid #000; padding:1px 4px; text-align:center;">{{ acta.fecha_anio }}</td>
                 </tr>
             </table>
         </td>
@@ -190,7 +190,7 @@
 <!-- ===== TIPO INSCRIPCION ===== -->
 <table style="width:100%; margin-bottom:1mm;">
     <tr>
-        <td style="padding:2mm 5mm; font-size:10pt; border:none;">
+        <td style="padding:1mm 3mm; font-size:9pt; border:none;">
             <b>REGISTRO DE NACIMIENTO</b>
             &nbsp;&nbsp; RECONOCIMIENTO
             <span class="cb{% if acta.es_reconocimiento %} checked{% endif %}">X</span>
@@ -300,6 +300,10 @@
         </td>
         <td></td>
     </tr>
+    <tr>
+        <td class="label">DIRECCIÓN:</td>
+        <td class="value" colspan="5">{{ presentado.direccion if presentado else '' }}</td>
+    </tr>
 </table>
 
 <!-- ===== C - CERTIFICADO MEDICO ===== -->
@@ -312,7 +316,7 @@
 <table class="data-table">
     <tr>
         <td class="label" style="width:15%;">CERTIFICADO N°</td>
-        <td class="value" style="width:15%;">{{ certificado.numero_certificado if certificado else '' }}</td>
+        <td class="value" style="width:12%;">{{ certificado.numero_certificado if certificado else '' }}</td>
         <td class="label" style="width:10%;">FECHA DE<br/>EXPEDICIÓN</td>
         <td class="center" style="width:8%;">
             <span class="label">DIA</span><br/>{{ certificado.dia_expedicion if certificado else '' }}
@@ -324,7 +328,7 @@
             <span class="label">AÑO</span><br/>{{ certificado.anio_expedicion if certificado else '' }}
         </td>
         <td class="label" style="width:14%;">NOMBRE DEL CENTRO DE SALUD</td>
-        <td class="value" style="width:22%;">{{ certificado.nombre_centro_salud if certificado else '' }}</td>
+        <td class="value" style="width:25%;">{{ certificado.nombre_centro_salud if certificado else '' }}</td>
     </tr>
     <tr>
         <td class="label" colspan="3">Nombres y Apellidos de la Autoridad que lo expide</td>
@@ -386,10 +390,10 @@
     </tr>
 </table>
 
-<!-- ===== D - PADRE ===== -->
+<!-- ===== E - PADRE ===== -->
 <table class="section-header-table">
     <tr>
-        <td class="section-letter-cell">D</td>
+        <td class="section-letter-cell">E</td>
         <td class="section-title-cell">Hijo o Hija de (Datos del Padre)</td>
     </tr>
 </table>
@@ -436,7 +440,6 @@
 </table>
 
 <!-- ===== F - DECLARANTE ===== -->
-{% if declarante and declarante.nombres_apellidos %}
 <table class="section-header-table">
     <tr>
         <td class="section-letter-cell">F</td>
@@ -446,32 +449,31 @@
 <table class="data-table">
     <tr>
         <td class="label" style="width:15%;">NOMBRES Y APELLIDOS:</td>
-        <td class="value" style="width:50%;">{{ declarante.nombres_apellidos }}</td>
+        <td class="value" style="width:45%;">{{ declarante.nombres_apellidos if declarante and declarante.nombres_apellidos else '' }}</td>
         <td class="label" style="width:15%;">CARÁCTER QUE ACTUA:</td>
-        <td class="value" style="width:20%;">{{ declarante.caracter_actua or '' }}</td>
+        <td class="value" style="width:25%;">{{ declarante.caracter_actua if declarante else '' }}</td>
     </tr>
     <tr>
         <td class="label">DOCUMENTO DE IDENTIDAD:</td>
-        <td class="value">{{ declarante.documento_identidad or '' }}</td>
+        <td class="value">{{ declarante.documento_identidad if declarante else '' }}</td>
         <td class="center">
-            <span class="cb{% if declarante.tiene_cedula %} checked{% endif %}">X</span> CED
-            <span class="cb{% if declarante.tiene_pasaporte %} checked{% endif %}">X</span> PAS
-            <span class="cb{% if declarante.tiene_otro %} checked{% endif %}">X</span> OTRO
+            <span class="cb{% if declarante and declarante.tiene_cedula %} checked{% endif %}">X</span> CED
+            <span class="cb{% if declarante and declarante.tiene_pasaporte %} checked{% endif %}">X</span> PAS
+            <span class="cb{% if declarante and declarante.tiene_otro %} checked{% endif %}">X</span> OTRO
         </td>
-        <td class="value">EDAD: {{ declarante.edad or '' }}</td>
+        <td class="value">EDAD: {{ declarante.edad if declarante else '' }}</td>
     </tr>
     <tr>
         <td class="label">NACIONALIDAD:</td>
-        <td class="value">{{ declarante.nacionalidad or '' }}</td>
+        <td class="value">{{ declarante.nacionalidad if declarante else '' }}</td>
         <td class="label">PROFESIÓN U OCUPACIÓN:</td>
-        <td class="value">{{ declarante.profesion_ocupacion or '' }}</td>
+        <td class="value">{{ declarante.profesion_ocupacion if declarante else '' }}</td>
     </tr>
     <tr>
         <td class="label">RESIDENCIA:</td>
-        <td class="value" colspan="3">{{ declarante.residencia or '' }}</td>
+        <td class="value" colspan="3">{{ declarante.residencia if declarante else '' }}</td>
     </tr>
 </table>
-{% endif %}
 
 <!-- ===== G - TESTIGOS ===== -->
 <table class="section-header-table">
@@ -501,8 +503,97 @@
 </table>
 {% endfor %}
 
+<!-- ===== H - ACTA A INSERTAR ===== -->
+<table class="section-header-table">
+    <tr>
+        <td class="section-letter-cell">H</td>
+        <td class="section-title-cell">Datos del Acta a Insertar (Llenar solo en caso de inserción de acta)</td>
+    </tr>
+</table>
+<table class="data-table">
+    <tr>
+        <td class="label" style="width:15%;">ACTA N°</td>
+        <td class="value" style="width:15%;">{% if acta.es_insercion %}{{ acta.numero_acta }}{% endif %}</td>
+        <td class="label" style="width:10%;">FECHA</td>
+        <td class="center" style="width:8%;"><span class="label">DIA</span></td>
+        <td class="center" style="width:8%;"><span class="label">MES</span></td>
+        <td class="center" style="width:8%;"><span class="label">AÑO</span></td>
+        <td class="label" style="width:14%;">AUTORIDAD QUE LO EXPIDE</td>
+        <td class="value" style="width:22%;"></td>
+    </tr>
+</table>
+
+<!-- ===== I - INSCRIPCION POR PROTECCION ===== -->
+<table class="section-header-table">
+    <tr>
+        <td class="section-letter-cell">I</td>
+        <td class="section-title-cell">Inscripción por Medida de Protección (Llenar sólo cuando exista una medida de protección)</td>
+    </tr>
+</table>
+<table class="data-table">
+    <tr>
+        <td class="label" style="width:15%;">CONSEJO DE PROTECCIÓN</td>
+        <td class="value" style="width:20%;"></td>
+        <td class="label" style="width:10%;">MEDIDA N°</td>
+        <td class="value" style="width:10%;"></td>
+        <td class="label" style="width:8%;">FECHA</td>
+        <td class="center" style="width:8%;"><span class="label">DIA</span></td>
+        <td class="center" style="width:8%;"><span class="label">MES</span></td>
+        <td class="center" style="width:8%;"><span class="label">AÑO</span></td>
+    </tr>
+    <tr>
+        <td class="label" colspan="2">NOMBRES Y APELLIDOS DEL CONSEJO (A)</td>
+        <td class="value" colspan="6"></td>
+    </tr>
+</table>
+
+<!-- ===== J - INSCRIPCION POR DECISION JUDICIAL ===== -->
+<table class="section-header-table">
+    <tr>
+        <td class="section-letter-cell">J</td>
+        <td class="section-title-cell">Inscripción por Decisión Judicial (Llenar solo en caso de sentencia judicial)</td>
+    </tr>
+</table>
+<table class="data-table">
+    <tr>
+        <td class="label" style="width:15%;">TRIBUNAL O JUZGADO</td>
+        <td class="value" style="width:30%;"></td>
+        <td class="label" style="width:12%;">SENTENCIA N°</td>
+        <td class="value" style="width:15%;"></td>
+        <td class="label" style="width:8%;">FECHA</td>
+        <td class="center" style="width:6%;"><span class="label">DIA</span></td>
+        <td class="center" style="width:6%;"><span class="label">MES</span></td>
+        <td class="center" style="width:6%;"><span class="label">AÑO</span></td>
+    </tr>
+    <tr>
+        <td class="label" colspan="2">NOMBRES Y APELLIDOS DEL JUEZ (A)</td>
+        <td class="value" colspan="6"></td>
+    </tr>
+</table>
+
+<!-- ===== K - INSCRIPCION EXTEMPORANEA ===== -->
+<table class="section-header-table">
+    <tr>
+        <td class="section-letter-cell">K</td>
+        <td class="section-title-cell">Inscripción Extemporánea</td>
+    </tr>
+</table>
+<table class="data-table">
+    <tr>
+        <td class="label" colspan="3">DATOS DEL INFORME DEL CONSEJO DE PROTECCIÓN O PROVIDENCIA ADMINISTRATIVA N°</td>
+        <td class="value" colspan="5"></td>
+    </tr>
+    <tr>
+        <td class="label" style="width:15%;">AUTORIDAD QUE LO EXPIDE</td>
+        <td class="value" style="width:25%;"></td>
+        <td class="label" style="width:10%;">FECHA</td>
+        <td class="center" style="width:8%;"><span class="label">DIA</span></td>
+        <td class="center" style="width:8%;"><span class="label">MES</span></td>
+        <td class="center" style="width:8%;"><span class="label">AÑO</span></td>
+    </tr>
+</table>
+
 <!-- ===== L - CIRCUNSTANCIAS ESPECIALES ===== -->
-{% if acta.circunstancias_especiales %}
 <table class="section-header-table">
     <tr>
         <td class="section-letter-cell">L</td>
@@ -511,13 +602,11 @@
 </table>
 <table style="width:100%; margin-bottom:1mm;">
     <tr>
-        <td style="padding:2px 5px; font-size:9pt; border:none;">{{ acta.circunstancias_especiales }}</td>
+        <td style="padding:2px 5px; font-size:8pt; border:1px solid #000; min-height:10px;">{{ acta.circunstancias_especiales or '' }}</td>
     </tr>
 </table>
-{% endif %}
 
 <!-- ===== M - DOCUMENTOS PRESENTADOS ===== -->
-{% if acta.documentos_presentados %}
 <table class="section-header-table">
     <tr>
         <td class="section-letter-cell">M</td>
@@ -526,13 +615,11 @@
 </table>
 <table style="width:100%; margin-bottom:1mm;">
     <tr>
-        <td style="padding:2px 5px; font-size:9pt; border:none;">{{ acta.documentos_presentados }}</td>
+        <td style="padding:2px 5px; font-size:8pt; border:1px solid #000; min-height:10px;">{{ acta.documentos_presentados or '' }}</td>
     </tr>
 </table>
-{% endif %}
 
 <!-- ===== NOTA MARGINAL ===== -->
-{% if nota_texto %}
 <table class="section-header-table">
     <tr>
         <td class="section-letter-cell">N</td>
@@ -540,7 +627,6 @@
     </tr>
 </table>
 <div class="nota-box">{{ nota_texto }}</div>
-{% endif %}
 
 <!-- ===== FIRMAS ===== -->
 <table class="signature-table">
@@ -551,7 +637,7 @@
         <td style="width:20%;">
             <table style="border:1px dashed #999; width:80px; height:60px; margin:0 auto;">
                 <tr>
-                    <td style="text-align:center; font-size:7pt; vertical-align:middle; border:none;">SELLO</td>
+                    <td style="text-align:center; font-size:7pt; vertical-align:middle; border:none;">SELLO HUMEDO</td>
                 </tr>
             </table>
         </td>
