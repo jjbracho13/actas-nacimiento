@@ -8,7 +8,7 @@ connect_args = {}
 if settings.DATABASE_URL.startswith("sqlite"):
     connect_args = {"check_same_thread": False}
 elif "asyncpg" in settings.DATABASE_URL:
-    connect_args = {"ssl": "require"}
+    connect_args = {"ssl": True}
 
 engine = create_async_engine(
     settings.DATABASE_URL,
