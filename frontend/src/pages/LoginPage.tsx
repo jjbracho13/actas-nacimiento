@@ -120,13 +120,7 @@ export default function LoginPage({ onLogin }: LoginPageProps) {
             </button>
           </form>
 
-          <div className="mt-8 p-4 bg-slate-50 rounded-xl border border-slate-200">
-            <p className="text-xs font-semibold text-slate-500 mb-2">Credenciales de prueba:</p>
-            <div className="space-y-1 text-xs text-slate-600">
-              <p><span className="font-mono bg-slate-200 px-1.5 py-0.5 rounded">admin</span> / <span className="font-mono bg-slate-200 px-1.5 py-0.5 rounded">admin123</span> <span className="text-slate-400">(Admin)</span></p>
-              <p><span className="font-mono bg-slate-200 px-1.5 py-0.5 rounded">operator</span> / <span className="font-mono bg-slate-200 px-1.5 py-0.5 rounded">operator123</span> <span className="text-slate-400">(Operador)</span></p>
-            </div>
-          </div>
+
         </div>
       </div>
     </div>
