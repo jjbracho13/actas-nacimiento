@@ -10,7 +10,7 @@
         body {
             font-family: "Times New Roman", Times, serif;
             font-size: 9pt;
-            line-height: 1.15;
+            line-height: 1.2;
             color: #000;
             margin: 0;
             padding: 0;
@@ -20,41 +20,40 @@
         }
         td {
             vertical-align: top;
-            padding: 1px 2px;
         }
 
-        /* Section header: letter + title side by side */
-        .sec-row {
+        /* Section header row */
+        .sec-row td {
             border-top: 2px solid #000;
             border-bottom: 2px solid #000;
-            width: 100%;
+            padding: 1px 0;
         }
         .sec-letter {
             background-color: #000;
-            color: #ffffff;
+            color: #fff;
             font-weight: bold;
-            font-size: 12pt;
+            font-size: 11pt;
             text-align: center;
-            width: 20px;
-            padding: 2px 4px;
+            width: 18px;
+            padding: 2px 3px;
         }
         .sec-title {
             font-weight: bold;
             font-size: 8pt;
-            padding: 2px 6px;
+            padding: 2px 5px;
         }
 
-        /* Data cells */
+        /* Data cells with borders */
+        .dc {
+            border: 1px solid #000;
+            padding: 1px 3px;
+        }
         .lbl {
             font-weight: bold;
             font-size: 7.5pt;
         }
         .val {
             font-size: 9pt;
-        }
-        .data-cell {
-            border: 1px solid #000;
-            padding: 1px 3px;
         }
 
         /* Checkbox */
@@ -65,7 +64,7 @@
             text-align: center;
             padding: 0 1px;
             display: inline-block;
-            min-width: 10px;
+            min-width: 8px;
         }
         .cb-on {
             background-color: #000;
@@ -86,7 +85,7 @@
             text-align: center;
             font-size: 8pt;
             padding-top: 3px;
-            margin-top: 20px;
+            margin-top: 15px;
         }
     </style>
 </head>
@@ -107,31 +106,31 @@
     </tr>
 </table>
 
-<!-- LOCATION + ACTA -->
+<!-- LOCATION + ACTA NUMBER (sin bordes) -->
 <table width="100%" cellpadding="0" cellspacing="0">
     <tr>
-        <td width="60%" class="lbl" style="font-size:9pt;">
-            Estado Falcón<br/>
-            Municipio Falcón<br/>
-            Parroquia Adaure
+        <td width="55%" valign="top" style="padding-top:2px;">
+            <b style="font-size:9pt;">Estado Falcón</b><br/>
+            <b style="font-size:9pt;">Municipio Falcón</b><br/>
+            <b style="font-size:9pt;">Parroquia Adaure</b>
         </td>
-        <td width="40%" align="right">
+        <td width="45%" align="right" valign="top">
             <table cellpadding="0" cellspacing="0" align="right">
                 <tr>
-                    <td class="data-cell" class="lbl" style="font-size:8pt;">ACTA N°</td>
-                    <td class="data-cell" style="font-size:9pt; min-width:30px;">{{ acta.numero_acta }}</td>
+                    <td style="font-weight:bold; font-size:8pt; padding:1px 5px; border:1px solid #000;">ACTA N°</td>
+                    <td style="font-size:9pt; padding:1px 5px; border:1px solid #000; min-width:25px;" align="center">{{ acta.numero_acta }}</td>
                 </tr>
                 <tr>
-                    <td class="data-cell lbl" style="font-size:8pt;">DIA</td>
-                    <td class="data-cell" align="center">{{ acta.fecha_dia }}</td>
+                    <td style="font-weight:bold; font-size:8pt; padding:1px 5px; border:1px solid #000;">DIA</td>
+                    <td style="font-size:9pt; padding:1px 5px; border:1px solid #000;" align="center">{{ acta.fecha_dia }}</td>
                 </tr>
                 <tr>
-                    <td class="data-cell lbl" style="font-size:8pt;">MES</td>
-                    <td class="data-cell" align="center">{{ acta.fecha_mes }}</td>
+                    <td style="font-weight:bold; font-size:8pt; padding:1px 5px; border:1px solid #000;">MES</td>
+                    <td style="font-size:9pt; padding:1px 5px; border:1px solid #000;" align="center">{{ acta.fecha_mes }}</td>
                 </tr>
                 <tr>
-                    <td class="data-cell lbl" style="font-size:8pt;">AÑO</td>
-                    <td class="data-cell" align="center">{{ acta.fecha_anio }}</td>
+                    <td style="font-weight:bold; font-size:8pt; padding:1px 5px; border:1px solid #000;">AÑO</td>
+                    <td style="font-size:9pt; padding:1px 5px; border:1px solid #000;" align="center">{{ acta.fecha_anio }}</td>
                 </tr>
             </table>
         </td>
@@ -152,256 +151,256 @@
 </table>
 
 <!-- A - REGISTRADOR -->
-<table width="100%" class="sec-row" cellpadding="0" cellspacing="0">
-    <tr>
+<table width="100%" cellpadding="0" cellspacing="0">
+    <tr class="sec-row">
         <td class="sec-letter">A</td>
         <td class="sec-title">Datos del Registrador (a) Civil</td>
     </tr>
 </table>
 <table width="100%" cellpadding="0" cellspacing="0">
     <tr>
-        <td class="data-cell lbl" width="15%">NOMBRES:</td>
-        <td class="data-cell val" width="35%">{{ registrador.nombres if registrador else '' }}</td>
-        <td class="data-cell lbl" width="15%">APELLIDOS:</td>
-        <td class="data-cell val" width="35%">{{ registrador.apellidos if registrador else '' }}</td>
+        <td class="dc lbl" width="15%">NOMBRES:</td>
+        <td class="dc val" width="35%">{{ registrador.nombres if registrador else '' }}</td>
+        <td class="dc lbl" width="15%">APELLIDOS:</td>
+        <td class="dc val" width="35%">{{ registrador.apellidos if registrador else '' }}</td>
     </tr>
     <tr>
-        <td class="data-cell lbl">DOCUMENTO DE IDENTIDAD N°</td>
-        <td class="data-cell val">{{ registrador.documento_identidad if registrador else '' }}</td>
-        <td class="data-cell lbl">OFICINA O UNIDAD DE REGISTRO CIVIL</td>
-        <td class="data-cell val">{{ registrador.oficina_registro_civil if registrador else '' }}</td>
+        <td class="dc lbl">DOCUMENTO DE IDENTIDAD N°</td>
+        <td class="dc val">{{ registrador.documento_identidad if registrador else '' }}</td>
+        <td class="dc lbl">OFICINA O UNIDAD DE REGISTRO CIVIL</td>
+        <td class="dc val">{{ registrador.oficina_registro_civil if registrador else '' }}</td>
     </tr>
     <tr>
-        <td class="data-cell lbl">RESOLUCIÓN N°</td>
-        <td class="data-cell val">{{ acta.resolucion_numero or '' }}</td>
-        <td class="data-cell lbl">FECHA</td>
-        <td class="data-cell val">{{ acta.resolucion_dia or '' }} / {{ acta.resolucion_mes or '' }} / {{ acta.resolucion_anio or '' }}</td>
+        <td class="dc lbl">RESOLUCIÓN N°</td>
+        <td class="dc val">{{ acta.resolucion_numero or '' }}</td>
+        <td class="dc lbl">FECHA</td>
+        <td class="dc val">{{ acta.resolucion_dia or '' }} / {{ acta.resolucion_mes or '' }} / {{ acta.resolucion_anio or '' }}</td>
     </tr>
     <tr>
-        <td class="data-cell lbl">GACETA MUNICIPAL N°</td>
-        <td class="data-cell val">{{ acta.gaceta_municipal or 'N/A' }}</td>
-        <td class="data-cell lbl">FECHA</td>
-        <td class="data-cell val">{{ acta.gaceta_dia or '' }} {{ acta.gaceta_mes or '' }} {{ acta.gaceta_anio or '' }}</td>
+        <td class="dc lbl">GACETA MUNICIPAL N°</td>
+        <td class="dc val">{{ acta.gaceta_municipal or 'N/A' }}</td>
+        <td class="dc lbl">FECHA</td>
+        <td class="dc val">{{ acta.gaceta_dia or '' }} {{ acta.gaceta_mes or '' }} {{ acta.gaceta_anio or '' }}</td>
     </tr>
 </table>
 
 <!-- B - PRESENTADO -->
-<table width="100%" class="sec-row" cellpadding="0" cellspacing="0">
-    <tr>
+<table width="100%" cellpadding="0" cellspacing="0">
+    <tr class="sec-row">
         <td class="sec-letter">B</td>
         <td class="sec-title">Datos del Presentado o Presentada</td>
     </tr>
 </table>
 <table width="100%" cellpadding="0" cellspacing="0">
     <tr>
-        <td class="data-cell lbl" width="12%">NOMBRES:</td>
-        <td class="data-cell val" width="28%">{{ presentado.nombres if presentado else '' }}</td>
-        <td class="data-cell lbl" width="14%">PRIMER APELLIDO:</td>
-        <td class="data-cell val" width="22%">{{ presentado.primer_apellido if presentado else '' }}</td>
-        <td class="data-cell lbl" width="12%">SEGUNDO APELLIDO:</td>
-        <td class="data-cell val" width="12%">{{ presentado.segundo_apellido if presentado else '' }}</td>
+        <td class="dc lbl" width="12%">NOMBRES:</td>
+        <td class="dc val" width="28%">{{ presentado.nombres if presentado else '' }}</td>
+        <td class="dc lbl" width="14%">PRIMER APELLIDO:</td>
+        <td class="dc val" width="22%">{{ presentado.primer_apellido if presentado else '' }}</td>
+        <td class="dc lbl" width="12%">SEGUNDO APELLIDO:</td>
+        <td class="dc val" width="12%">{{ presentado.segundo_apellido if presentado else '' }}</td>
     </tr>
     <tr>
-        <td class="data-cell lbl" rowspan="2">FECHA DE<br/>NACIMIENTO</td>
-        <td class="data-cell" align="center">
+        <td class="dc lbl" rowspan="2">FECHA DE<br/>NACIMIENTO</td>
+        <td class="dc" align="center">
             <span class="lbl">DIA</span><br/>{{ presentado.dia_nac if presentado else '' }}
         </td>
-        <td class="data-cell" align="center">
+        <td class="dc" align="center">
             <span class="lbl">MES</span><br/>{{ presentado.mes_nac if presentado else '' }}
         </td>
-        <td class="data-cell" align="center">
+        <td class="dc" align="center">
             <span class="lbl">AÑO</span><br/>{{ presentado.anio_nac if presentado else '' }}
         </td>
-        <td class="data-cell lbl">SEXO</td>
-        <td class="data-cell" align="center" style="font-size:11pt; font-weight:bold;">{{ presentado.sexo if presentado else '' }}</td>
+        <td class="dc lbl">SEXO</td>
+        <td class="dc" align="center" style="font-size:11pt; font-weight:bold;">{{ presentado.sexo if presentado else '' }}</td>
     </tr>
     <tr>
-        <td class="data-cell" colspan="2">
+        <td class="dc" colspan="2">
             <span class="lbl">HORA DE NACIMIENTO</span><br/>
             {{ presentado.hora_nacimiento if presentado and presentado.hora_nacimiento else '' }}
         </td>
-        <td class="data-cell" align="center">
+        <td class="dc" align="center">
             <span class="cb cb-on">X</span>
         </td>
-        <td class="data-cell" align="center">
+        <td class="dc" align="center">
             {{ presentado.am_pm if presentado and presentado.am_pm else '' }}
         </td>
-        <td class="data-cell"></td>
+        <td class="dc"></td>
     </tr>
     <tr>
-        <td class="data-cell lbl" rowspan="2">LUGAR DE<br/>NACIMIENTO</td>
-        <td class="data-cell" colspan="2">
+        <td class="dc lbl" rowspan="2">LUGAR DE<br/>NACIMIENTO</td>
+        <td class="dc" colspan="2">
             <span class="lbl">PAIS:</span> VENEZUELA
         </td>
-        <td class="data-cell lbl">ESTADO:</td>
-        <td class="data-cell" colspan="2">{{ presentado.estado if presentado else '' }}</td>
+        <td class="dc lbl">ESTADO:</td>
+        <td class="dc" colspan="2">{{ presentado.estado if presentado else '' }}</td>
     </tr>
     <tr>
-        <td class="data-cell" colspan="2">
+        <td class="dc" colspan="2">
             <span class="lbl">MUNICIPIO:</span> {{ presentado.municipio if presentado else '' }}
         </td>
-        <td class="data-cell" colspan="2">
+        <td class="dc" colspan="2">
             <span class="lbl">PARROQUIA:</span> {{ presentado.parroquia if presentado else '' }}
         </td>
-        <td class="data-cell"></td>
+        <td class="dc"></td>
     </tr>
     <tr>
-        <td class="data-cell lbl">DIRECCIÓN:</td>
-        <td class="data-cell val" colspan="5">{{ presentado.direccion if presentado else '' }}</td>
+        <td class="dc lbl">DIRECCIÓN:</td>
+        <td class="dc val" colspan="5">{{ presentado.direccion if presentado else '' }}</td>
     </tr>
 </table>
 
 <!-- C - CERTIFICADO MEDICO -->
-<table width="100%" class="sec-row" cellpadding="0" cellspacing="0">
-    <tr>
+<table width="100%" cellpadding="0" cellspacing="0">
+    <tr class="sec-row">
         <td class="sec-letter">C</td>
         <td class="sec-title">Datos De Certificado de Medico de Nacimiento</td>
     </tr>
 </table>
 <table width="100%" cellpadding="0" cellspacing="0">
     <tr>
-        <td class="data-cell lbl" width="14%">CERTIFICADO N°</td>
-        <td class="data-cell val" width="12%">{{ certificado.numero_certificado if certificado else '' }}</td>
-        <td class="data-cell lbl" width="10%">FECHA DE<br/>EXPEDICIÓN</td>
-        <td class="data-cell" align="center" width="8%">
+        <td class="dc lbl" width="14%">CERTIFICADO N°</td>
+        <td class="dc val" width="12%">{{ certificado.numero_certificado if certificado else '' }}</td>
+        <td class="dc lbl" width="10%">FECHA DE<br/>EXPEDICIÓN</td>
+        <td class="dc" align="center" width="8%">
             <span class="lbl">DIA</span><br/>{{ certificado.dia_expedicion if certificado else '' }}
         </td>
-        <td class="data-cell" align="center" width="8%">
+        <td class="dc" align="center" width="8%">
             <span class="lbl">MES</span><br/>{{ certificado.mes_expedicion if certificado else '' }}
         </td>
-        <td class="data-cell" align="center" width="8%">
+        <td class="dc" align="center" width="8%">
             <span class="lbl">AÑO</span><br/>{{ certificado.anio_expedicion if certificado else '' }}
         </td>
-        <td class="data-cell lbl" width="14%">NOMBRE DEL CENTRO DE SALUD</td>
-        <td class="data-cell val" width="26%">{{ certificado.nombre_centro_salud if certificado else '' }}</td>
+        <td class="dc lbl" width="14%">NOMBRE DEL CENTRO DE SALUD</td>
+        <td class="dc val" width="26%">{{ certificado.nombre_centro_salud if certificado else '' }}</td>
     </tr>
     <tr>
-        <td class="data-cell lbl" colspan="3">Nombres y Apellidos de la Autoridad que lo expide</td>
-        <td class="data-cell val" colspan="4">{{ certificado.autoridad_expide if certificado else '' }}</td>
-        <td class="data-cell val">{{ certificado.numero_mpps if certificado else '' }}</td>
+        <td class="dc lbl" colspan="3">Nombres y Apellidos de la Autoridad que lo expide</td>
+        <td class="dc val" colspan="4">{{ certificado.autoridad_expide if certificado else '' }}</td>
+        <td class="dc val">{{ certificado.numero_mpps if certificado else '' }}</td>
     </tr>
     <tr>
-        <td class="data-cell lbl">DIRECCIÓN:</td>
-        <td class="data-cell val" colspan="7">{{ certificado.direccion_centro if certificado else '' }}</td>
+        <td class="dc lbl">DIRECCIÓN:</td>
+        <td class="dc val" colspan="7">{{ certificado.direccion_centro if certificado else '' }}</td>
     </tr>
 </table>
 
 <!-- D - MADRE -->
-<table width="100%" class="sec-row" cellpadding="0" cellspacing="0">
-    <tr>
+<table width="100%" cellpadding="0" cellspacing="0">
+    <tr class="sec-row">
         <td class="sec-letter">D</td>
         <td class="sec-title">Hijo o Hija de (Datos de la Madre)</td>
     </tr>
 </table>
 <table width="100%" cellpadding="0" cellspacing="0">
     <tr>
-        <td class="data-cell lbl" width="12%">NOMBRES:</td>
-        <td class="data-cell val" width="28%">{{ madre.nombres if madre else '' }}</td>
-        <td class="data-cell lbl" width="14%">PRIMER APELLIDO:</td>
-        <td class="data-cell val" width="22%">{{ madre.primer_apellido if madre else '' }}</td>
-        <td class="data-cell lbl" width="12%">SEGUNDO APELLIDO:</td>
-        <td class="data-cell val" width="12%">{{ madre.segundo_apellido if madre else '' }}</td>
+        <td class="dc lbl" width="12%">NOMBRES:</td>
+        <td class="dc val" width="28%">{{ madre.nombres if madre else '' }}</td>
+        <td class="dc lbl" width="14%">PRIMER APELLIDO:</td>
+        <td class="dc val" width="22%">{{ madre.primer_apellido if madre else '' }}</td>
+        <td class="dc lbl" width="12%">SEGUNDO APELLIDO:</td>
+        <td class="dc val" width="12%">{{ madre.segundo_apellido if madre else '' }}</td>
     </tr>
     <tr>
-        <td class="data-cell lbl" rowspan="2">DOCUMENTO DE<br/>IDENTIDAD N°</td>
-        <td class="data-cell val" rowspan="2">{{ madre.documento_identidad if madre else '' }}</td>
-        <td class="data-cell" align="center"><span class="cb{% if madre and madre.tiene_cedula %} cb-on{% endif %}">X</span> CEDULA</td>
-        <td class="data-cell" align="center"><span class="cb{% if madre and madre.tiene_pasaporte %} cb-on{% endif %}">X</span> PASAPORTE</td>
-        <td class="data-cell" align="center"><span class="cb{% if madre and madre.tiene_otro %} cb-on{% endif %}">X</span> OTRO</td>
-        <td class="data-cell lbl">EDAD</td>
+        <td class="dc lbl" rowspan="2">DOCUMENTO DE<br/>IDENTIDAD N°</td>
+        <td class="dc val" rowspan="2">{{ madre.documento_identidad if madre else '' }}</td>
+        <td class="dc" align="center"><span class="cb{% if madre and madre.tiene_cedula %} cb-on{% endif %}">X</span> CEDULA</td>
+        <td class="dc" align="center"><span class="cb{% if madre and madre.tiene_pasaporte %} cb-on{% endif %}">X</span> PASAPORTE</td>
+        <td class="dc" align="center"><span class="cb{% if madre and madre.tiene_otro %} cb-on{% endif %}">X</span> OTRO</td>
+        <td class="dc lbl">EDAD</td>
     </tr>
     <tr>
-        <td class="data-cell" colspan="3"></td>
-        <td class="data-cell" align="center">{{ madre.edad if madre else '' }}</td>
+        <td class="dc" colspan="3"></td>
+        <td class="dc" align="center">{{ madre.edad if madre else '' }}</td>
     </tr>
     <tr>
-        <td class="data-cell lbl">NACIONALIDAD</td>
-        <td class="data-cell val">{{ madre.nacionalidad if madre else '' }}</td>
-        <td class="data-cell lbl" colspan="2">PROFESIÓN U OCUPACIÓN</td>
-        <td class="data-cell val" colspan="2">{{ madre.profesion_ocupacion if madre else '' }}</td>
+        <td class="dc lbl">NACIONALIDAD</td>
+        <td class="dc val">{{ madre.nacionalidad if madre else '' }}</td>
+        <td class="dc lbl" colspan="2">PROFESIÓN U OCUPACIÓN</td>
+        <td class="dc val" colspan="2">{{ madre.profesion_ocupacion if madre else '' }}</td>
     </tr>
     <tr>
-        <td class="data-cell lbl">COMUNIDAD O PUEBLO INDIGENA</td>
-        <td class="data-cell val">{{ madre.comunidad_indigena if madre else 'N/A' }}</td>
-        <td class="data-cell lbl" colspan="2">RESIDENCIA</td>
-        <td class="data-cell val" colspan="2">{{ madre.residencia if madre else '' }}</td>
+        <td class="dc lbl">COMUNIDAD O PUEBLO INDIGENA</td>
+        <td class="dc val">{{ madre.comunidad_indigena if madre else 'N/A' }}</td>
+        <td class="dc lbl" colspan="2">RESIDENCIA</td>
+        <td class="dc val" colspan="2">{{ madre.residencia if madre else '' }}</td>
     </tr>
     <tr>
-        <td class="data-cell lbl">DECLARANTE</td>
-        <td class="data-cell" colspan="2" align="center">
+        <td class="dc lbl">DECLARANTE</td>
+        <td class="dc" colspan="2" align="center">
             <span class="cb{% if madre and madre.es_declarante %} cb-on{% endif %}">X</span>
         </td>
-        <td class="data-cell" colspan="3"></td>
+        <td class="dc" colspan="3"></td>
     </tr>
 </table>
 
 <!-- E - PADRE -->
-<table width="100%" class="sec-row" cellpadding="0" cellspacing="0">
-    <tr>
+<table width="100%" cellpadding="0" cellspacing="0">
+    <tr class="sec-row">
         <td class="sec-letter">E</td>
         <td class="sec-title">Hijo o Hija de (Datos del Padre)</td>
     </tr>
 </table>
 <table width="100%" cellpadding="0" cellspacing="0">
     <tr>
-        <td class="data-cell lbl" width="12%">NOMBRES:</td>
-        <td class="data-cell val" width="28%">{{ padre.nombres if padre else '' }}</td>
-        <td class="data-cell lbl" width="14%">PRIMER APELLIDO:</td>
-        <td class="data-cell val" width="22%">{{ padre.primer_apellido if padre else '' }}</td>
-        <td class="data-cell lbl" width="12%">SEGUNDO APELLIDO:</td>
-        <td class="data-cell val" width="12%">{{ padre.segundo_apellido if padre else '' }}</td>
+        <td class="dc lbl" width="12%">NOMBRES:</td>
+        <td class="dc val" width="28%">{{ padre.nombres if padre else '' }}</td>
+        <td class="dc lbl" width="14%">PRIMER APELLIDO:</td>
+        <td class="dc val" width="22%">{{ padre.primer_apellido if padre else '' }}</td>
+        <td class="dc lbl" width="12%">SEGUNDO APELLIDO:</td>
+        <td class="dc val" width="12%">{{ padre.segundo_apellido if padre else '' }}</td>
     </tr>
     <tr>
-        <td class="data-cell lbl" rowspan="2">DOCUMENTO DE<br/>IDENTIDAD N°</td>
-        <td class="data-cell val" rowspan="2">{{ padre.documento_identidad if padre else '' }}</td>
-        <td class="data-cell" align="center"><span class="cb{% if padre and padre.tiene_cedula %} cb-on{% endif %}">X</span> CEDULA</td>
-        <td class="data-cell" align="center"><span class="cb{% if padre and padre.tiene_pasaporte %} cb-on{% endif %}">X</span> PASAPORTE</td>
-        <td class="data-cell" align="center"><span class="cb{% if padre and padre.tiene_otro %} cb-on{% endif %}">X</span> OTRO</td>
-        <td class="data-cell lbl">EDAD</td>
+        <td class="dc lbl" rowspan="2">DOCUMENTO DE<br/>IDENTIDAD N°</td>
+        <td class="dc val" rowspan="2">{{ padre.documento_identidad if padre else '' }}</td>
+        <td class="dc" align="center"><span class="cb{% if padre and padre.tiene_cedula %} cb-on{% endif %}">X</span> CEDULA</td>
+        <td class="dc" align="center"><span class="cb{% if padre and padre.tiene_pasaporte %} cb-on{% endif %}">X</span> PASAPORTE</td>
+        <td class="dc" align="center"><span class="cb{% if padre and padre.tiene_otro %} cb-on{% endif %}">X</span> OTRO</td>
+        <td class="dc lbl">EDAD</td>
     </tr>
     <tr>
-        <td class="data-cell" colspan="3"></td>
-        <td class="data-cell" align="center">{{ padre.edad if padre else '' }}</td>
+        <td class="dc" colspan="3"></td>
+        <td class="dc" align="center">{{ padre.edad if padre else '' }}</td>
     </tr>
     <tr>
-        <td class="data-cell lbl">NACIONALIDAD</td>
-        <td class="data-cell val">{{ padre.nacionalidad if padre else '' }}</td>
-        <td class="data-cell lbl" colspan="2">PROFESIÓN U OCUPACIÓN</td>
-        <td class="data-cell val" colspan="2">{{ padre.profesion_ocupacion if padre else '' }}</td>
+        <td class="dc lbl">NACIONALIDAD</td>
+        <td class="dc val">{{ padre.nacionalidad if padre else '' }}</td>
+        <td class="dc lbl" colspan="2">PROFESIÓN U OCUPACIÓN</td>
+        <td class="dc val" colspan="2">{{ padre.profesion_ocupacion if padre else '' }}</td>
     </tr>
     <tr>
-        <td class="data-cell lbl">COMUNIDAD O PUEBLO INDIGENA</td>
-        <td class="data-cell val">{{ padre.comunidad_indigena if padre else 'N/A' }}</td>
-        <td class="data-cell lbl" colspan="2">RESIDENCIA</td>
-        <td class="data-cell val" colspan="2">{{ padre.residencia if padre else '' }}</td>
+        <td class="dc lbl">COMUNIDAD O PUEBLO INDIGENA</td>
+        <td class="dc val">{{ padre.comunidad_indigena if padre else 'N/A' }}</td>
+        <td class="dc lbl" colspan="2">RESIDENCIA</td>
+        <td class="dc val" colspan="2">{{ padre.residencia if padre else '' }}</td>
     </tr>
     <tr>
-        <td class="data-cell lbl">DECLARANTE</td>
-        <td class="data-cell" colspan="2" align="center">
+        <td class="dc lbl">DECLARANTE</td>
+        <td class="dc" colspan="2" align="center">
             <span class="cb{% if padre and padre.es_declarante %} cb-on{% endif %}">X</span>
         </td>
-        <td class="data-cell" colspan="3"></td>
+        <td class="dc" colspan="3"></td>
     </tr>
 </table>
 
 <!-- F - DECLARANTE -->
-<table width="100%" class="sec-row" cellpadding="0" cellspacing="0">
-    <tr>
+<table width="100%" cellpadding="0" cellspacing="0">
+    <tr class="sec-row">
         <td class="sec-letter">F</td>
         <td class="sec-title">Datos del Declarante (Solo en caso de ser distinto a padre o madre)</td>
     </tr>
 </table>
 <table width="100%" cellpadding="0" cellspacing="0">
     <tr>
-        <td class="data-cell lbl" width="15%">NOMBRES Y APELLIDOS:</td>
-        <td class="data-cell val" width="40%">{{ declarante.nombres_apellidos if declarante and declarante.nombres_apellidos else '' }}</td>
-        <td class="data-cell lbl" width="15%">CARÁCTER QUE ACTUA:</td>
-        <td class="data-cell val" width="30%">{{ declarante.caracter_actua if declarante else '' }}</td>
+        <td class="dc lbl" width="15%">NOMBRES Y APELLIDOS:</td>
+        <td class="dc val" width="40%">{{ declarante.nombres_apellidos if declarante and declarante.nombres_apellidos else '' }}</td>
+        <td class="dc lbl" width="15%">CARÁCTER QUE ACTUA:</td>
+        <td class="dc val" width="30%">{{ declarante.caracter_actua if declarante else '' }}</td>
     </tr>
     <tr>
-        <td class="data-cell lbl">DOCUMENTO DE IDENTIDAD:</td>
-        <td class="data-cell val">{{ declarante.documento_identidad if declarante else '' }}</td>
-        <td class="data-cell" colspan="2">
+        <td class="dc lbl">DOCUMENTO DE IDENTIDAD:</td>
+        <td class="dc val">{{ declarante.documento_identidad if declarante else '' }}</td>
+        <td class="dc" colspan="2">
             <span class="cb{% if declarante and declarante.tiene_cedula %} cb-on{% endif %}">X</span> CED
             <span class="cb{% if declarante and declarante.tiene_pasaporte %} cb-on{% endif %}">X</span> PAS
             <span class="cb{% if declarante and declarante.tiene_otro %} cb-on{% endif %}">X</span> OTRO
@@ -409,20 +408,20 @@
         </td>
     </tr>
     <tr>
-        <td class="data-cell lbl">NACIONALIDAD:</td>
-        <td class="data-cell val">{{ declarante.nacionalidad if declarante else '' }}</td>
-        <td class="data-cell lbl">PROFESIÓN U OCUPACIÓN:</td>
-        <td class="data-cell val">{{ declarante.profesion_ocupacion if declarante else '' }}</td>
+        <td class="dc lbl">NACIONALIDAD:</td>
+        <td class="dc val">{{ declarante.nacionalidad if declarante else '' }}</td>
+        <td class="dc lbl">PROFESIÓN U OCUPACIÓN:</td>
+        <td class="dc val">{{ declarante.profesion_ocupacion if declarante else '' }}</td>
     </tr>
     <tr>
-        <td class="data-cell lbl">RESIDENCIA:</td>
-        <td class="data-cell val" colspan="3">{{ declarante.residencia if declarante else '' }}</td>
+        <td class="dc lbl">RESIDENCIA:</td>
+        <td class="dc val" colspan="3">{{ declarante.residencia if declarante else '' }}</td>
     </tr>
 </table>
 
 <!-- G - TESTIGOS -->
-<table width="100%" class="sec-row" cellpadding="0" cellspacing="0">
-    <tr>
+<table width="100%" cellpadding="0" cellspacing="0">
+    <tr class="sec-row">
         <td class="sec-letter">G</td>
         <td class="sec-title">Datos de los Testigos</td>
     </tr>
@@ -430,143 +429,143 @@
 {% for testigo in testigos %}
 <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:1px;">
     <tr>
-        <td class="data-cell lbl" width="15%">NOMBRES Y APELLIDOS:</td>
-        <td class="data-cell val" width="30%">{{ testigo.nombres_apellidos }}</td>
-        <td class="data-cell lbl" width="12%">CEDULA DE IDENTIDAD:</td>
-        <td class="data-cell val" width="15%">{{ testigo.cedula_identidad or '' }}</td>
-        <td class="data-cell lbl" width="6%">EDAD:</td>
-        <td class="data-cell val" width="5%">{{ testigo.edad or '' }}</td>
+        <td class="dc lbl" width="15%">NOMBRES Y APELLIDOS:</td>
+        <td class="dc val" width="30%">{{ testigo.nombres_apellidos }}</td>
+        <td class="dc lbl" width="12%">CEDULA DE IDENTIDAD:</td>
+        <td class="dc val" width="15%">{{ testigo.cedula_identidad or '' }}</td>
+        <td class="dc lbl" width="6%">EDAD:</td>
+        <td class="dc val" width="5%">{{ testigo.edad or '' }}</td>
     </tr>
     <tr>
-        <td class="data-cell lbl">PROFESIÓN U OCUPACIÓN:</td>
-        <td class="data-cell val">{{ testigo.profesion_ocupacion or '' }}</td>
-        <td class="data-cell lbl">NACIONALIDAD:</td>
-        <td class="data-cell val">{{ testigo.nacionalidad or '' }}</td>
-        <td class="data-cell lbl">RESIDENCIA:</td>
-        <td class="data-cell val" colspan="1">{{ testigo.residencia or '' }}</td>
+        <td class="dc lbl">PROFESIÓN U OCUPACIÓN:</td>
+        <td class="dc val">{{ testigo.profesion_ocupacion or '' }}</td>
+        <td class="dc lbl">NACIONALIDAD:</td>
+        <td class="dc val">{{ testigo.nacionalidad or '' }}</td>
+        <td class="dc lbl">RESIDENCIA:</td>
+        <td class="dc val" colspan="1">{{ testigo.residencia or '' }}</td>
     </tr>
 </table>
 {% endfor %}
 
 <!-- H - ACTA A INSERTAR -->
-<table width="100%" class="sec-row" cellpadding="0" cellspacing="0">
-    <tr>
+<table width="100%" cellpadding="0" cellspacing="0">
+    <tr class="sec-row">
         <td class="sec-letter">H</td>
         <td class="sec-title">Datos del Acta a Insertar (Llenar solo en caso de inserción de acta)</td>
     </tr>
 </table>
 <table width="100%" cellpadding="0" cellspacing="0">
     <tr>
-        <td class="data-cell lbl" width="15%">ACTA N°</td>
-        <td class="data-cell val" width="15%"></td>
-        <td class="data-cell lbl" width="10%">FECHA</td>
-        <td class="data-cell" align="center" width="8%"><span class="lbl">DIA</span></td>
-        <td class="data-cell" align="center" width="8%"><span class="lbl">MES</span></td>
-        <td class="data-cell" align="center" width="8%"><span class="lbl">AÑO</span></td>
-        <td class="data-cell lbl" width="14%">AUTORIDAD QUE LO EXPIDE</td>
-        <td class="data-cell val" width="22%"></td>
+        <td class="dc lbl" width="15%">ACTA N°</td>
+        <td class="dc val" width="15%"></td>
+        <td class="dc lbl" width="10%">FECHA</td>
+        <td class="dc" align="center" width="8%"><span class="lbl">DIA</span></td>
+        <td class="dc" align="center" width="8%"><span class="lbl">MES</span></td>
+        <td class="dc" align="center" width="8%"><span class="lbl">AÑO</span></td>
+        <td class="dc lbl" width="14%">AUTORIDAD QUE LO EXPIDE</td>
+        <td class="dc val" width="22%"></td>
     </tr>
 </table>
 
 <!-- I - INSCRIPCION POR PROTECCION -->
-<table width="100%" class="sec-row" cellpadding="0" cellspacing="0">
-    <tr>
+<table width="100%" cellpadding="0" cellspacing="0">
+    <tr class="sec-row">
         <td class="sec-letter">I</td>
         <td class="sec-title">Inscripción por Medida de Protección (Llenar sólo cuando exista una medida de protección)</td>
     </tr>
 </table>
 <table width="100%" cellpadding="0" cellspacing="0">
     <tr>
-        <td class="data-cell lbl" width="15%">CONSEJO DE PROTECCIÓN</td>
-        <td class="data-cell val" width="20%"></td>
-        <td class="data-cell lbl" width="10%">MEDIDA N°</td>
-        <td class="data-cell val" width="10%"></td>
-        <td class="data-cell lbl" width="8%">FECHA</td>
-        <td class="data-cell" align="center" width="8%"><span class="lbl">DIA</span></td>
-        <td class="data-cell" align="center" width="8%"><span class="lbl">MES</span></td>
-        <td class="data-cell" align="center" width="8%"><span class="lbl">AÑO</span></td>
+        <td class="dc lbl" width="15%">CONSEJO DE PROTECCIÓN</td>
+        <td class="dc val" width="20%"></td>
+        <td class="dc lbl" width="10%">MEDIDA N°</td>
+        <td class="dc val" width="10%"></td>
+        <td class="dc lbl" width="8%">FECHA</td>
+        <td class="dc" align="center" width="8%"><span class="lbl">DIA</span></td>
+        <td class="dc" align="center" width="8%"><span class="lbl">MES</span></td>
+        <td class="dc" align="center" width="8%"><span class="lbl">AÑO</span></td>
     </tr>
     <tr>
-        <td class="data-cell lbl" colspan="2">NOMBRES Y APELLIDOS DEL CONSEJO (A)</td>
-        <td class="data-cell val" colspan="6"></td>
+        <td class="dc lbl" colspan="2">NOMBRES Y APELLIDOS DEL CONSEJO (A)</td>
+        <td class="dc val" colspan="6"></td>
     </tr>
 </table>
 
 <!-- J - INSCRIPCION POR DECISION JUDICIAL -->
-<table width="100%" class="sec-row" cellpadding="0" cellspacing="0">
-    <tr>
+<table width="100%" cellpadding="0" cellspacing="0">
+    <tr class="sec-row">
         <td class="sec-letter">J</td>
         <td class="sec-title">Inscripción por Decisión Judicial (Llenar solo en caso de sentencia judicial)</td>
     </tr>
 </table>
 <table width="100%" cellpadding="0" cellspacing="0">
     <tr>
-        <td class="data-cell lbl" width="15%">TRIBUNAL O JUZGADO</td>
-        <td class="data-cell val" width="30%"></td>
-        <td class="data-cell lbl" width="12%">SENTENCIA N°</td>
-        <td class="data-cell val" width="15%"></td>
-        <td class="data-cell lbl" width="8%">FECHA</td>
-        <td class="data-cell" align="center" width="6%"><span class="lbl">DIA</span></td>
-        <td class="data-cell" align="center" width="6%"><span class="lbl">MES</span></td>
-        <td class="data-cell" align="center" width="6%"><span class="lbl">AÑO</span></td>
+        <td class="dc lbl" width="15%">TRIBUNAL O JUZGADO</td>
+        <td class="dc val" width="30%"></td>
+        <td class="dc lbl" width="12%">SENTENCIA N°</td>
+        <td class="dc val" width="15%"></td>
+        <td class="dc lbl" width="8%">FECHA</td>
+        <td class="dc" align="center" width="6%"><span class="lbl">DIA</span></td>
+        <td class="dc" align="center" width="6%"><span class="lbl">MES</span></td>
+        <td class="dc" align="center" width="6%"><span class="lbl">AÑO</span></td>
     </tr>
     <tr>
-        <td class="data-cell lbl" colspan="2">NOMBRES Y APELLIDOS DEL JUEZ (A)</td>
-        <td class="data-cell val" colspan="6"></td>
+        <td class="dc lbl" colspan="2">NOMBRES Y APELLIDOS DEL JUEZ (A)</td>
+        <td class="dc val" colspan="6"></td>
     </tr>
 </table>
 
 <!-- K - INSCRIPCION EXTEMPORANEA -->
-<table width="100%" class="sec-row" cellpadding="0" cellspacing="0">
-    <tr>
+<table width="100%" cellpadding="0" cellspacing="0">
+    <tr class="sec-row">
         <td class="sec-letter">K</td>
         <td class="sec-title">Inscripción Extemporánea</td>
     </tr>
 </table>
 <table width="100%" cellpadding="0" cellspacing="0">
     <tr>
-        <td class="data-cell lbl" colspan="3">DATOS DEL INFORME DEL CONSEJO DE PROTECCIÓN O PROVIDENCIA ADMINISTRATIVA N°</td>
-        <td class="data-cell val" colspan="5"></td>
+        <td class="dc lbl" colspan="3">DATOS DEL INFORME DEL CONSEJO DE PROTECCIÓN O PROVIDENCIA ADMINISTRATIVA N°</td>
+        <td class="dc val" colspan="5"></td>
     </tr>
     <tr>
-        <td class="data-cell lbl" width="15%">AUTORIDAD QUE LO EXPIDE</td>
-        <td class="data-cell val" width="25%"></td>
-        <td class="data-cell lbl" width="10%">FECHA</td>
-        <td class="data-cell" align="center" width="8%"><span class="lbl">DIA</span></td>
-        <td class="data-cell" align="center" width="8%"><span class="lbl">MES</span></td>
-        <td class="data-cell" align="center" width="8%"><span class="lbl">AÑO</span></td>
+        <td class="dc lbl" width="15%">AUTORIDAD QUE LO EXPIDE</td>
+        <td class="dc val" width="25%"></td>
+        <td class="dc lbl" width="10%">FECHA</td>
+        <td class="dc" align="center" width="8%"><span class="lbl">DIA</span></td>
+        <td class="dc" align="center" width="8%"><span class="lbl">MES</span></td>
+        <td class="dc" align="center" width="8%"><span class="lbl">AÑO</span></td>
     </tr>
 </table>
 
 <!-- L - CIRCUNSTANCIAS ESPECIALES -->
-<table width="100%" class="sec-row" cellpadding="0" cellspacing="0">
-    <tr>
+<table width="100%" cellpadding="0" cellspacing="0">
+    <tr class="sec-row">
         <td class="sec-letter">L</td>
         <td class="sec-title">Circunstancias Especiales del Acto / Observaciones</td>
     </tr>
 </table>
 <table width="100%" cellpadding="0" cellspacing="0">
     <tr>
-        <td class="data-cell" style="min-height:10px;">{{ acta.circunstancias_especiales or '' }}</td>
+        <td class="dc" style="min-height:10px;">{{ acta.circunstancias_especiales or '' }}</td>
     </tr>
 </table>
 
 <!-- M - DOCUMENTOS PRESENTADOS -->
-<table width="100%" class="sec-row" cellpadding="0" cellspacing="0">
-    <tr>
+<table width="100%" cellpadding="0" cellspacing="0">
+    <tr class="sec-row">
         <td class="sec-letter">M</td>
         <td class="sec-title">Documentos Presentados</td>
     </tr>
 </table>
 <table width="100%" cellpadding="0" cellspacing="0">
     <tr>
-        <td class="data-cell" style="min-height:10px;">{{ acta.documentos_presentados or '' }}</td>
+        <td class="dc" style="min-height:10px;">{{ acta.documentos_presentados or '' }}</td>
     </tr>
 </table>
 
 <!-- N - NOTA MARGINAL -->
-<table width="100%" class="sec-row" cellpadding="0" cellspacing="0">
-    <tr>
+<table width="100%" cellpadding="0" cellspacing="0">
+    <tr class="sec-row">
         <td class="sec-letter">N</td>
         <td class="sec-title">Nota Marginal</td>
     </tr>
