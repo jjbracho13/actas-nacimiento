@@ -1,8 +1,10 @@
 services:
   - type: web
     name: actas-nacimiento-api
-    runtime: docker
+    runtime: python
     plan: free
+    buildCommand: bash build.sh
+    startCommand: cd backend && python3 -m uvicorn app.main:app --host 0.0.0.0 --port $PORT
     envVars:
       - key: DATABASE_URL
         value: postgresql://rolpay:nRudxktTIGGYRN7900WE38nNL97VonPI@dpg-d9hvm6fabvsc73a63tf0-a.oregon-postgres.render.com/rolpay
@@ -10,3 +12,5 @@ services:
         generateValue: true
       - key: CORS_ORIGINS
         value: '["https://actas-nacimiento-api.onrender.com"]'
+      - key: PYTHON_VERSION
+        value: "3.12"

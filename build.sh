@@ -2,6 +2,18 @@
 # Build script for Render
 set -e
 
+echo "=== Installing system dependencies for WeasyPrint ==="
+apt-get update
+apt-get install -y --no-install-recommends \
+  libpango1.0-dev \
+  libpangocairo-1.0-0 \
+  libcairo2 \
+  libgdk-pixbuf2.0-dev \
+  libffi-dev \
+  shared-mime-info \
+  nodejs \
+  npm
+
 echo "=== Installing backend dependencies ==="
 pip install -r backend/requirements.txt
 
