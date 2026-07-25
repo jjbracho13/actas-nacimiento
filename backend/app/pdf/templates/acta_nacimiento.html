@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <style>
+        @page {
+            size: 216mm 356mm;
+            margin: 10mm 12mm;
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: "Times New Roman", Times, serif;
+            font-size: 10pt;
+            line-height: 1.2;
+            color: #000;
+        }
+
+        /* ===== PAGE BORDER ===== */
+        .page-border {
+            border: 2px solid #000;
+            padding: 0;
+            width: 100%;
+            min-height: 100%;
+        }
+
+        /* ===== HEADER ===== */
+        .header {
+            text-align: center;
+            padding: 5mm 0 2mm 0;
+        }
+        .header .title-line {
+            font-size: 11pt;
+            font-weight: bold;
+            margin: 1px 0;
+        }
+
+        .header-with-logo {
+            display: flex;
+            align-items: flex-start;
+            padding: 5mm 5mm 0 5mm;
+        }
+        .header-with-logo .logo-area {
+            width: 50px;
+            flex-shrink: 0;
+        }
+        .header-with-logo .logo-area img {
+            width: 50px;
+            height: auto;
+        }
+        .header-with-logo .header-text {
+            flex: 1;
+            text-align: center;
+        }
+
+        /* ===== LOCATION + ACTA INFO ===== */
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 0 5mm;
+        }
+        .info-left {
+            font-weight: bold;
+            font-size: 10pt;
+        }
+        .info-right {
+            text-align: right;
+            font-size: 10pt;
+        }
+        .info-right .field-value {
+            border-bottom: 1px solid #000;
+            display: inline-block;
+            min-width: 40px;
+            text-align: center;
+            padding: 0 3px;
+        }
+
+        /* ===== SECTION DIVIDERS ===== */
+        .section-header {
+            font-weight: bold;
+            font-size: 10pt;
+            padding: 0;
+            border-top: 2px solid #000;
+            border-bottom: 2px solid #000;
+            margin: 0;
+            display: flex;
+            align-items: stretch;
+        }
+        .section-letter {
+            background: #000;
+            color: #fff;
+            font-weight: bold;
+            font-size: 11pt;
+            padding: 2px 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 18px;
+        }
+        .section-title {
+            padding: 2px 8px;
+            display: flex;
+            align-items: center;
+            font-size: 9pt;
+        }
+
+        /* ===== DATA TABLES ===== */
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 9pt;
+        }
+        .data-table td {
+            border: 1px solid #000;
+            padding: 1.5px 3px;
+            vertical-align: middle;
+            height: 14px;
+        }
+        .data-table .label {
+            font-weight: bold;
+            white-space: nowrap;
+            font-size: 8pt;
+            color: #333;
+        }
+        .data-table .value {
+            font-size: 9.5pt;
+        }
+        .data-table .col-label {
+            width: auto;
+            white-space: nowrap;
+        }
+        .data-table .col-wide {
+            width: 100%;
+        }
+
+        /* ===== CHECKBOXES ===== */
+        .cb {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            border: 1px solid #000;
+            text-align: center;
+            font-size: 7pt;
+            line-height: 10px;
+            vertical-align: middle;
+            margin-right: 1px;
+            font-weight: bold;
+        }
+        .cb.checked {
+            background: #000;
+            color: #fff;
+        }
+
+        /* ===== SECTION LETTER LABELS ===== */
+        /* now part of .section-header */
+
+        /* ===== TIPO INSCRIPCION ===== */
+        .inscripcion-row {
+            padding: 2mm 5mm;
+            font-size: 10pt;
+        }
+        .inscripcion-row .check-group {
+            display: inline-block;
+            margin-left: 20px;
+        }
+
+        /* ===== SIGNATURE ===== */
+        .signature-area {
+            margin-top: 8mm;
+            text-align: center;
+            font-size: 9pt;
+        }
+        .signature-line {
+            width: 200px;
+            border-top: 1px solid #000;
+            margin: 0 auto;
+            padding-top: 2px;
+        }
+
+        /* ===== NOTA MARGINAL ===== */
+        .nota-marginal {
+            border: 1px solid #000;
+            padding: 3px 5px;
+            margin: 2mm 5mm;
+            font-size: 8pt;
+        }
+
+        /* ===== HELPER ===== */
+        .nowrap { white-space: nowrap; }
+        .center { text-align: center; }
+        .bold { font-weight: bold; }
+    </style>
+</head>
+<body>
+
+<div class="page-border">
+
+    <!-- ===== HEADER WITH LOGO ===== -->
+    <div class="header-with-logo">
+        <div class="logo-area">
+            <img src="cne_logo.png" alt="CNE">
+        </div>
+        <div class="header-text">
+            <div class="title-line">República Bolivariana de Venezuela</div>
+            <div class="title-line">Consejo Nacional Electoral</div>
+            <div class="title-line">Comisión de Registro Civil y Electoral</div>
+        </div>
+    </div>
+
+    <!-- ===== LOCATION + ACTA NUMBER ===== -->
+    <table style="width:100%; border-collapse:collapse; margin-top:1mm;">
+        <tr>
+            <td style="width:60%; font-weight:bold; font-size:10pt; border:none;">
+                Estado Falcón<br>
+                Municipio Falcón<br>
+                Parroquia Adaure
+            </td>
+            <td style="width:40%; text-align:right; border:none; font-size:10pt;">
+                <table style="border-collapse:collapse; float:right;">
+                    <tr>
+                        <td style="border:1px solid #000; padding:1px 5px; font-weight:bold; font-size:9pt;">ACTA N°</td>
+                        <td style="border:1px solid #000; padding:1px 5px; font-size:10pt; min-width:35px;">{{ acta.numero_acta }}</td>
+                    </tr>
+                    <tr>
+                        <td style="border:1px solid #000; padding:1px 5px; font-size:9pt;">DIA</td>
+                        <td style="border:1px solid #000; padding:1px 5px; text-align:center;">{{ acta.fecha_dia }}</td>
+                    </tr>
+                    <tr>
+                        <td style="border:1px solid #000; padding:1px 5px; font-size:9pt;">MES</td>
+                        <td style="border:1px solid #000; padding:1px 5px; text-align:center;">{{ acta.fecha_mes }}</td>
+                    </tr>
+                    <tr>
+                        <td style="border:1px solid #000; padding:1px 5px; font-size:9pt;">AÑO</td>
+                        <td style="border:1px solid #000; padding:1px 5px; text-align:center;">{{ acta.fecha_anio }}</td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+
+    <!-- ===== TIPO INSCRIPCION ===== -->
+    <div class="inscripcion-row">
+        <span class="bold">REGISTRO DE NACIMIENTO</span>
+        <span class="check-group">
+            RECONOCIMIENTO
+            <span class="cb{% if acta.es_reconocimiento %} checked{% endif %}">X</span>
+        </span>
+        <span class="check-group">
+            INSERCIÓN
+            <span class="cb{% if acta.es_insercion %} checked{% endif %}">X</span>
+        </span>
+    </div>
+
+    <!-- ===== A - REGISTRADOR ===== -->
+    <div class="section-header">
+        <div class="section-letter">A</div>
+        <div class="section-title">Datos del Registrador (a) Civil</div>
+    </div>
+    <table class="data-table">
+        <tr>
+            <td class="label" style="width:15%;">NOMBRES:</td>
+            <td class="value" style="width:35%;">{{ registrador.nombres if registrador else '' }}</td>
+            <td class="label" style="width:15%;">APELLIDOS:</td>
+            <td class="value" style="width:35%;">{{ registrador.apellidos if registrador else '' }}</td>
+        </tr>
+        <tr>
+            <td class="label">DOCUMENTO DE IDENTIDAD N°</td>
+            <td class="value">{{ registrador.documento_identidad if registrador else '' }}</td>
+            <td class="label">OFICINA O UNIDAD DE REGISTRO CIVIL</td>
+            <td class="value">{{ registrador.oficina_registro_civil if registrador else '' }}</td>
+        </tr>
+        <tr>
+            <td class="label">RESOLUCIÓN N°</td>
+            <td class="value">{{ acta.resolucion_numero or '' }}</td>
+            <td class="label">FECHA</td>
+            <td class="value">{{ acta.resolucion_dia or '' }} / {{ acta.resolucion_mes or '' }} / {{ acta.resolucion_anio or '' }}</td>
+        </tr>
+        <tr>
+            <td class="label">GACETA MUNICIPAL N°</td>
+            <td class="value">{{ acta.gaceta_municipal or 'N/A' }}</td>
+            <td class="label">FECHA</td>
+            <td class="value">{{ acta.gaceta_dia or '' }} {{ acta.gaceta_mes or '' }} {{ acta.gaceta_anio or '' }}</td>
+        </tr>
+    </table>
+
+    <!-- ===== B - PRESENTADO ===== -->
+    <div class="section-header">
+        <div class="section-letter">B</div>
+        <div class="section-title">Datos del Presentado o Presentada</div>
+    </div>
+    <table class="data-table">
+        <tr>
+            <td class="label" style="width:12%;">NOMBRES:</td>
+            <td class="value" style="width:30%;">{{ presentado.nombres if presentado else '' }}</td>
+            <td class="label" style="width:14%;">PRIMER APELLIDO:</td>
+            <td class="value" style="width:22%;">{{ presentado.primer_apellido if presentado else '' }}</td>
+            <td class="label" style="width:12%;">SEGUNDO APELLIDO:</td>
+            <td class="value" style="width:10%;">{{ presentado.segundo_apellido if presentado else '' }}</td>
+        </tr>
+        <tr>
+            <td class="label" rowspan="2">FECHA DE<br>NACIMIENTO</td>
+            <td class="center">
+                <span class="label">DIA</span>
+                <span style="border-bottom:1px solid #000; padding:0 8px;">{{ presentado.dia_nac if presentado else '' }}</span>
+            </td>
+            <td class="center">
+                <span class="label">MES</span>
+                <span style="border-bottom:1px solid #000; padding:0 8px;">{{ presentado.mes_nac if presentado else '' }}</span>
+            </td>
+            <td class="center">
+                <span class="label">AÑO</span>
+                <span style="border-bottom:1px solid #000; padding:0 8px;">{{ presentado.anio_nac if presentado else '' }}</span>
+            </td>
+            <td class="label">SEXO</td>
+            <td class="center" style="font-size:11pt; font-weight:bold;">{{ presentado.sexo if presentado else '' }}</td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <span class="label">HORA DE NACIMIENTO</span>
+                <span style="border-bottom:1px solid #000; padding:0 5px;">{{ presentado.hora_nacimiento if presentado and presentado.hora_nacimiento else '' }}</span>
+            </td>
+            <td class="center">
+                <span class="cb checked">X</span>
+            </td>
+            <td class="center">
+                {{ presentado.am_pm if presentado and presentado.am_pm else '' }}
+            </td>
+            <td></td>
+        </tr>
+        <tr>
+            <td class="label" rowspan="2">LUGAR DE<br>NACIMIENTO</td>
+            <td colspan="2">
+                <span class="label">PAIS:</span>
+                VENEZUELA
+            </td>
+            <td class="label">ESTADO:</td>
+            <td colspan="2">{{ presentado.estado if presentado else '' }}</td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <span class="label">MUNICIPIO:</span>
+                {{ presentado.municipio if presentado else '' }}
+            </td>
+            <td colspan="2">
+                <span class="label">PARROQUIA:</span>
+                {{ presentado.parroquia if presentado else '' }}
+            </td>
+            <td></td>
+        </tr>
+    </table>
+
+    <!-- ===== C - CERTIFICADO MEDICO ===== -->
+    <div class="section-header">
+        <div class="section-letter">C</div>
+        <div class="section-title">Datos De Certificado de Medico de Nacimiento</div>
+    </div>
+    <table class="data-table">
+        <tr>
+            <td class="label" style="width:15%;">CERTIFICADO N°</td>
+            <td class="value" style="width:15%;">{{ certificado.numero_certificado if certificado else '' }}</td>
+            <td class="label" style="width:10%;">FECHA DE<br>EXPEDICIÓN</td>
+            <td class="center" style="width:8%;">
+                <span class="label">DIA</span><br>{{ certificado.dia_expedicion if certificado else '' }}
+            </td>
+            <td class="center" style="width:8%;">
+                <span class="label">MES</span><br>{{ certificado.mes_expedicion if certificado else '' }}
+            </td>
+            <td class="center" style="width:8%;">
+                <span class="label">AÑO</span><br>{{ certificado.anio_expedicion if certificado else '' }}
+            </td>
+            <td class="label" style="width:14%;">NOMBRE DEL CENTRO DE SALUD</td>
+            <td class="value" style="width:22%;">{{ certificado.nombre_centro_salud if certificado else '' }}</td>
+        </tr>
+        <tr>
+            <td class="label" colspan="3">Nombres y Apellidos de la Autoridad que lo expide</td>
+            <td class="value" colspan="4">{{ certificado.autoridad_expide if certificado else '' }}</td>
+            <td class="value">{{ certificado.numero_mpps if certificado else '' }}</td>
+        </tr>
+        <tr>
+            <td class="label">DIRECCIÓN:</td>
+            <td class="value" colspan="7">{{ certificado.direccion_centro if certificado else '' }}</td>
+        </tr>
+    </table>
+
+    <!-- ===== D - MADRE ===== -->
+    <div class="section-header">
+        <div class="section-letter">D</div>
+        <div class="section-title">Hijo o Hija de (Datos de la Madre)</div>
+    </div>
+    <table class="data-table">
+        <tr>
+            <td class="label" style="width:12%;">NOMBRES:</td>
+            <td class="value" style="width:30%;">{{ madre.nombres if madre else '' }}</td>
+            <td class="label" style="width:14%;">PRIMER APELLIDO:</td>
+            <td class="value" style="width:22%;">{{ madre.primer_apellido if madre else '' }}</td>
+            <td class="label" style="width:12%;">SEGUNDO APELLIDO:</td>
+            <td class="value" style="width:10%;">{{ madre.segundo_apellido if madre else '' }}</td>
+        </tr>
+        <tr>
+            <td class="label" rowspan="2">DOCUMENTO DE<br>IDENTIDAD N°</td>
+            <td class="value" rowspan="2">{{ madre.documento_identidad if madre else '' }}</td>
+            <td class="center"><span class="cb{% if madre and madre.tiene_cedula %} checked{% endif %}">X</span> CEDULA</td>
+            <td class="center"><span class="cb{% if madre and madre.tiene_pasaporte %} checked{% endif %}">X</span> PASAPORTE</td>
+            <td class="center"><span class="cb{% if madre and madre.tiene_otro %} checked{% endif %}">X</span> OTRO</td>
+            <td class="label">EDAD</td>
+        </tr>
+        <tr>
+            <td class="center" colspan="3"></td>
+            <td class="value center">{{ madre.edad if madre else '' }}</td>
+        </tr>
+        <tr>
+            <td class="label">NACIONALIDAD</td>
+            <td class="value">{{ madre.nacionalidad if madre else '' }}</td>
+            <td class="label" colspan="2">PROFESIÓN U OCUPACIÓN</td>
+            <td class="value" colspan="2">{{ madre.profesion_ocupacion if madre else '' }}</td>
+        </tr>
+        <tr>
+            <td class="label">COMUNIDAD O PUEBLO INDIGENA</td>
+            <td class="value">{{ madre.comunidad_indigena if madre else 'N/A' }}</td>
+            <td class="label" colspan="2">RESIDENCIA</td>
+            <td class="value" colspan="2">{{ madre.residencia if madre else '' }}</td>
+        </tr>
+        <tr>
+            <td class="label">DECLARANTE</td>
+            <td class="center" colspan="2">
+                <span class="cb{% if madre and madre.es_declarante %} checked{% endif %}" style="width:14px; height:14px; font-size:9pt;">X</span>
+            </td>
+            <td colspan="3"></td>
+        </tr>
+    </table>
+
+    <!-- ===== D - PADRE ===== -->
+    <div class="section-header">
+        <div class="section-letter">D</div>
+        <div class="section-title">Hijo o Hija de (Datos del Padre)</div>
+    </div>
+    <table class="data-table">
+        <tr>
+            <td class="label" style="width:12%;">NOMBRES:</td>
+            <td class="value" style="width:30%;">{{ padre.nombres if padre else '' }}</td>
+            <td class="label" style="width:14%;">PRIMER APELLIDO:</td>
+            <td class="value" style="width:22%;">{{ padre.primer_apellido if padre else '' }}</td>
+            <td class="label" style="width:12%;">SEGUNDO APELLIDO:</td>
+            <td class="value" style="width:10%;">{{ padre.segundo_apellido if padre else '' }}</td>
+        </tr>
+        <tr>
+            <td class="label" rowspan="2">DOCUMENTO DE<br>IDENTIDAD N°</td>
+            <td class="value" rowspan="2">{{ padre.documento_identidad if padre else '' }}</td>
+            <td class="center"><span class="cb{% if padre and padre.tiene_cedula %} checked{% endif %}">X</span> CEDULA</td>
+            <td class="center"><span class="cb{% if padre and padre.tiene_pasaporte %} checked{% endif %}">X</span> PASAPORTE</td>
+            <td class="center"><span class="cb{% if padre and padre.tiene_otro %} checked{% endif %}">X</span> OTRO</td>
+            <td class="label">EDAD</td>
+        </tr>
+        <tr>
+            <td class="center" colspan="3"></td>
+            <td class="value center">{{ padre.edad if padre else '' }}</td>
+        </tr>
+        <tr>
+            <td class="label">NACIONALIDAD</td>
+            <td class="value">{{ padre.nacionalidad if padre else '' }}</td>
+            <td class="label" colspan="2">PROFESIÓN U OCUPACIÓN</td>
+            <td class="value" colspan="2">{{ padre.profesion_ocupacion if padre else '' }}</td>
+        </tr>
+        <tr>
+            <td class="label">COMUNIDAD O PUEBLO INDIGENA</td>
+            <td class="value">{{ padre.comunidad_indigena if padre else 'N/A' }}</td>
+            <td class="label" colspan="2">RESIDENCIA</td>
+            <td class="value" colspan="2">{{ padre.residencia if padre else '' }}</td>
+        </tr>
+        <tr>
+            <td class="label">DECLARANTE</td>
+            <td class="center" colspan="2">
+                <span class="cb{% if padre and padre.es_declarante %} checked{% endif %}" style="width:14px; height:14px; font-size:9pt;">X</span>
+            </td>
+            <td colspan="3"></td>
+        </tr>
+    </table>
+
+    <!-- ===== F - DECLARANTE ===== -->
+    {% if declarante and declarante.nombres_apellidos %}
+    <div class="section-header">
+        <div class="section-letter">F</div>
+        <div class="section-title">Datos del Declarante (Solo en caso de ser distinto a padre o madre)</div>
+    </div>
+    <table class="data-table">
+        <tr>
+            <td class="label" style="width:15%;">NOMBRES Y APELLIDOS:</td>
+            <td class="value" style="width:50%;">{{ declarante.nombres_apellidos }}</td>
+            <td class="label" style="width:15%;">CARÁCTER QUE ACTUA:</td>
+            <td class="value" style="width:20%;">{{ declarante.caracter_actua or '' }}</td>
+        </tr>
+        <tr>
+            <td class="label">DOCUMENTO DE IDENTIDAD:</td>
+            <td class="value">{{ declarante.documento_identidad or '' }}</td>
+            <td class="center">
+                <span class="cb{% if declarante.tiene_cedula %} checked{% endif %}">X</span> CED
+                <span class="cb{% if declarante.tiene_pasaporte %} checked{% endif %}">X</span> PAS
+                <span class="cb{% if declarante.tiene_otro %} checked{% endif %}">X</span> OTRO
+            </td>
+            <td class="value">EDAD: {{ declarante.edad or '' }}</td>
+        </tr>
+        <tr>
+            <td class="label">NACIONALIDAD:</td>
+            <td class="value">{{ declarante.nacionalidad or '' }}</td>
+            <td class="label">PROFESIÓN U OCUPACIÓN:</td>
+            <td class="value">{{ declarante.profesion_ocupacion or '' }}</td>
+        </tr>
+        <tr>
+            <td class="label">RESIDENCIA:</td>
+            <td class="value" colspan="3">{{ declarante.residencia or '' }}</td>
+        </tr>
+    </table>
+    {% endif %}
+
+    <!-- ===== G - TESTIGOS ===== -->
+    <div class="section-header">
+        <div class="section-letter">G</div>
+        <div class="section-title">Datos de los Testigos</div>
+    </div>
+    {% for testigo in testigos %}
+    <table class="data-table" style="margin-bottom:1px;">
+        <tr>
+            <td class="label" style="width:15%;">NOMBRES Y APELLIDOS:</td>
+            <td class="value" style="width:35%;">{{ testigo.nombres_apellidos }}</td>
+            <td class="label" style="width:12%;">CEDULA DE IDENTIDAD:</td>
+            <td class="value" style="width:15%;">{{ testigo.cedula_identidad or '' }}</td>
+            <td class="label" style="width:6%;">EDAD:</td>
+            <td class="value" style="width:5%;">{{ testigo.edad or '' }}</td>
+        </tr>
+        <tr>
+            <td class="label">PROFESIÓN U OCUPACIÓN:</td>
+            <td class="value">{{ testigo.profesion_ocupacion or '' }}</td>
+            <td class="label">NACIONALIDAD:</td>
+            <td class="value">{{ testigo.nacionalidad or '' }}</td>
+            <td class="label">RESIDENCIA:</td>
+            <td class="value" colspan="1">{{ testigo.residencia or '' }}</td>
+        </tr>
+    </table>
+    {% endfor %}
+
+    <!-- ===== L - CIRCUNSTANCIAS ESPECIALES ===== -->
+    {% if acta.circunstancias_especiales %}
+    <div class="section-header">
+        <div class="section-letter">L</div>
+        <div class="section-title">Circunstancias Especiales del Acto / Observaciones</div>
+    </div>
+    <div style="padding:2px 5px; font-size:9pt;">{{ acta.circunstancias_especiales }}</div>
+    {% endif %}
+
+    <!-- ===== M - DOCUMENTOS PRESENTADOS ===== -->
+    {% if acta.documentos_presentados %}
+    <div class="section-header">
+        <div class="section-letter">M</div>
+        <div class="section-title">Documentos Presentados</div>
+    </div>
+    <div style="padding:2px 5px; font-size:9pt;">{{ acta.documentos_presentados }}</div>
+    {% endif %}
+
+    <!-- ===== NOTA MARGINAL ===== -->
+    {% if nota_texto %}
+    <div class="section-header">
+        <div class="section-letter">N</div>
+        <div class="section-title">Nota Marginal</div>
+    </div>
+    <div class="nota-marginal">{{ nota_texto }}</div>
+    {% endif %}
+
+    <!-- ===== FIRMAS ===== -->
+    <div style="margin-top:8mm; padding:0 5mm; display:flex; justify-content:space-between;">
+        <div class="signature-area">
+            <div class="signature-line">FIRMA DEL REGISTRADOR (A)</div>
+        </div>
+        <div class="signature-area">
+            <div style="width:80px; height:60px; border:1px dashed #999; text-align:center; line-height:60px; font-size:7pt; margin:0 auto;">
+                SELLO
+            </div>
+        </div>
+        <div class="signature-area">
+            <div class="signature-line">FIRMA DEL DECLARANTE</div>
+        </div>
+    </div>
+
+</div><!-- /page-border -->
+
+</body>
+</html>
