@@ -15,6 +15,9 @@ from app.routers import (
     health_router,
 )
 import os
+import logging
+
+logger = logging.getLogger(__name__)
 
 limiter = Limiter(key_func=get_remote_address)
 
@@ -46,7 +49,11 @@ app.include_router(health_router)
 
 @app.on_event("startup")
 async def startup():
-    await init_db()
+    try:
+        await init_db()
+        logger.info("Database initialized successfully")
+    except Exception as e:
+        logger.error(f"Database initialization failed: {e}")
 
 
 @app.on_event("shutdown")
@@ -57,7 +64,9 @@ async def shutdown():
 # Serve frontend static files in production
 FRONTEND_DIR = os.path.join(os.path.dirname(__file__), "..", "static")
 if os.path.isdir(FRONTEND_DIR):
-    app.mount("/assets", StaticFiles(directory=os.path.join(FRONTEND_DIR, "assets")), name="assets")
+    assets_dir = os.path.join(FRONTEND_DIR, "assets")
+    if os.path.isdir(assets_dir):
+        app.mount("/assets", StaticFiles(directory=assets_dir), name="assets")
 
     @app.get("/{full_path:path}")
     async def serve_spa(full_path: str):

@@ -1,4 +1,5 @@
 import os
+import json
 from pydantic_settings import BaseSettings
 from typing import List
 
@@ -20,11 +21,27 @@ class Settings(BaseSettings):
         env_file = ".env"
         extra = "allow"
 
+    @classmethod
+    def parse_cors(cls, v):
+        if isinstance(v, str):
+            try:
+                return json.loads(v)
+            except json.JSONDecodeError:
+                return [u.strip() for u in v.split(",")]
+        return v
+
 
 settings = Settings()
+
+# Parse CORS_ORIGINS from env var (JSON string or comma-separated)
+cors_raw = os.getenv("CORS_ORIGINS", "")
+if cors_raw:
+    settings.CORS_ORIGINS = Settings.parse_cors(cors_raw)
 
 # Fix Render PostgreSQL URL (postgres:// → postgresql+asyncpg://)
 if settings.DATABASE_URL.startswith("postgres://"):
     settings.DATABASE_URL = settings.DATABASE_URL.replace("postgres://", "postgresql+asyncpg://", 1)
 elif settings.DATABASE_URL.startswith("postgresql://") and "asyncpg" not in settings.DATABASE_URL:
     settings.DATABASE_URL = settings.DATABASE_URL.replace("postgresql://", "postgresql+asyncpg://", 1)
+
+
