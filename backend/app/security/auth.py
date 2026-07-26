@@ -4,27 +4,19 @@ import bcrypt
 from jose import JWTError, jwt
 from fastapi import Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer
+from sqlalchemy import select
+from sqlalchemy.ext.asyncio import AsyncSession
 from app.config import settings
+from app.database import get_db
+from app.models.user import User
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="api/auth/login")
+
+ROLE_MAP = {"admin": "admin", "user": "operator"}
 
 
 def _hash_password(password: str) -> str:
     return bcrypt.hashpw(password.encode("utf-8"), bcrypt.gensalt()).decode("utf-8")
-
-
-USERS_DB = {
-    "admin": {
-        "username": "admin",
-        "hashed_password": _hash_password("admin123"),
-        "role": "admin",
-    },
-    "operator": {
-        "username": "operator",
-        "hashed_password": _hash_password("operator123"),
-        "role": "operator",
-    },
-}
 
 
 def verify_password(plain_password: str, hashed_password: str) -> bool:
@@ -44,7 +36,27 @@ def create_access_token(data: dict, expires_delta: Optional[timedelta] = None) -
     return jwt.encode(to_encode, settings.SECRET_KEY, algorithm=settings.ALGORITHM)
 
 
-async def get_current_user(token: str = Depends(oauth2_scheme)) -> dict:
+async def get_user_by_email(db: AsyncSession, email: str) -> Optional[User]:
+    result = await db.execute(select(User).where(User.email == email))
+    return result.scalar_one_or_none()
+
+
+async def create_user(db: AsyncSession, email: str, password: str, nombre: str, rol: str = "user") -> User:
+    user = User(
+        nombre=nombre,
+        email=email,
+        password_hash=_hash_password(password),
+        rol=rol,
+    )
+    db.add(user)
+    await db.flush()
+    return user
+
+
+async def get_current_user(
+    token: str = Depends(oauth2_scheme),
+    db: AsyncSession = Depends(get_db),
+) -> dict:
     credentials_exception = HTTPException(
         status_code=status.HTTP_401_UNAUTHORIZED,
         detail="Credenciales invalidas",
@@ -52,13 +64,19 @@ async def get_current_user(token: str = Depends(oauth2_scheme)) -> dict:
     )
     try:
         payload = jwt.decode(token, settings.SECRET_KEY, algorithms=[settings.ALGORITHM])
-        username: str = payload.get("sub")
-        if username is None:
+        email: str = payload.get("sub")
+        if email is None:
             raise credentials_exception
     except JWTError:
         raise credentials_exception
 
-    user = USERS_DB.get(username)
-    if user is None:
+    user = await get_user_by_email(db, email)
+    if user is None or not user.activo:
         raise credentials_exception
-    return user
+
+    return {
+        "id": user.id,
+        "email": user.email,
+        "nombre": user.nombre,
+        "role": ROLE_MAP.get(user.rol, "operator"),
+    }

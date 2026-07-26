@@ -1,3 +1,4 @@
+from sqlalchemy import select, func
 from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine, async_sessionmaker
 from sqlalchemy.orm import DeclarativeBase
 from app.config import settings
@@ -35,6 +36,30 @@ async def init_db():
         from app.models import (
             ActaNacimiento, RegistradorCivil, Presentado,
             CertificadoMedico, Madre, Padre, Declarante,
-            Testigo, NotaMarginal, Familiar,
+            Testigo, NotaMarginal, Familiar, User,
         )
         await conn.run_sync(Base.metadata.create_all)
+
+    async with async_session() as session:
+        from app.security.auth import get_password_hash
+        result = await session.execute(select(func.count()).select_from(User))
+        count = result.scalar()
+        if count == 0:
+            users = [
+                User(
+                    nombre="Admin",
+                    email="javierbracho13@hotmail.com",
+                    password_hash=get_password_hash("Proagro21."),
+                    rol="admin",
+                    activo=1,
+                ),
+                User(
+                    nombre="Operator",
+                    email="javierbracho13@gmail.com",
+                    password_hash=get_password_hash("Proagro21."),
+                    rol="user",
+                    activo=1,
+                ),
+            ]
+            session.add_all(users)
+            await session.commit()

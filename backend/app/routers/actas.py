@@ -68,6 +68,8 @@ async def create_acta(
     db: AsyncSession = Depends(get_db),
     current_user: dict = Depends(get_current_user),
 ):
+    if current_user.get("role") != "admin":
+        raise HTTPException(status_code=403, detail="Solo administradores pueden crear actas")
     acta = await create_acta_completa(db, data)
     return acta
 

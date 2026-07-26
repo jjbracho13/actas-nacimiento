@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.ext.asyncio import AsyncSession
 from app.database import get_db
 from app.security.auth import get_current_user
@@ -34,12 +34,14 @@ async def get_familiar(
     return familiar
 
 
-@router.post("/", status_code=201)
+@router.post("/", status_code=status.HTTP_201_CREATED)
 async def create(
     data: FamiliarCreate,
     db: AsyncSession = Depends(get_db),
     current_user: dict = Depends(get_current_user),
 ):
+    if current_user.get("role") != "admin":
+        raise HTTPException(status_code=403, detail="Solo administradores pueden crear familiares")
     return await create_familiar(db, data)
 
 
@@ -50,6 +52,8 @@ async def update(
     db: AsyncSession = Depends(get_db),
     current_user: dict = Depends(get_current_user),
 ):
+    if current_user.get("role") != "admin":
+        raise HTTPException(status_code=403, detail="Solo administradores pueden editar familiares")
     familiar = await update_familiar(db, familiar_id, data)
     if not familiar:
         raise HTTPException(status_code=404, detail="Familiar no encontrado")
@@ -62,6 +66,8 @@ async def delete(
     db: AsyncSession = Depends(get_db),
     current_user: dict = Depends(get_current_user),
 ):
+    if current_user.get("role") != "admin":
+        raise HTTPException(status_code=403, detail="Solo administradores pueden eliminar familiares")
     deleted = await delete_familiar(db, familiar_id)
     if not deleted:
         raise HTTPException(status_code=404, detail="Familiar no encontrado")

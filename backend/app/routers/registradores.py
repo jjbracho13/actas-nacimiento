@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select
 from app.database import get_db
@@ -31,12 +31,14 @@ async def get_registrador(
     return reg
 
 
-@router.post("/", status_code=201)
+@router.post("/", status_code=status.HTTP_201_CREATED)
 async def create_registrador(
     data: RegistradorCivilCreate,
     db: AsyncSession = Depends(get_db),
     current_user: dict = Depends(get_current_user),
 ):
+    if current_user.get("role") != "admin":
+        raise HTTPException(status_code=403, detail="Solo administradores pueden crear registradores")
     reg = RegistradorCivil(**data.model_dump())
     db.add(reg)
     await db.flush()
@@ -51,6 +53,8 @@ async def update_registrador(
     db: AsyncSession = Depends(get_db),
     current_user: dict = Depends(get_current_user),
 ):
+    if current_user.get("role") != "admin":
+        raise HTTPException(status_code=403, detail="Solo administradores pueden editar registradores")
     result = await db.execute(select(RegistradorCivil).where(RegistradorCivil.id == registrador_id))
     reg = result.scalar_one_or_none()
     if not reg:

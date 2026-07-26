@@ -47,8 +47,8 @@ app.include_router(health_router)
 async def startup():
     try:
         await init_db()
-    except Exception:
-        pass
+    except Exception as e:
+        print(f"[startup] init_db error: {e}")
 
 
 @app.on_event("shutdown")

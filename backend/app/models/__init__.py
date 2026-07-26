@@ -8,6 +8,7 @@ from app.models.declarante import Declarante
 from app.models.testigo import Testigo
 from app.models.nota_marginal import NotaMarginal
 from app.models.familiar import Familiar
+from app.models.user import User
 
 __all__ = [
     "ActaNacimiento",
@@ -20,4 +21,5 @@ __all__ = [
     "Testigo",
     "NotaMarginal",
     "Familiar",
+    "User",
 ]

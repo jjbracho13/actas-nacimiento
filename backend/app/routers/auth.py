@@ -2,52 +2,75 @@ import secrets
 import string
 from fastapi import APIRouter, Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordRequestForm
-from app.security.auth import USERS_DB, verify_password, create_access_token, get_current_user, get_password_hash
+from sqlalchemy.ext.asyncio import AsyncSession
+from app.database import get_db
+from app.security.auth import (
+    verify_password,
+    create_access_token,
+    get_current_user,
+    get_password_hash,
+    get_user_by_email,
+    create_user,
+    ROLE_MAP,
+)
 
 router = APIRouter(prefix="/api/auth", tags=["Autenticacion"])
 
 
 @router.post("/login")
-async def login(form_data: OAuth2PasswordRequestForm = Depends()):
-    user = USERS_DB.get(form_data.username)
-    if not user or not verify_password(form_data.password, user["hashed_password"]):
+async def login(form_data: OAuth2PasswordRequestForm = Depends(), db: AsyncSession = Depends(get_db)):
+    user = await get_user_by_email(db, form_data.username)
+    if not user or not verify_password(form_data.password, user.password_hash):
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Usuario o contrasena incorrectos",
+            detail="Correo o contrasena incorrectos",
             headers={"WWW-Authenticate": "Bearer"},
         )
-    access_token = create_access_token(data={"sub": user["username"], "role": user["role"]})
-    return {"access_token": access_token, "token_type": "bearer", "role": user["role"]}
+    if not user.activo:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Usuario desactivado",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
+    role = ROLE_MAP.get(user.rol, "operator")
+    access_token = create_access_token(data={"sub": user.email, "role": role})
+    return {"access_token": access_token, "token_type": "bearer", "role": role}
 
 
 @router.get("/me")
 async def get_me(current_user: dict = Depends(get_current_user)):
-    return {"username": current_user["username"], "role": current_user["role"]}
+    return current_user
 
 
 @router.post("/forgot-password")
-async def forgot_password(data: dict):
-    username = data.get("username", "")
-    user = USERS_DB.get(username)
+async def forgot_password(data: dict, db: AsyncSession = Depends(get_db)):
+    email = data.get("email", "")
+    user = await get_user_by_email(db, email)
     if not user:
-        raise HTTPException(status_code=404, detail="Usuario no encontrado")
+        raise HTTPException(status_code=404, detail="Correo no encontrado")
     new_password = "".join(secrets.choice(string.ascii_letters + string.digits) for _ in range(10))
-    user["hashed_password"] = get_password_hash(new_password)
-    return {"username": username, "new_password": new_password}
+    user.password_hash = get_password_hash(new_password)
+    await db.flush()
+    return {"email": email, "new_password": new_password}
 
 
 @router.post("/register")
-async def register(data: dict):
-    username = data.get("username", "")
+async def register(data: dict, db: AsyncSession = Depends(get_db)):
+    email = data.get("email", "")
     password = data.get("password", "")
-    role = data.get("role", "operator")
-    if not username or not password:
-        raise HTTPException(status_code=400, detail="Usuario y contraseña requeridos")
-    if username in USERS_DB:
-        raise HTTPException(status_code=400, detail="El usuario ya existe")
-    USERS_DB[username] = {
-        "username": username,
-        "hashed_password": get_password_hash(password),
-        "role": role,
+    nombre = data.get("nombre", email.split("@")[0])
+    rol = data.get("role", "operator")
+    if not email or not password:
+        raise HTTPException(status_code=400, detail="Correo y contrasena requeridos")
+    existing = await get_user_by_email(db, email)
+    if existing:
+        raise HTTPException(status_code=400, detail="El correo ya esta registrado")
+    db_rol = "admin" if rol == "admin" else "user"
+    user = await create_user(db, email, password, nombre, db_rol)
+    return {
+        "id": user.id,
+        "email": user.email,
+        "nombre": user.nombre,
+        "role": ROLE_MAP.get(user.rol, "operator"),
+        "message": "Usuario creado exitosamente",
     }
-    return {"username": username, "role": role, "message": "Usuario creado"}
