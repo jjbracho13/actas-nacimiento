@@ -5,7 +5,6 @@ from app.database import Base
 
 class RegistradorCivil(Base):
     __tablename__ = "registradores_civil"
-    __table_args__ = {"schema": "actas"}
 
     id = Column(Integer, primary_key=True, autoincrement=True)
     nombres = Column(String(100), nullable=False)

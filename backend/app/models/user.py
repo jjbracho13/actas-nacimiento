@@ -4,7 +4,6 @@ from app.database import Base
 
 class User(Base):
     __tablename__ = "usuarios"
-    __table_args__ = {"schema": "actas"}
 
     id = Column(Integer, primary_key=True, autoincrement=True)
     email = Column(Text, nullable=False, unique=True)

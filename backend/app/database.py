@@ -18,6 +18,8 @@ async_session = async_sessionmaker(engine, class_=AsyncSession, expire_on_commit
 class Base(DeclarativeBase):
     pass
 
+Base.metadata.schema = "actas"
+
 
 async def get_db():
     async with async_session() as session:

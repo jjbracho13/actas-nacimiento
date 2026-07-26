@@ -5,7 +5,6 @@ from app.database import Base
 
 class Presentado(Base):
     __tablename__ = "presentados"
-    __table_args__ = {"schema": "actas"}
 
     id = Column(Integer, primary_key=True, autoincrement=True)
     acta_id = Column(Integer, ForeignKey("actas_nacimiento.id"), unique=True, nullable=False)

@@ -4,7 +4,6 @@ from app.database import Base
 
 class Familiar(Base):
     __tablename__ = "familiares"
-    __table_args__ = {"schema": "actas"}
 
     id = Column(Integer, primary_key=True, autoincrement=True)
     nombre_completo = Column(String(200), nullable=False)
