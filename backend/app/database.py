@@ -32,34 +32,45 @@ async def get_db():
 
 
 async def init_db():
-    async with engine.begin() as conn:
-        from app.models import (
-            ActaNacimiento, RegistradorCivil, Presentado,
-            CertificadoMedico, Madre, Padre, Declarante,
-            Testigo, NotaMarginal, Familiar, User,
-        )
-        await conn.run_sync(Base.metadata.create_all)
+    try:
+        async with engine.begin() as conn:
+            from app.models import (
+                ActaNacimiento, RegistradorCivil, Presentado,
+                CertificadoMedico, Madre, Padre, Declarante,
+                Testigo, NotaMarginal, Familiar, User,
+            )
+            await conn.run_sync(Base.metadata.create_all)
+    except Exception as e:
+        import traceback
+        print(f"[init_db] create_all error: {e}")
+        traceback.print_exc()
+        return
 
-    async with async_session() as session:
-        from app.security.auth import get_password_hash
-        result = await session.execute(select(func.count()).select_from(User))
-        count = result.scalar()
-        if count == 0:
-            users = [
-                User(
-                    nombre="Admin",
-                    email="javierbracho13@hotmail.com",
-                    password_hash=get_password_hash("Proagro21."),
-                    rol="admin",
-                    activo=1,
-                ),
-                User(
-                    nombre="Operator",
-                    email="javierbracho13@gmail.com",
-                    password_hash=get_password_hash("Proagro21."),
-                    rol="user",
-                    activo=1,
-                ),
-            ]
-            session.add_all(users)
-            await session.commit()
+    try:
+        async with async_session() as session:
+            from app.security.auth import get_password_hash
+            result = await session.execute(select(func.count()).select_from(User))
+            count = result.scalar()
+            if count == 0:
+                users = [
+                    User(
+                        nombre="Admin",
+                        email="javierbracho13@hotmail.com",
+                        password_hash=get_password_hash("Proagro21."),
+                        rol="admin",
+                        activo=1,
+                    ),
+                    User(
+                        nombre="Operator",
+                        email="javierbracho13@gmail.com",
+                        password_hash=get_password_hash("Proagro21."),
+                        rol="user",
+                        activo=1,
+                    ),
+                ]
+                session.add_all(users)
+                await session.commit()
+    except Exception as e:
+        import traceback
+        print(f"[init_db] seed error: {e}")
+        traceback.print_exc()
