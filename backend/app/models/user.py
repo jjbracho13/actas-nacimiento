@@ -1,16 +1,14 @@
-from sqlalchemy import Column, Integer, Text, CheckConstraint
+from sqlalchemy import Column, Integer, Text
 from app.database import Base
 
 
 class User(Base):
     __tablename__ = "usuarios"
+    __table_args__ = {"schema": "actas"}
 
     id = Column(Integer, primary_key=True, autoincrement=True)
-    nombre = Column(Text, nullable=False)
     email = Column(Text, nullable=False, unique=True)
+    nombre = Column(Text, nullable=False)
     password_hash = Column(Text, nullable=False)
-    cedula = Column(Text, default="")
-    cargo = Column(Text, default="")
-    rol = Column(Text, default="user")
-    foto_perfil = Column(Text, default="")
+    role = Column(Text, nullable=False, default="user")
     activo = Column(Integer, default=1)

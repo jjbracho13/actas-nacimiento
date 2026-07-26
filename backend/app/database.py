@@ -1,4 +1,4 @@
-from sqlalchemy import select, func
+from sqlalchemy import select, func, text
 from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine, async_sessionmaker
 from sqlalchemy.orm import DeclarativeBase
 from app.config import settings
@@ -34,6 +34,15 @@ async def get_db():
 async def init_db():
     try:
         async with engine.begin() as conn:
+            await conn.execute(text("CREATE SCHEMA IF NOT EXISTS actas"))
+            await conn.commit()
+    except Exception as e:
+        import traceback
+        print(f"[init_db] schema error: {e}")
+        traceback.print_exc()
+
+    try:
+        async with engine.begin() as conn:
             from app.models import (
                 ActaNacimiento, RegistradorCivil, Presentado,
                 CertificadoMedico, Madre, Padre, Declarante,
@@ -57,14 +66,14 @@ async def init_db():
                         nombre="Admin",
                         email="javierbracho13@hotmail.com",
                         password_hash=get_password_hash("Proagro21."),
-                        rol="admin",
+                        role="admin",
                         activo=1,
                     ),
                     User(
                         nombre="Operator",
                         email="javierbracho13@gmail.com",
                         password_hash=get_password_hash("Proagro21."),
-                        rol="user",
+                        role="user",
                         activo=1,
                     ),
                 ]

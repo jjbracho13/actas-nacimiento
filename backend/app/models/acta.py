@@ -6,6 +6,7 @@ from app.database import Base
 
 class ActaNacimiento(Base):
     __tablename__ = "actas_nacimiento"
+    __table_args__ = {"schema": "actas"}
 
     id = Column(Integer, primary_key=True, autoincrement=True)
     numero_acta = Column(String(20), unique=True, nullable=False, index=True)

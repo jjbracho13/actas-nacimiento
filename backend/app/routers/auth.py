@@ -11,7 +11,6 @@ from app.security.auth import (
     get_password_hash,
     get_user_by_email,
     create_user,
-    ROLE_MAP,
 )
 
 router = APIRouter(prefix="/api/auth", tags=["Autenticacion"])
@@ -32,7 +31,7 @@ async def login(form_data: OAuth2PasswordRequestForm = Depends(), db: AsyncSessi
             detail="Usuario desactivado",
             headers={"WWW-Authenticate": "Bearer"},
         )
-    role = ROLE_MAP.get(user.rol, "operator")
+    role = user.role if user.role == "admin" else "operator"
     access_token = create_access_token(data={"sub": user.email, "role": role})
     return {"access_token": access_token, "token_type": "bearer", "role": role}
 
@@ -65,12 +64,12 @@ async def register(data: dict, db: AsyncSession = Depends(get_db)):
     existing = await get_user_by_email(db, email)
     if existing:
         raise HTTPException(status_code=400, detail="El correo ya esta registrado")
-    db_rol = "admin" if rol == "admin" else "user"
-    user = await create_user(db, email, password, nombre, db_rol)
+    db_role = "admin" if rol == "admin" else "user"
+    user = await create_user(db, email, password, nombre, db_role)
     return {
         "id": user.id,
         "email": user.email,
         "nombre": user.nombre,
-        "role": ROLE_MAP.get(user.rol, "operator"),
+        "role": user.role,
         "message": "Usuario creado exitosamente",
     }

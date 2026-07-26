@@ -41,12 +41,12 @@ async def get_user_by_email(db: AsyncSession, email: str) -> Optional[User]:
     return result.scalar_one_or_none()
 
 
-async def create_user(db: AsyncSession, email: str, password: str, nombre: str, rol: str = "user") -> User:
+async def create_user(db: AsyncSession, email: str, password: str, nombre: str, role_: str = "user") -> User:
     user = User(
         nombre=nombre,
         email=email,
         password_hash=_hash_password(password),
-        rol=rol,
+        role=role_,
     )
     db.add(user)
     await db.flush()
@@ -78,5 +78,5 @@ async def get_current_user(
         "id": user.id,
         "email": user.email,
         "nombre": user.nombre,
-        "role": ROLE_MAP.get(user.rol, "operator"),
+        "role": user.role,
     }
