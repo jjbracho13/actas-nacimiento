@@ -14,7 +14,3 @@ class User(Base):
     rol = Column(Text, default="user")
     foto_perfil = Column(Text, default="")
     activo = Column(Integer, default=1)
-
-    __table_args__ = (
-        CheckConstraint("rol IN ('admin', 'user')", name="usuarios_rol_check"),
-    )
