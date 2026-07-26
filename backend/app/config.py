@@ -17,7 +17,7 @@ if cors_raw:
     except json.JSONDecodeError:
         CORS_ORIGINS = [u.strip() for u in cors_raw.split(",")]
 else:
-    CORS_ORIGINS = ["http://localhost:3000", "http://localhost:5173"]
+    CORS_ORIGINS = ["http://localhost:3000", "http://localhost:5173", "capacitor://localhost", "http://localhost", "https://localhost"]
 
 # Fix Render PostgreSQL URL
 if DATABASE_URL.startswith("postgres://"):
