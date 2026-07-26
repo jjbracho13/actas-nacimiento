@@ -1,7 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
-from fastapi.responses import FileResponse
 from slowapi import Limiter, _rate_limit_exceeded_handler
 from slowapi.util import get_remote_address
 from slowapi.errors import RateLimitExceeded
@@ -59,17 +58,4 @@ async def shutdown():
 
 FRONTEND_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "static")
 if os.path.isdir(FRONTEND_DIR):
-    assets_dir = os.path.join(FRONTEND_DIR, "assets")
-    if os.path.isdir(assets_dir):
-        app.mount("/assets", StaticFiles(directory=assets_dir), name="assets")
-
-    @app.get("/spa/{full_path:path}")
-    async def serve_spa(full_path: str):
-        file_path = os.path.join(FRONTEND_DIR, full_path)
-        if os.path.isfile(file_path):
-            return FileResponse(file_path)
-        return FileResponse(os.path.join(FRONTEND_DIR, "index.html"))
-
-    @app.get("/")
-    async def serve_index():
-        return FileResponse(os.path.join(FRONTEND_DIR, "index.html"))
+    app.mount("/", StaticFiles(directory=FRONTEND_DIR, html=True), name="static")
