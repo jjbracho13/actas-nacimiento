@@ -17,7 +17,7 @@
         }
         table { border-collapse: collapse; }
         td { padding: 1px 3px; vertical-align: middle; }
-        .sh { background-color:#000; color:#fff; font-weight:bold; font-size:12pt; text-align:center; width:16pt; border:2px solid #000; border-bottom:1px solid #000; }
+        .sh { background-color:#000; color:#fff; font-weight:bold; font-size:12pt; text-align:center; border:2px solid #000; border-bottom:1px solid #000; }
         .st { font-weight:bold; font-size:10pt; padding:2px 8px; border:2px solid #000; border-bottom:1px solid #000; }
         .lb { font-weight:bold; font-size:8pt; border:1px solid #000; }
         .dv { font-size:9pt; border:1px solid #000; }
@@ -33,33 +33,41 @@
             Comisión de Registro Civil y Electoral
         </td>
     </tr>
+    <tr>
+        <td colspan="10" style="border:none; text-align:center; padding:3pt 0;">
+            <img src="cne_logo.png" width="110pt" height="auto"/>
+        </td>
+    </tr>
+    <tr>
+        <td colspan="10" style="border:none; text-align:center; font-size:10pt; font-weight:bold; padding:0 0 3pt 0;">
+            Poder Electoral
+        </td>
+    </tr>
 </table>
 
-<table style="width:555pt; margin-top:4pt;">
+<table style="width:555pt; margin-top:2pt;">
     <tr>
-        <td colspan="5" style="border:none; padding:2pt 0; font-weight:bold;">
+        <td colspan="5" style="border:none; padding:1pt 0; font-weight:bold;">
             Estado Falcón<br/>
             Municipio Falcón<br/>
             Parroquia Adaure
         </td>
         <td colspan="5" style="border:none; text-align:right;">
-            <table style="float:right;">
-                <tr><td style="border:1px solid #000; font-weight:bold; font-size:8pt; padding:1px 6px;">ACTA N°</td><td style="border:1px solid #000; font-size:9pt; padding:1px 8px; text-align:center;">{{ acta.numero_acta }}</td></tr>
-                <tr><td style="border:1px solid #000; font-weight:bold; font-size:8pt; padding:1px 6px;">DIA</td><td style="border:1px solid #000; font-size:9pt; padding:1px 8px; text-align:center;">{{ acta.fecha_dia }}</td></tr>
-                <tr><td style="border:1px solid #000; font-weight:bold; font-size:8pt; padding:1px 6px;">MES</td><td style="border:1px solid #000; font-size:9pt; padding:1px 8px; text-align:center;">{{ acta.fecha_mes }}</td></tr>
-                <tr><td style="border:1px solid #000; font-weight:bold; font-size:8pt; padding:1px 6px;">AÑO</td><td style="border:1px solid #000; font-size:9pt; padding:1px 8px; text-align:center;">{{ acta.fecha_anio }}</td></tr>
-            </table>
+            <div style="text-align:right; font-size:9pt; font-weight:bold;">
+                ACTA N° {{ acta.numero_acta }}<br/>
+                DIA {{ acta.fecha_dia }}<br/>
+                MES {{ acta.fecha_mes }}<br/>
+                AÑO {{ acta.fecha_anio }}
+            </div>
         </td>
     </tr>
 </table>
 
 <table style="width:555pt;">
     <tr>
-        <td colspan="10" style="border:none; font-size:10pt; font-weight:bold; padding:4pt 0;">
-            &nbsp;REGISTRO DE NACIMIENTO
-            &nbsp;&nbsp;RECONOCIMIENTO <span style="border:1px solid #000; font-size:7pt; padding:0 3px;{% if acta.es_reconocimiento %} background-color:#000; color:#fff;{% endif %}">X</span>
-            &nbsp;&nbsp;INSERCIÓN <span style="border:1px solid #000; font-size:7pt; padding:0 3px;{% if acta.es_insercion %} background-color:#000; color:#fff;{% endif %}">X</span>
-        </td>
+        <td colspan="4" style="border:none; font-size:10pt; font-weight:bold; padding:4pt 0;">REGISTRO DE NACIMIENTO</td>
+        <td colspan="3" style="border:none; font-size:9pt; font-weight:bold; text-align:center; padding:4pt 0;">RECONOCIMIENTO <span style="border:1px solid #000; font-size:7pt; padding:0 2px;{% if acta.es_reconocimiento %} background-color:#000; color:#fff;{% endif %}">X</span></td>
+        <td colspan="3" style="border:none; font-size:9pt; font-weight:bold; text-align:right; padding:4pt 0;">INSERCIÓN <span style="border:1px solid #000; font-size:7pt; padding:0 2px;{% if acta.es_insercion %} background-color:#000; color:#fff;{% endif %}">X</span></td>
     </tr>
 </table>
 
@@ -198,9 +206,9 @@
         <td colspan="3" class="lb">SEGUNDO APELLIDO:</td>
     </tr>
     <tr>
-        <td colspan="5" class="dv">{{ madre.nombres if madre else '' }}</td>
-        <td colspan="2" class="dv">{{ madre.primer_apellido if madre else '' }}</td>
-        <td colspan="3" class="dv">{{ madre.segundo_apellido if madre else '' }}</td>
+        <td colspan="5" class="dv">{{ madre.nombres if madre and madre.nombres else '&nbsp;' }}</td>
+        <td colspan="2" class="dv">{{ madre.primer_apellido if madre and madre.primer_apellido else '&nbsp;' }}</td>
+        <td colspan="3" class="dv">{{ madre.segundo_apellido if madre and madre.segundo_apellido else '&nbsp;' }}</td>
     </tr>
     <tr>
         <td colspan="4" class="lb" style="text-align:center;">DOCUMENTO DE IDENTIDAD N°</td>
@@ -211,28 +219,28 @@
         <td colspan="2" class="lb" style="text-align:center;">NACIONALIDAD</td>
     </tr>
     <tr>
-        <td colspan="4" class="dv" style="text-align:center;">{{ madre.documento_identidad if madre else '' }}</td>
-        <td class="dv" style="text-align:center;">{% if madre and madre.tiene_cedula %}X{% endif %}</td>
-        <td class="dv" style="text-align:center;">{% if madre and madre.tiene_pasaporte %}X{% endif %}</td>
-        <td class="dv" style="text-align:center;">{% if madre and madre.tiene_otro %}X{% endif %}</td>
-        <td class="dv" style="text-align:center;">{{ madre.edad if madre else '' }}</td>
-        <td colspan="2" class="dv">{{ madre.nacionalidad if madre else '' }}</td>
+        <td colspan="4" class="dv" style="text-align:center;">{{ madre.documento_identidad if madre and madre.documento_identidad else '&nbsp;' }}</td>
+        <td class="dv" style="text-align:center;">{% if madre and madre.tiene_cedula %}X{% else %}&nbsp;{% endif %}</td>
+        <td class="dv" style="text-align:center;">{% if madre and madre.tiene_pasaporte %}X{% else %}&nbsp;{% endif %}</td>
+        <td class="dv" style="text-align:center;">{% if madre and madre.tiene_otro %}X{% else %}&nbsp;{% endif %}</td>
+        <td class="dv" style="text-align:center;">{{ madre.edad if madre and madre.edad else '&nbsp;' }}</td>
+        <td colspan="2" class="dv">{{ madre.nacionalidad if madre and madre.nacionalidad else '&nbsp;' }}</td>
     </tr>
     <tr>
         <td colspan="8" class="lb">PROFESIÓN U OCUPACIÓN</td>
         <td colspan="2" class="lb" style="text-align:center;">COMUNIDAD O<br/>PUEBLO INDIGENA</td>
     </tr>
     <tr>
-        <td colspan="8" class="dv">{{ madre.profesion_ocupacion if madre else '' }}</td>
-        <td colspan="2" class="dv" style="text-align:center;">{{ madre.comunidad_indigena if madre else '' }}</td>
+        <td colspan="8" class="dv">{{ madre.profesion_ocupacion if madre and madre.profesion_ocupacion else '&nbsp;' }}</td>
+        <td colspan="2" class="dv" style="text-align:center;">{{ madre.comunidad_indigena if madre and madre.comunidad_indigena else '&nbsp;' }}</td>
     </tr>
     <tr>
         <td colspan="8" class="lb">RESIDENCIA</td>
         <td colspan="2" class="lb" style="text-align:center;">DECLARANTE</td>
     </tr>
     <tr>
-        <td colspan="8" class="dv">{{ madre.residencia if madre else '' }}</td>
-        <td colspan="2" class="dv" style="text-align:center;">{% if madre and madre.es_declarante %}X{% endif %}</td>
+        <td colspan="8" class="dv">{{ madre.residencia if madre and madre.residencia else '&nbsp;' }}</td>
+        <td colspan="2" class="dv" style="text-align:center;">{% if madre and madre.es_declarante %}X{% else %}&nbsp;{% endif %}</td>
     </tr>
 </table>
 
@@ -247,9 +255,9 @@
         <td colspan="3" class="lb">SEGUNDO APELLIDO:</td>
     </tr>
     <tr>
-        <td colspan="5" class="dv">{{ padre.nombres if padre else '' }}</td>
-        <td colspan="2" class="dv">{{ padre.primer_apellido if padre else '' }}</td>
-        <td colspan="3" class="dv">{{ padre.segundo_apellido if padre else '' }}</td>
+        <td colspan="5" class="dv">{{ padre.nombres if padre and padre.nombres else '&nbsp;' }}</td>
+        <td colspan="2" class="dv">{{ padre.primer_apellido if padre and padre.primer_apellido else '&nbsp;' }}</td>
+        <td colspan="3" class="dv">{{ padre.segundo_apellido if padre and padre.segundo_apellido else '&nbsp;' }}</td>
     </tr>
     <tr>
         <td colspan="4" class="lb" style="text-align:center;">DOCUMENTO DE IDENTIDAD N°</td>
@@ -260,28 +268,28 @@
         <td colspan="2" class="lb" style="text-align:center;">NACIONALIDAD</td>
     </tr>
     <tr>
-        <td colspan="4" class="dv" style="text-align:center;">{{ padre.documento_identidad if padre else '' }}</td>
-        <td class="dv" style="text-align:center;">{% if padre and padre.tiene_cedula %}X{% endif %}</td>
-        <td class="dv" style="text-align:center;">{% if padre and padre.tiene_pasaporte %}X{% endif %}</td>
-        <td class="dv" style="text-align:center;">{% if padre and padre.tiene_otro %}X{% endif %}</td>
-        <td class="dv" style="text-align:center;">{{ padre.edad if padre else '' }}</td>
-        <td colspan="2" class="dv">{{ padre.nacionalidad if padre else '' }}</td>
+        <td colspan="4" class="dv" style="text-align:center;">{{ padre.documento_identidad if padre and padre.documento_identidad else '&nbsp;' }}</td>
+        <td class="dv" style="text-align:center;">{% if padre and padre.tiene_cedula %}X{% else %}&nbsp;{% endif %}</td>
+        <td class="dv" style="text-align:center;">{% if padre and padre.tiene_pasaporte %}X{% else %}&nbsp;{% endif %}</td>
+        <td class="dv" style="text-align:center;">{% if padre and padre.tiene_otro %}X{% else %}&nbsp;{% endif %}</td>
+        <td class="dv" style="text-align:center;">{{ padre.edad if padre and padre.edad else '&nbsp;' }}</td>
+        <td colspan="2" class="dv">{{ padre.nacionalidad if padre and padre.nacionalidad else '&nbsp;' }}</td>
     </tr>
     <tr>
         <td colspan="8" class="lb">PROFESIÓN U OCUPACIÓN</td>
         <td colspan="2" class="lb" style="text-align:center;">COMUNIDAD O<br/>PUEBLO INDIGENA</td>
     </tr>
     <tr>
-        <td colspan="8" class="dv">{{ padre.profesion_ocupacion if padre else '' }}</td>
-        <td colspan="2" class="dv" style="text-align:center;">{{ padre.comunidad_indigena if padre else '' }}</td>
+        <td colspan="8" class="dv">{{ padre.profesion_ocupacion if padre and padre.profesion_ocupacion else '&nbsp;' }}</td>
+        <td colspan="2" class="dv" style="text-align:center;">{{ padre.comunidad_indigena if padre and padre.comunidad_indigena else '&nbsp;' }}</td>
     </tr>
     <tr>
         <td colspan="8" class="lb">RESIDENCIA</td>
         <td colspan="2" class="lb" style="text-align:center;">DECLARANTE</td>
     </tr>
     <tr>
-        <td colspan="8" class="dv">{{ padre.residencia if padre else '' }}</td>
-        <td colspan="2" class="dv" style="text-align:center;">{% if padre and padre.es_declarante %}X{% endif %}</td>
+        <td colspan="8" class="dv">{{ padre.residencia if padre and padre.residencia else '&nbsp;' }}</td>
+        <td colspan="2" class="dv" style="text-align:center;">{% if padre and padre.es_declarante %}X{% else %}&nbsp;{% endif %}</td>
     </tr>
 </table>
 
@@ -295,8 +303,8 @@
         <td colspan="2" class="lb" style="font-size:7pt;">CARÁCTER QUE ACTUA:</td>
     </tr>
     <tr>
-        <td colspan="8" class="dv">{{ declarante.nombres_apellidos if declarante and declarante.nombres_apellidos else '' }}</td>
-        <td colspan="2" class="dv">{{ declarante.caracter_actua if declarante else '' }}</td>
+        <td colspan="8" class="dv">{{ declarante.nombres_apellidos if declarante and declarante.nombres_apellidos else '&nbsp;' }}</td>
+        <td colspan="2" class="dv">{{ declarante.caracter_actua if declarante else '&nbsp;' }}</td>
     </tr>
     <tr>
         <td colspan="3" class="lb">DOCUMENTO DE IDENTIDAD:</td>
@@ -307,24 +315,24 @@
         <td colspan="2" class="lb" style="text-align:center;">NACIONALIDAD</td>
     </tr>
     <tr>
-        <td colspan="3" class="dv">{{ declarante.documento_identidad if declarante else '' }}</td>
-        <td class="dv" style="text-align:center;">{% if declarante and declarante.tiene_cedula %}X{% endif %}</td>
-        <td class="dv" style="text-align:center;">{% if declarante and declarante.tiene_pasaporte %}X{% endif %}</td>
-        <td colspan="2" class="dv" style="text-align:center;">{% if declarante and declarante.tiene_otro %}X{% endif %}</td>
-        <td class="dv" style="text-align:center; padding:1px 5px;">{{ declarante.edad if declarante else '' }}</td>
-        <td colspan="2" class="dv">{{ declarante.nacionalidad if declarante else '' }}</td>
+        <td colspan="3" class="dv">{{ declarante.documento_identidad if declarante and declarante.documento_identidad else '&nbsp;' }}</td>
+        <td class="dv" style="text-align:center;">{% if declarante and declarante.tiene_cedula %}X{% else %}&nbsp;{% endif %}</td>
+        <td class="dv" style="text-align:center;">{% if declarante and declarante.tiene_pasaporte %}X{% else %}&nbsp;{% endif %}</td>
+        <td colspan="2" class="dv" style="text-align:center;">{% if declarante and declarante.tiene_otro %}X{% else %}&nbsp;{% endif %}</td>
+        <td class="dv" style="text-align:center;">{{ declarante.edad if declarante and declarante.edad else '&nbsp;' }}</td>
+        <td colspan="2" class="dv">{{ declarante.nacionalidad if declarante and declarante.nacionalidad else '&nbsp;' }}</td>
     </tr>
     <tr>
         <td colspan="6" class="lb">PROFESIÓN U OCUPACIÓN</td>
         <td colspan="4" class="lb">COMUNIDAD INDIGENA</td>
     </tr>
     <tr>
-        <td colspan="6" class="dv">{{ declarante.profesion_ocupacion if declarante else '' }}</td>
-        <td colspan="4" class="dv">{{ declarante.comunidad_indigena if declarante else '' }}</td>
+        <td colspan="6" class="dv">{{ declarante.profesion_ocupacion if declarante and declarante.profesion_ocupacion else '&nbsp;' }}</td>
+        <td colspan="4" class="dv">{{ declarante.comunidad_indigena if declarante and declarante.comunidad_indigena else '&nbsp;' }}</td>
     </tr>
     <tr>
         <td colspan="2" class="lb">RESIDENCIA:</td>
-        <td colspan="8" class="dv">{{ declarante.residencia if declarante else '' }}</td>
+        <td colspan="8" class="dv">{{ declarante.residencia if declarante and declarante.residencia else '&nbsp;' }}</td>
     </tr>
 </table>
 
@@ -336,7 +344,7 @@
 {% for testigo in testigos %}
     <tr>
         <td colspan="2" class="lb">NOMBRES Y APELLIDOS:</td>
-        <td colspan="8" class="dv">{{ testigo.nombres_apellidos }}</td>
+        <td colspan="8" class="dv">{{ testigo.nombres_apellidos if testigo.nombres_apellidos else '&nbsp;' }}</td>
     </tr>
     <tr>
         <td colspan="4" class="lb">CEDULA DE IDENTIDAD:</td>
@@ -344,21 +352,21 @@
         <td colspan="4" class="lb">PROFESIÓN U OCUPACIÓN:</td>
     </tr>
     <tr>
-        <td colspan="4" class="dv">{{ testigo.cedula_identidad or '' }}</td>
-        <td colspan="2" class="dv" style="text-align:center;">{{ testigo.edad or '' }}</td>
-        <td colspan="4" class="dv">{{ testigo.profesion_ocupacion or '' }}</td>
+        <td colspan="4" class="dv">{{ testigo.cedula_identidad if testigo.cedula_identidad else '&nbsp;' }}</td>
+        <td colspan="2" class="dv" style="text-align:center;">{{ testigo.edad if testigo.edad else '&nbsp;' }}</td>
+        <td colspan="4" class="dv">{{ testigo.profesion_ocupacion if testigo.profesion_ocupacion else '&nbsp;' }}</td>
     </tr>
     <tr>
         <td colspan="5" class="lb">NACIONALIDAD:</td>
         <td colspan="5" class="lb">COMUNIDAD O PUEBLO INDIGENA:</td>
     </tr>
     <tr>
-        <td colspan="5" class="dv">{{ testigo.nacionalidad or '' }}</td>
-        <td colspan="5" class="dv">{{ testigo.comunidad_indigena or '' }}</td>
+        <td colspan="5" class="dv">{{ testigo.nacionalidad if testigo.nacionalidad else '&nbsp;' }}</td>
+        <td colspan="5" class="dv">{{ testigo.comunidad_indigena if testigo.comunidad_indigena else '&nbsp;' }}</td>
     </tr>
     <tr>
         <td colspan="2" class="lb">RESIDENCIA:</td>
-        <td colspan="8" class="dv">{{ testigo.residencia or '' }}</td>
+        <td colspan="8" class="dv">{{ testigo.residencia if testigo.residencia else '&nbsp;' }}</td>
     </tr>
 {% endfor %}
 </table>
@@ -377,7 +385,7 @@
     </tr>
     <tr>
         <td colspan="2" class="lb">AUTORIDAD QUE LO EXPIDE</td>
-        <td colspan="8" class="dv"></td>
+        <td colspan="8" class="dv">&nbsp;</td>
     </tr>
 </table>
 
@@ -397,7 +405,7 @@
     </tr>
     <tr>
         <td colspan="3" class="lb">NOMBRES Y APELLIDOS DEL CONSEJO (A)</td>
-        <td colspan="7" class="dv"></td>
+        <td colspan="7" class="dv">&nbsp;</td>
     </tr>
 </table>
 
@@ -412,7 +420,7 @@
     </tr>
     <tr>
         <td colspan="3" class="lb">NOMBRES Y APELLIDOS DEL JUEZ (A)</td>
-        <td colspan="3" class="dv"></td>
+        <td colspan="3" class="dv">&nbsp;</td>
         <td class="lb" style="text-align:center;">FECHA</td>
         <td class="lb" style="text-align:center;">DIA</td>
         <td class="lb" style="text-align:center;">MES</td>
@@ -430,12 +438,12 @@
     </tr>
     <tr>
         <td colspan="2" class="lb">AUTORIDAD QUE LO EXPIDE</td>
-        <td colspan="3" class="dv"></td>
+        <td colspan="3" class="dv">&nbsp;</td>
         <td class="lb" style="text-align:center;">FECHA</td>
         <td class="lb" style="text-align:center;">DIA</td>
         <td class="lb" style="text-align:center;">MES</td>
         <td class="lb" style="text-align:center;">AÑO</td>
-        <td class="dv"></td>
+        <td class="dv">&nbsp;</td>
     </tr>
 </table>
 
@@ -445,7 +453,7 @@
         <td colspan="9" class="st">Circunstancias Especiales del Acto / Observaciones</td>
     </tr>
     <tr>
-        <td colspan="10" class="dv" style="padding:4px 5px; font-size:8pt; min-height:10pt;">{{ acta.circunstancias_especiales or '' }}</td>
+        <td colspan="10" class="dv" style="padding:4px 5px; font-size:8pt; min-height:10pt;">{{ acta.circunstancias_especiales if acta.circunstancias_especiales else '&nbsp;' }}</td>
     </tr>
 </table>
 
@@ -455,7 +463,7 @@
         <td colspan="9" class="st">Documentos Presentados</td>
     </tr>
     <tr>
-        <td colspan="10" class="dv" style="padding:4px 5px; font-size:8pt; min-height:10pt;">{{ acta.documentos_presentados or '' }}</td>
+        <td colspan="10" class="dv" style="padding:4px 5px; font-size:8pt; min-height:10pt;">{{ acta.documentos_presentados if acta.documentos_presentados else '&nbsp;' }}</td>
     </tr>
 </table>
 
@@ -465,7 +473,7 @@
         <td colspan="9" class="st">Nota Marginal</td>
     </tr>
     <tr>
-        <td colspan="10" class="dv" style="padding:4px 5px; font-size:7.5pt;">{{ nota_texto }}</td>
+        <td colspan="10" class="dv" style="padding:4px 5px; font-size:7.5pt;">{{ nota_texto if nota_texto else '&nbsp;' }}</td>
     </tr>
 </table>
 
