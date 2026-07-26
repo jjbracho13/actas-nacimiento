@@ -7,7 +7,7 @@ class NotaMarginal(Base):
     __tablename__ = "notas_marginales"
 
     id = Column(Integer, primary_key=True, autoincrement=True)
-    acta_id = Column(Integer, ForeignKey("actas_nacimiento.id"), nullable=False)
+    acta_id = Column(Integer, ForeignKey("actas.actas_nacimiento.id"), nullable=False)
 
     dia = Column(String(5))
     mes = Column(String(20))

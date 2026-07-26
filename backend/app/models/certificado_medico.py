@@ -7,7 +7,7 @@ class CertificadoMedico(Base):
     __tablename__ = "certificados_medicos"
 
     id = Column(Integer, primary_key=True, autoincrement=True)
-    acta_id = Column(Integer, ForeignKey("actas_nacimiento.id"), unique=True, nullable=False)
+    acta_id = Column(Integer, ForeignKey("actas.actas_nacimiento.id"), unique=True, nullable=False)
 
     numero_certificado = Column(String(30), nullable=False)
     dia_expedicion = Column(String(5), nullable=False)

@@ -7,7 +7,7 @@ class Declarante(Base):
     __tablename__ = "declarantes"
 
     id = Column(Integer, primary_key=True, autoincrement=True)
-    acta_id = Column(Integer, ForeignKey("actas_nacimiento.id"), unique=True, nullable=False)
+    acta_id = Column(Integer, ForeignKey("actas.actas_nacimiento.id"), unique=True, nullable=False)
 
     nombres_apellidos = Column(String(200))
     caracter_actua = Column(String(100))

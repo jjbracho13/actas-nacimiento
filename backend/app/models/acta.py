@@ -17,7 +17,7 @@ class ActaNacimiento(Base):
     es_reconocimiento = Column(Boolean, default=False)
     es_insercion = Column(Boolean, default=False)
 
-    registrador_id = Column(Integer, ForeignKey("registradores_civil.id"), nullable=False)
+    registrador_id = Column(Integer, ForeignKey("actas.registradores_civil.id"), nullable=False)
     resolucion_numero = Column(String(50))
     resolucion_dia = Column(String(5))
     resolucion_mes = Column(String(5))
