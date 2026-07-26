@@ -1,6 +1,7 @@
 import asyncio
 from fastapi import APIRouter, Depends, HTTPException, Query, status
 from sqlalchemy.ext.asyncio import AsyncSession
+from sqlalchemy.orm import selectinload
 from app.database import get_db
 from app.security.auth import get_current_user
 from app.services.acta_service import (
@@ -15,6 +16,41 @@ from app.pdf.generator import generate_acta_pdf
 from fastapi.responses import Response
 
 router = APIRouter(prefix="/api/actas", tags=["Actas de Nacimiento"])
+
+
+@router.get("/stats")
+async def stats(
+    db: AsyncSession = Depends(get_db),
+    current_user: dict = Depends(get_current_user),
+):
+    from sqlalchemy import select, func
+    from app.models.acta import ActaNacimiento
+    from app.models.registrador import RegistradorCivil
+    from datetime import date
+
+    total = await db.scalar(select(func.count(ActaNacimiento.id)))
+    today = date.today()
+    today_count = await db.scalar(
+        select(func.count(ActaNacimiento.id)).where(
+            func.date(ActaNacimiento.created_at) == today
+        )
+    )
+    registradores = await db.scalar(select(func.count(RegistradorCivil.id)))
+
+    result = await db.execute(
+        select(ActaNacimiento)
+        .options(selectinload(ActaNacimiento.registrador))
+        .order_by(ActaNacimiento.id.desc())
+        .limit(5)
+    )
+    ultimas = result.scalars().all()
+
+    return {
+        "total_actas": total or 0,
+        "actas_hoy": today_count or 0,
+        "total_registradores": registradores or 0,
+        "ultimas_actas": ultimas,
+    }
 
 
 @router.get("/")
