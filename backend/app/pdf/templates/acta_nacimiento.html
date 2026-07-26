@@ -300,10 +300,10 @@
     </tr>
     <tr>
         <td colspan="3" class="lb">DOCUMENTO DE IDENTIDAD:</td>
-        <td class="lb" style="text-align:center; font-size:7pt;">CÉDULA</td>
-        <td class="lb" style="text-align:center; font-size:6pt;">PASAPORTE</td>
+        <td class="lb" style="text-align:center; padding:1px 5px;">CÉDULA</td>
+        <td class="lb" style="text-align:center; padding:1px 5px;">PASAPORTE</td>
         <td colspan="2" class="lb" style="text-align:center;">OTRO</td>
-        <td class="lb" style="text-align:center;">EDAD</td>
+        <td class="lb" style="text-align:center; padding:1px 5px;">EDAD</td>
         <td colspan="2" class="lb" style="text-align:center;">NACIONALIDAD</td>
     </tr>
     <tr>
@@ -311,7 +311,7 @@
         <td class="dv" style="text-align:center;">{% if declarante and declarante.tiene_cedula %}X{% endif %}</td>
         <td class="dv" style="text-align:center;">{% if declarante and declarante.tiene_pasaporte %}X{% endif %}</td>
         <td colspan="2" class="dv" style="text-align:center;">{% if declarante and declarante.tiene_otro %}X{% endif %}</td>
-        <td class="dv" style="text-align:center;">{{ declarante.edad if declarante else '' }}</td>
+        <td class="dv" style="text-align:center; padding:1px 5px;">{{ declarante.edad if declarante else '' }}</td>
         <td colspan="2" class="dv">{{ declarante.nacionalidad if declarante else '' }}</td>
     </tr>
     <tr>
