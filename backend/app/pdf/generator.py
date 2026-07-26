@@ -7,10 +7,11 @@ from app.services import texto_nota_marginal
 
 TEMPLATE_DIR = os.path.join(os.path.dirname(__file__), "templates")
 
+_jinja_env = Environment(loader=FileSystemLoader(TEMPLATE_DIR))
+_template = _jinja_env.get_template("acta_nacimiento.html")
+
 
 def render_acta_html(acta) -> str:
-    env = Environment(loader=FileSystemLoader(TEMPLATE_DIR))
-    template = env.get_template("acta_nacimiento.html")
 
     presentado = acta.presentado
     registrador = acta.registrador
@@ -49,7 +50,7 @@ def render_acta_html(acta) -> str:
         "nota_texto": nota_texto,
     }
 
-    return template.render(context)
+    return _template.render(context)
 
 
 def generate_acta_pdf(acta) -> bytes:
