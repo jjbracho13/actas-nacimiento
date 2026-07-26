@@ -11,6 +11,7 @@ from app.database import get_db
 from app.models.user import User
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="api/auth/login")
+oauth2_scheme_optional = OAuth2PasswordBearer(tokenUrl="api/auth/login", auto_error=False)
 
 ROLE_MAP = {"admin": "admin", "user": "operator"}
 
@@ -83,12 +84,12 @@ async def get_current_user(
 
 
 async def get_current_user_from_query(
-    token: str = Depends(oauth2_scheme),
+    token: Optional[str] = Depends(oauth2_scheme_optional),
     db: AsyncSession = Depends(get_db),
-    request: Optional["Request"] = None,
+    request: Request = None,
 ) -> dict:
-    if not token and request:
-        token = request.query_params.get("token")
+    if not token:
+        token = request.query_params.get("token") if request else None
     if not token:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
