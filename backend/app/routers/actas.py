@@ -1,3 +1,4 @@
+import asyncio
 from fastapi import APIRouter, Depends, HTTPException, Query, status
 from sqlalchemy.ext.asyncio import AsyncSession
 from app.database import get_db
@@ -94,7 +95,8 @@ async def download_pdf(
     acta = await get_acta_by_id(db, acta_id)
     if not acta:
         raise HTTPException(status_code=404, detail="Acta no encontrada")
-    pdf_bytes = generate_acta_pdf(acta)
+    loop = asyncio.get_event_loop()
+    pdf_bytes = await loop.run_in_executor(None, generate_acta_pdf, acta)
     return Response(
         content=pdf_bytes,
         media_type="application/pdf",
