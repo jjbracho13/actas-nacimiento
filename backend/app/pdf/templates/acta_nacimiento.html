@@ -5,8 +5,8 @@
     <title>Acta de Nacimiento</title>
     <style>
         @page {
-            size: 279mm 430mm;
-            margin: 5mm;
+            size: 216mm 356mm;
+            margin: 8mm 10mm;
         }
         body {
             font-family: "Times New Roman", Times, serif;
@@ -25,7 +25,7 @@
 </head>
 <body>
 
-<table style="width:762pt;">
+<table style="width:555pt;">
     <tr>
         <td colspan="10" style="border:none; text-align:center; font-size:11pt; font-weight:bold; padding:0;">
             República Bolivariana de Venezuela<br/>
@@ -35,7 +35,7 @@
     </tr>
 </table>
 
-<table style="width:762pt; margin-top:4pt;">
+<table style="width:555pt; margin-top:4pt;">
     <tr>
         <td colspan="5" style="border:none; padding:2pt 0; font-weight:bold;">
             Estado Falcón<br/>
@@ -53,7 +53,7 @@
     </tr>
 </table>
 
-<table style="width:762pt;">
+<table style="width:555pt;">
     <tr>
         <td colspan="10" style="border:none; font-size:10pt; font-weight:bold; padding:4pt 0;">
             &nbsp;REGISTRO DE NACIMIENTO
@@ -63,7 +63,7 @@
     </tr>
 </table>
 
-<table style="width:762pt;">
+<table style="width:555pt;">
     <tr>
         <td class="sh">A</td>
         <td colspan="9" class="st">Datos del Registrador (a) Civil</td>
@@ -85,9 +85,9 @@
         <td colspan="5" class="dv">{{ registrador.oficina_registro_civil if registrador else '' }}</td>
     </tr>
     <tr>
-        <td colspan="2" class="lb">RESOLUCIÓN N°</td>
+        <td colspan="2" class="lb" style="white-space:nowrap;">RESOLUCIÓN N°</td>
         <td colspan="3" class="lb" style="text-align:center;">FECHA</td>
-        <td colspan="2" class="lb" style="text-align:center;">GACETA MUNICIPAL N°</td>
+        <td colspan="2" class="lb" style="text-align:center; font-size:7pt;">GACETA MUNICIPAL N°</td>
         <td colspan="3" class="lb" style="text-align:center;">FECHA</td>
     </tr>
     <tr>
@@ -102,7 +102,7 @@
     </tr>
 </table>
 
-<table style="width:762pt;">
+<table style="width:555pt;">
     <tr>
         <td class="sh">B</td>
         <td colspan="9" class="st">Datos del Presentado o Presentada</td>
@@ -152,7 +152,7 @@
     </tr>
 </table>
 
-<table style="width:762pt;">
+<table style="width:555pt;">
     <tr>
         <td class="sh">C</td>
         <td colspan="9" class="st">Datos De Certificado de Medico de Nacimiento</td>
@@ -187,7 +187,7 @@
     </tr>
 </table>
 
-<table style="width:762pt;">
+<table style="width:555pt;">
     <tr>
         <td class="sh">D</td>
         <td colspan="9" class="st">Hijo o Hija de (Datos de la Madre)</td>
@@ -236,7 +236,7 @@
     </tr>
 </table>
 
-<table style="width:762pt;">
+<table style="width:555pt;">
     <tr>
         <td class="sh">E</td>
         <td colspan="9" class="st">Hijo o Hija de (Datos del Padre)</td>
@@ -285,7 +285,7 @@
     </tr>
 </table>
 
-<table style="width:762pt;">
+<table style="width:555pt;">
     <tr>
         <td class="sh">F</td>
         <td colspan="9" class="st">Datos del Declarante (Solo en caso de ser distinto a padre o madre)</td>
@@ -300,10 +300,10 @@
     </tr>
     <tr>
         <td colspan="3" class="lb">DOCUMENTO DE IDENTIDAD:</td>
-        <td class="lb" style="text-align:center;">CÉDULA</td>
-        <td class="lb" style="text-align:center;">PASAPORTE</td>
+        <td class="lb" style="text-align:center; padding:1px 5px;">CÉDULA</td>
+        <td class="lb" style="text-align:center; padding:1px 5px;">PASAPORTE</td>
         <td colspan="2" class="lb" style="text-align:center;">OTRO</td>
-        <td class="lb" style="text-align:center;">EDAD</td>
+        <td class="lb" style="text-align:center; padding:1px 5px;">EDAD</td>
         <td colspan="2" class="lb" style="text-align:center;">NACIONALIDAD</td>
     </tr>
     <tr>
@@ -311,7 +311,7 @@
         <td class="dv" style="text-align:center;">{% if declarante and declarante.tiene_cedula %}X{% endif %}</td>
         <td class="dv" style="text-align:center;">{% if declarante and declarante.tiene_pasaporte %}X{% endif %}</td>
         <td colspan="2" class="dv" style="text-align:center;">{% if declarante and declarante.tiene_otro %}X{% endif %}</td>
-        <td class="dv" style="text-align:center;">{{ declarante.edad if declarante else '' }}</td>
+        <td class="dv" style="text-align:center; padding:1px 5px;">{{ declarante.edad if declarante else '' }}</td>
         <td colspan="2" class="dv">{{ declarante.nacionalidad if declarante else '' }}</td>
     </tr>
     <tr>
@@ -328,7 +328,7 @@
     </tr>
 </table>
 
-<table style="width:762pt;">
+<table style="width:555pt;">
     <tr>
         <td class="sh">G</td>
         <td colspan="9" class="st">Datos de los Testigos</td>
@@ -363,7 +363,7 @@
 {% endfor %}
 </table>
 
-<table style="width:762pt;">
+<table style="width:555pt;">
     <tr>
         <td class="sh">H</td>
         <td colspan="9" class="st">Datos del Acta a Insertar (Llenar solo en caso de inserción de acta)</td>
@@ -381,7 +381,7 @@
     </tr>
 </table>
 
-<table style="width:762pt;">
+<table style="width:555pt;">
     <tr>
         <td class="sh">I</td>
         <td colspan="9" class="st">Inscripción por Medida de Protección (Llenar sólo cuando exista una medida de protección)</td>
@@ -401,7 +401,7 @@
     </tr>
 </table>
 
-<table style="width:762pt;">
+<table style="width:555pt;">
     <tr>
         <td class="sh">J</td>
         <td colspan="9" class="st">Inscripción por Decisión Judicial (Llenar solo en caso de sentencia judicial)</td>
@@ -420,7 +420,7 @@
     </tr>
 </table>
 
-<table style="width:762pt;">
+<table style="width:555pt;">
     <tr>
         <td class="sh">K</td>
         <td colspan="9" class="st">Inscripción Extemporánea</td>
@@ -439,7 +439,7 @@
     </tr>
 </table>
 
-<table style="width:762pt;">
+<table style="width:555pt;">
     <tr>
         <td class="sh">L</td>
         <td colspan="9" class="st">Circunstancias Especiales del Acto / Observaciones</td>
@@ -449,7 +449,7 @@
     </tr>
 </table>
 
-<table style="width:762pt;">
+<table style="width:555pt;">
     <tr>
         <td class="sh">M</td>
         <td colspan="9" class="st">Documentos Presentados</td>
@@ -459,7 +459,7 @@
     </tr>
 </table>
 
-<table style="width:762pt;">
+<table style="width:555pt;">
     <tr>
         <td class="sh">N</td>
         <td colspan="9" class="st">Nota Marginal</td>
@@ -469,7 +469,7 @@
     </tr>
 </table>
 
-<table style="width:762pt; margin-top:10mm;">
+<table style="width:555pt; margin-top:10mm;">
     <tr>
         <td colspan="3" style="border:none; text-align:center;">
             <table style="width:160pt; margin:0 auto;">
