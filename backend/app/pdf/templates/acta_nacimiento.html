@@ -22,30 +22,30 @@
 <body>
 
 <!-- HEADER CNE -->
-<table width="100%" cellpadding="0" cellspacing="0" border="0">
+<table width="196mm" cellpadding="0" cellspacing="0">
     <tr>
-        <td width="50" valign="top" border="0">
+        <td width="50" valign="top" style="border:none;">
             <img src="cne_logo.png" width="45" alt="CNE" />
         </td>
-        <td align="center" valign="top" border="0">
+        <td align="center" valign="top" style="border:none;">
             <b style="font-size:10pt;">República Bolivariana de Venezuela</b><br/>
             <b style="font-size:10pt;">Consejo Nacional Electoral</b><br/>
             <b style="font-size:10pt;">Comisión de Registro Civil y Electoral</b>
         </td>
-        <td width="1" border="0"></td>
+        <td width="1" style="border:none;"></td>
     </tr>
 </table>
 
 <!-- ESTADO + ACTA NUMERO -->
-<table width="100%" cellpadding="0" cellspacing="0" border="0">
+<table width="196mm" cellpadding="0" cellspacing="0">
     <tr>
-        <td width="55%" valign="top" border="0" style="padding-top:2px;">
+        <td width="55%" valign="top" style="border:none; padding-top:2px;">
             <b style="font-size:9pt;">Estado Falcón</b><br/>
             <b style="font-size:9pt;">Municipio Falcón</b><br/>
             <b style="font-size:9pt;">Parroquia Adaure</b>
         </td>
-        <td width="45%" align="right" valign="top" border="0">
-            <table cellpadding="0" cellspacing="0" border="0" align="right">
+        <td width="45%" align="right" valign="top" style="border:none;">
+            <table cellpadding="0" cellspacing="0" style="width:auto; float:right;">
                 <tr>
                     <td style="font-weight:bold; font-size:8pt; padding:1px 5px; border:1px solid #000;">ACTA N°</td>
                     <td style="font-size:9pt; padding:1px 8px; border:1px solid #000;" align="center">{{ acta.numero_acta }}</td>
@@ -68,9 +68,9 @@
 </table>
 
 <!-- TIPO INSCRIPCION -->
-<table width="100%" cellpadding="0" cellspacing="0" border="0">
+<table width="196mm" cellpadding="0" cellspacing="0">
     <tr>
-        <td style="padding:2px 5px; font-size:9pt;" border="0">
+        <td style="padding:2px 5px; font-size:9pt; border:none;">
             <b>REGISTRO DE NACIMIENTO</b>
             &nbsp;&nbsp; RECONOCIMIENTO
             <span style="border:1px solid #000; font-size:7pt; font-weight:bold; padding:0 2px;{% if acta.es_reconocimiento %} background-color:#000; color:#fff;{% endif %}">X</span>
@@ -80,14 +80,14 @@
     </tr>
 </table>
 
-<!-- ========== A - REGISTRADOR ========== -->
-<table width="100%" cellpadding="0" cellspacing="0" border="0">
+<!-- ========== A - REGISTRADOR (letter) ========== -->
+<table width="196mm" cellpadding="0" cellspacing="0">
     <tr>
         <td style="background-color:#000; color:#fff; font-weight:bold; font-size:11pt; text-align:center; width:20px; padding:3px 4px; border-top:2px solid #000; border-bottom:2px solid #000;">A</td>
         <td style="font-weight:bold; font-size:8pt; padding:3px 8px; border-top:2px solid #000; border-bottom:2px solid #000;">Datos del Registrador (a) Civil</td>
     </tr>
 </table>
-<table width="100%" cellpadding="0" cellspacing="0" border="0">
+<table width="196mm" cellpadding="0" cellspacing="0">
     <tr>
         <td style="border:1px solid #000; padding:2px 4px; font-weight:bold; font-size:7.5pt; width:15%;">NOMBRES:</td>
         <td style="border:1px solid #000; padding:2px 4px; font-size:9pt; width:35%;">{{ registrador.nombres if registrador else '' }}</td>
@@ -114,14 +114,14 @@
     </tr>
 </table>
 
-<!-- ========== B - PRESENTADO ========== -->
-<table width="100%" cellpadding="0" cellspacing="0" border="0">
+<!-- ========== B - PRESENTADO (letter) ========== -->
+<table width="196mm" cellpadding="0" cellspacing="0">
     <tr>
         <td style="background-color:#000; color:#fff; font-weight:bold; font-size:11pt; text-align:center; width:20px; padding:3px 4px; border-top:2px solid #000; border-bottom:2px solid #000;">B</td>
         <td style="font-weight:bold; font-size:8pt; padding:3px 8px; border-top:2px solid #000; border-bottom:2px solid #000;">Datos del Presentado o Presentada</td>
     </tr>
 </table>
-<table width="100%" cellpadding="0" cellspacing="0" border="0">
+<table width="196mm" cellpadding="0" cellspacing="0">
     <tr>
         <td style="border:1px solid #000; padding:2px 4px; font-weight:bold; font-size:7.5pt; width:12%;">NOMBRES:</td>
         <td style="border:1px solid #000; padding:2px 4px; font-size:9pt; width:28%;">{{ presentado.nombres if presentado else '' }}</td>
@@ -180,14 +180,14 @@
     </tr>
 </table>
 
-<!-- ========== C - CERTIFICADO MEDICO ========== -->
-<table width="100%" cellpadding="0" cellspacing="0" border="0">
+<!-- ========== C - CERTIFICADO MEDICO (letter) ========== -->
+<table width="196mm" cellpadding="0" cellspacing="0">
     <tr>
         <td style="background-color:#000; color:#fff; font-weight:bold; font-size:11pt; text-align:center; width:20px; padding:3px 4px; border-top:2px solid #000; border-bottom:2px solid #000;">C</td>
         <td style="font-weight:bold; font-size:8pt; padding:3px 8px; border-top:2px solid #000; border-bottom:2px solid #000;">Datos De Certificado de Medico de Nacimiento</td>
     </tr>
 </table>
-<table width="100%" cellpadding="0" cellspacing="0" border="0">
+<table width="196mm" cellpadding="0" cellspacing="0">
     <tr>
         <td style="border:1px solid #000; padding:2px 4px; font-weight:bold; font-size:7.5pt; width:14%;">CERTIFICADO N°</td>
         <td style="border:1px solid #000; padding:2px 4px; font-size:9pt; width:12%;">{{ certificado.numero_certificado if certificado else '' }}</td>
@@ -215,14 +215,14 @@
     </tr>
 </table>
 
-<!-- ========== D - MADRE ========== -->
-<table width="100%" cellpadding="0" cellspacing="0" border="0">
+<!-- ========== D - MADRE (letter) ========== -->
+<table width="196mm" cellpadding="0" cellspacing="0">
     <tr>
         <td style="background-color:#000; color:#fff; font-weight:bold; font-size:11pt; text-align:center; width:20px; padding:3px 4px; border-top:2px solid #000; border-bottom:2px solid #000;">D</td>
         <td style="font-weight:bold; font-size:8pt; padding:3px 8px; border-top:2px solid #000; border-bottom:2px solid #000;">Hijo o Hija de (Datos de la Madre)</td>
     </tr>
 </table>
-<table width="100%" cellpadding="0" cellspacing="0" border="0">
+<table width="196mm" cellpadding="0" cellspacing="0">
     <tr>
         <td style="border:1px solid #000; padding:2px 4px; font-weight:bold; font-size:7.5pt; width:12%;">NOMBRES:</td>
         <td style="border:1px solid #000; padding:2px 4px; font-size:9pt; width:28%;">{{ madre.nombres if madre else '' }}</td>
@@ -264,14 +264,14 @@
     </tr>
 </table>
 
-<!-- ========== E - PADRE ========== -->
-<table width="100%" cellpadding="0" cellspacing="0" border="0">
+<!-- ========== E - PADRE (letter) ========== -->
+<table width="196mm" cellpadding="0" cellspacing="0">
     <tr>
         <td style="background-color:#000; color:#fff; font-weight:bold; font-size:11pt; text-align:center; width:20px; padding:3px 4px; border-top:2px solid #000; border-bottom:2px solid #000;">E</td>
         <td style="font-weight:bold; font-size:8pt; padding:3px 8px; border-top:2px solid #000; border-bottom:2px solid #000;">Hijo o Hija de (Datos del Padre)</td>
     </tr>
 </table>
-<table width="100%" cellpadding="0" cellspacing="0" border="0">
+<table width="196mm" cellpadding="0" cellspacing="0">
     <tr>
         <td style="border:1px solid #000; padding:2px 4px; font-weight:bold; font-size:7.5pt; width:12%;">NOMBRES:</td>
         <td style="border:1px solid #000; padding:2px 4px; font-size:9pt; width:28%;">{{ padre.nombres if padre else '' }}</td>
@@ -313,14 +313,14 @@
     </tr>
 </table>
 
-<!-- ========== F - DECLARANTE ========== -->
-<table width="100%" cellpadding="0" cellspacing="0" border="0">
+<!-- ========== F - DECLARANTE (letter) ========== -->
+<table width="196mm" cellpadding="0" cellspacing="0">
     <tr>
         <td style="background-color:#000; color:#fff; font-weight:bold; font-size:11pt; text-align:center; width:20px; padding:3px 4px; border-top:2px solid #000; border-bottom:2px solid #000;">F</td>
         <td style="font-weight:bold; font-size:8pt; padding:3px 8px; border-top:2px solid #000; border-bottom:2px solid #000;">Datos del Declarante (Solo en caso de ser distinto a padre o madre)</td>
     </tr>
 </table>
-<table width="100%" cellpadding="0" cellspacing="0" border="0">
+<table width="196mm" cellpadding="0" cellspacing="0">
     <tr>
         <td style="border:1px solid #000; padding:2px 4px; font-weight:bold; font-size:7.5pt; width:15%;">NOMBRES Y APELLIDOS:</td>
         <td style="border:1px solid #000; padding:2px 4px; font-size:9pt; width:40%;">{{ declarante.nombres_apellidos if declarante and declarante.nombres_apellidos else '' }}</td>
@@ -349,15 +349,15 @@
     </tr>
 </table>
 
-<!-- ========== G - TESTIGOS ========== -->
-<table width="100%" cellpadding="0" cellspacing="0" border="0">
+<!-- ========== G - TESTIGOS (letter) ========== -->
+<table width="196mm" cellpadding="0" cellspacing="0">
     <tr>
         <td style="background-color:#000; color:#fff; font-weight:bold; font-size:11pt; text-align:center; width:20px; padding:3px 4px; border-top:2px solid #000; border-bottom:2px solid #000;">G</td>
         <td style="font-weight:bold; font-size:8pt; padding:3px 8px; border-top:2px solid #000; border-bottom:2px solid #000;">Datos de los Testigos</td>
     </tr>
 </table>
+<table width="196mm" cellpadding="0" cellspacing="0">
 {% for testigo in testigos %}
-<table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-bottom:1px;">
     <tr>
         <td style="border:1px solid #000; padding:2px 4px; font-weight:bold; font-size:7.5pt; width:15%;">NOMBRES Y APELLIDOS:</td>
         <td style="border:1px solid #000; padding:2px 4px; font-size:9pt; width:30%;">{{ testigo.nombres_apellidos }}</td>
@@ -374,17 +374,17 @@
         <td style="border:1px solid #000; padding:2px 4px; font-weight:bold; font-size:7.5pt;">RESIDENCIA:</td>
         <td style="border:1px solid #000; padding:2px 4px; font-size:9pt;">{{ testigo.residencia or '' }}</td>
     </tr>
-</table>
 {% endfor %}
+</table>
 
-<!-- ========== H - ACTA A INSERTAR ========== -->
-<table width="100%" cellpadding="0" cellspacing="0" border="0">
+<!-- ========== H - ACTA A INSERTAR (letter) ========== -->
+<table width="196mm" cellpadding="0" cellspacing="0">
     <tr>
         <td style="background-color:#000; color:#fff; font-weight:bold; font-size:11pt; text-align:center; width:20px; padding:3px 4px; border-top:2px solid #000; border-bottom:2px solid #000;">H</td>
         <td style="font-weight:bold; font-size:8pt; padding:3px 8px; border-top:2px solid #000; border-bottom:2px solid #000;">Datos del Acta a Insertar (Llenar solo en caso de inserción de acta)</td>
     </tr>
 </table>
-<table width="100%" cellpadding="0" cellspacing="0" border="0">
+<table width="196mm" cellpadding="0" cellspacing="0">
     <tr>
         <td style="border:1px solid #000; padding:2px 4px; font-weight:bold; font-size:7.5pt; width:15%;">ACTA N°</td>
         <td style="border:1px solid #000; padding:2px 4px; font-size:9pt; width:15%;"></td>
@@ -397,14 +397,14 @@
     </tr>
 </table>
 
-<!-- ========== I - INSCRIPCION POR PROTECCION ========== -->
-<table width="100%" cellpadding="0" cellspacing="0" border="0">
+<!-- ========== I - INSCRIPCION POR PROTECCION (letter) ========== -->
+<table width="196mm" cellpadding="0" cellspacing="0">
     <tr>
         <td style="background-color:#000; color:#fff; font-weight:bold; font-size:11pt; text-align:center; width:20px; padding:3px 4px; border-top:2px solid #000; border-bottom:2px solid #000;">I</td>
         <td style="font-weight:bold; font-size:8pt; padding:3px 8px; border-top:2px solid #000; border-bottom:2px solid #000;">Inscripción por Medida de Protección (Llenar sólo cuando exista una medida de protección)</td>
     </tr>
 </table>
-<table width="100%" cellpadding="0" cellspacing="0" border="0">
+<table width="196mm" cellpadding="0" cellspacing="0">
     <tr>
         <td style="border:1px solid #000; padding:2px 4px; font-weight:bold; font-size:7.5pt; width:15%;">CONSEJO DE PROTECCIÓN</td>
         <td style="border:1px solid #000; padding:2px 4px; font-size:9pt; width:20%;"></td>
@@ -421,14 +421,14 @@
     </tr>
 </table>
 
-<!-- ========== J - INSCRIPCION POR DECISION JUDICIAL ========== -->
-<table width="100%" cellpadding="0" cellspacing="0" border="0">
+<!-- ========== J - INSCRIPCION POR DECISION JUDICIAL (letter) ========== -->
+<table width="196mm" cellpadding="0" cellspacing="0">
     <tr>
         <td style="background-color:#000; color:#fff; font-weight:bold; font-size:11pt; text-align:center; width:20px; padding:3px 4px; border-top:2px solid #000; border-bottom:2px solid #000;">J</td>
         <td style="font-weight:bold; font-size:8pt; padding:3px 8px; border-top:2px solid #000; border-bottom:2px solid #000;">Inscripción por Decisión Judicial (Llenar solo en caso de sentencia judicial)</td>
     </tr>
 </table>
-<table width="100%" cellpadding="0" cellspacing="0" border="0">
+<table width="196mm" cellpadding="0" cellspacing="0">
     <tr>
         <td style="border:1px solid #000; padding:2px 4px; font-weight:bold; font-size:7.5pt; width:15%;">TRIBUNAL O JUZGADO</td>
         <td style="border:1px solid #000; padding:2px 4px; font-size:9pt; width:30%;"></td>
@@ -445,14 +445,14 @@
     </tr>
 </table>
 
-<!-- ========== K - INSCRIPCION EXTEMPORANEA ========== -->
-<table width="100%" cellpadding="0" cellspacing="0" border="0">
+<!-- ========== K - INSCRIPCION EXTEMPORANEA (letter) ========== -->
+<table width="196mm" cellpadding="0" cellspacing="0">
     <tr>
         <td style="background-color:#000; color:#fff; font-weight:bold; font-size:11pt; text-align:center; width:20px; padding:3px 4px; border-top:2px solid #000; border-bottom:2px solid #000;">K</td>
         <td style="font-weight:bold; font-size:8pt; padding:3px 8px; border-top:2px solid #000; border-bottom:2px solid #000;">Inscripción Extemporánea</td>
     </tr>
 </table>
-<table width="100%" cellpadding="0" cellspacing="0" border="0">
+<table width="196mm" cellpadding="0" cellspacing="0">
     <tr>
         <td style="border:1px solid #000; padding:2px 4px; font-weight:bold; font-size:7.5pt;" colspan="3">DATOS DEL INFORME DEL CONSEJO DE PROTECCIÓN O PROVIDENCIA ADMINISTRATIVA N°</td>
         <td style="border:1px solid #000; padding:2px 4px; font-size:9pt;" colspan="5"></td>
@@ -467,63 +467,63 @@
     </tr>
 </table>
 
-<!-- ========== L - CIRCUNSTANCIAS ESPECIALES ========== -->
-<table width="100%" cellpadding="0" cellspacing="0" border="0">
+<!-- ========== L - CIRCUNSTANCIAS ESPECIALES (letter) ========== -->
+<table width="196mm" cellpadding="0" cellspacing="0">
     <tr>
         <td style="background-color:#000; color:#fff; font-weight:bold; font-size:11pt; text-align:center; width:20px; padding:3px 4px; border-top:2px solid #000; border-bottom:2px solid #000;">L</td>
         <td style="font-weight:bold; font-size:8pt; padding:3px 8px; border-top:2px solid #000; border-bottom:2px solid #000;">Circunstancias Especiales del Acto / Observaciones</td>
     </tr>
 </table>
-<table width="100%" cellpadding="0" cellspacing="0" border="0">
+<table width="196mm" cellpadding="0" cellspacing="0">
     <tr>
         <td style="border:1px solid #000; padding:3px 5px; font-size:8pt; min-height:12px;">{{ acta.circunstancias_especiales or '' }}</td>
     </tr>
 </table>
 
-<!-- ========== M - DOCUMENTOS PRESENTADOS ========== -->
-<table width="100%" cellpadding="0" cellspacing="0" border="0">
+<!-- ========== M - DOCUMENTOS PRESENTADOS (letter) ========== -->
+<table width="196mm" cellpadding="0" cellspacing="0">
     <tr>
         <td style="background-color:#000; color:#fff; font-weight:bold; font-size:11pt; text-align:center; width:20px; padding:3px 4px; border-top:2px solid #000; border-bottom:2px solid #000;">M</td>
         <td style="font-weight:bold; font-size:8pt; padding:3px 8px; border-top:2px solid #000; border-bottom:2px solid #000;">Documentos Presentados</td>
     </tr>
 </table>
-<table width="100%" cellpadding="0" cellspacing="0" border="0">
+<table width="196mm" cellpadding="0" cellspacing="0">
     <tr>
         <td style="border:1px solid #000; padding:3px 5px; font-size:8pt; min-height:12px;">{{ acta.documentos_presentados or '' }}</td>
     </tr>
 </table>
 
-<!-- ========== N - NOTA MARGINAL ========== -->
-<table width="100%" cellpadding="0" cellspacing="0" border="0">
+<!-- ========== N - NOTA MARGINAL (letter) ========== -->
+<table width="196mm" cellpadding="0" cellspacing="0">
     <tr>
         <td style="background-color:#000; color:#fff; font-weight:bold; font-size:11pt; text-align:center; width:20px; padding:3px 4px; border-top:2px solid #000; border-bottom:2px solid #000;">N</td>
         <td style="font-weight:bold; font-size:8pt; padding:3px 8px; border-top:2px solid #000; border-bottom:2px solid #000;">Nota Marginal</td>
     </tr>
 </table>
-<table width="100%" cellpadding="0" cellspacing="0" border="0">
+<table width="196mm" cellpadding="0" cellspacing="0">
     <tr>
         <td style="border:1px solid #000; padding:3px 5px; font-size:7.5pt;">{{ nota_texto }}</td>
     </tr>
 </table>
 
 <!-- FIRMAS -->
-<table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-top:8mm;">
+<table width="196mm" cellpadding="0" cellspacing="0" style="margin-top:8mm;">
     <tr>
-        <td width="45%" align="center" border="0">
+        <td width="45%" align="center" style="border:none;">
             <table border="0" cellpadding="0" cellspacing="0" width="180">
-                <tr><td border="0" style="border-top:1px solid #000; padding-top:3px; text-align:center; font-size:8pt;">FIRMA DEL REGISTRADOR (A)</td></tr>
+                <tr><td style="border:none; border-top:1px solid #000; padding-top:3px; text-align:center; font-size:8pt;">FIRMA DEL REGISTRADOR (A)</td></tr>
             </table>
         </td>
-        <td width="10%" align="center" valign="bottom" border="0">
-            <table style="border:1px dashed #999;" width="70" height="50" cellpadding="0" cellspacing="0" border="0">
+        <td width="10%" align="center" valign="bottom" style="border:none;">
+            <table style="border:1px dashed #999;" width="70" height="50" cellpadding="0" cellspacing="0">
                 <tr>
                     <td align="center" valign="middle" style="font-size:7pt; border:none;">SELLO HUMEDO</td>
                 </tr>
             </table>
         </td>
-        <td width="45%" align="center" border="0">
+        <td width="45%" align="center" style="border:none;">
             <table border="0" cellpadding="0" cellspacing="0" width="180">
-                <tr><td border="0" style="border-top:1px solid #000; padding-top:3px; text-align:center; font-size:8pt;">FIRMA DEL DECLARANTE</td></tr>
+                <tr><td style="border:none; border-top:1px solid #000; padding-top:3px; text-align:center; font-size:8pt;">FIRMA DEL DECLARANTE</td></tr>
             </table>
         </td>
     </tr>
