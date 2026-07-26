@@ -22,7 +22,6 @@ def render_acta_html(acta) -> str:
     testigos = acta.testigos or []
     nota = acta.notas_marginales[0] if acta.notas_marginales else None
 
-    nota_texto = ""
     if nota:
         nota_texto = texto_nota_marginal({
             "dia": nota.dia,
@@ -36,6 +35,20 @@ def render_acta_html(acta) -> str:
             "dia_gaceta": nota.gaceta_dia,
             "mes_gaceta": nota.gaceta_mes,
             "anio_gaceta": nota.gaceta_anio,
+        })
+    else:
+        nota_texto = texto_nota_marginal({
+            "dia": acta.fecha_dia or "",
+            "mes": acta.fecha_mes or "",
+            "anio": acta.fecha_anio or "",
+            "suscriptor": f"{registrador.nombres or ''} {registrador.apellidos or ''}".strip(),
+            "cedula_suscriptor": registrador.documento_identidad or "",
+            "resolucion": acta.resolucion_numero or "",
+            "articulo": "45",
+            "gaceta": acta.gaceta_municipal or "",
+            "dia_gaceta": acta.gaceta_dia or "",
+            "mes_gaceta": acta.gaceta_mes or "",
+            "anio_gaceta": acta.gaceta_anio or "",
         })
 
     context = {
