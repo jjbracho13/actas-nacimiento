@@ -85,9 +85,9 @@
         <td colspan="5" class="dv">{{ registrador.oficina_registro_civil if registrador else '' }}</td>
     </tr>
     <tr>
-        <td colspan="2" class="lb">RESOLUCIÓN N°</td>
+        <td colspan="2" class="lb" style="white-space:nowrap;">RESOLUCIÓN N°</td>
         <td colspan="3" class="lb" style="text-align:center;">FECHA</td>
-        <td colspan="2" class="lb" style="text-align:center;">GACETA MUNICIPAL N°</td>
+        <td colspan="2" class="lb" style="text-align:center; font-size:7pt;">GACETA MUNICIPAL N°</td>
         <td colspan="3" class="lb" style="text-align:center;">FECHA</td>
     </tr>
     <tr>
@@ -96,9 +96,9 @@
         <td class="dv" style="text-align:center;">{{ acta.resolucion_mes or '' }}</td>
         <td class="dv" style="text-align:center;">{{ acta.resolucion_anio or '' }}</td>
         <td colspan="2" class="dv" style="text-align:center;">{{ acta.gaceta_municipal or 'N/A' }}</td>
-        <td class="dv" style="text-align:center;">{{ acta.gaceta_dia or '' }}</td>
-        <td class="dv" style="text-align:center;">{{ acta.gaceta_mes or '' }}</td>
-        <td class="dv" style="text-align:center;">{{ acta.gaceta_anio or '' }}</td>
+        <td class="dv" style="text-align:center;">{{ acta.gaceta_dia or 'N/A' }}</td>
+        <td class="dv" style="text-align:center;">{{ acta.gaceta_mes or 'N/A' }}</td>
+        <td class="dv" style="text-align:center;">{{ acta.gaceta_anio or 'N/A' }}</td>
     </tr>
 </table>
 
