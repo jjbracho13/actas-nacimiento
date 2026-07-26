@@ -292,7 +292,7 @@
     </tr>
     <tr>
         <td colspan="8" class="lb">NOMBRES Y APELLIDOS:</td>
-        <td colspan="2" class="lb">CARÁCTER QUE ACTUA:</td>
+        <td colspan="2" class="lb" style="font-size:7pt;">CARÁCTER QUE ACTUA:</td>
     </tr>
     <tr>
         <td colspan="8" class="dv">{{ declarante.nombres_apellidos if declarante and declarante.nombres_apellidos else '' }}</td>
@@ -300,12 +300,11 @@
     </tr>
     <tr>
         <td colspan="3" class="lb">DOCUMENTO DE IDENTIDAD:</td>
-        <td class="lb" style="text-align:center;">CEDULA</td>
-        <td class="lb" style="text-align:center;">PASAPORTE</td>
+        <td class="lb" style="text-align:center; font-size:7pt;">CÉDULA</td>
+        <td class="lb" style="text-align:center; font-size:6pt;">PASAPORTE</td>
         <td colspan="2" class="lb" style="text-align:center;">OTRO</td>
         <td class="lb" style="text-align:center;">EDAD</td>
-        <td class="lb">NACIONALIDAD</td>
-        <td class="lb"></td>
+        <td colspan="2" class="lb" style="text-align:center;">NACIONALIDAD</td>
     </tr>
     <tr>
         <td colspan="3" class="dv">{{ declarante.documento_identidad if declarante else '' }}</td>
@@ -313,8 +312,7 @@
         <td class="dv" style="text-align:center;">{% if declarante and declarante.tiene_pasaporte %}X{% endif %}</td>
         <td colspan="2" class="dv" style="text-align:center;">{% if declarante and declarante.tiene_otro %}X{% endif %}</td>
         <td class="dv" style="text-align:center;">{{ declarante.edad if declarante else '' }}</td>
-        <td class="dv">{{ declarante.nacionalidad if declarante else '' }}</td>
-        <td class="dv"></td>
+        <td colspan="2" class="dv">{{ declarante.nacionalidad if declarante else '' }}</td>
     </tr>
     <tr>
         <td colspan="6" class="lb">PROFESIÓN U OCUPACIÓN</td>
