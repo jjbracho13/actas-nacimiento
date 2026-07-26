@@ -56,6 +56,14 @@ async def shutdown():
     pass
 
 
-FRONTEND_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "static")
-if os.path.isdir(FRONTEND_DIR):
+STATIC_DIRS = [
+    os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "static"),
+    os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "frontend", "dist"),
+]
+FRONTEND_DIR = None
+for d in STATIC_DIRS:
+    if os.path.isdir(d) and os.path.isfile(os.path.join(d, "index.html")):
+        FRONTEND_DIR = d
+        break
+if FRONTEND_DIR:
     app.mount("/", StaticFiles(directory=FRONTEND_DIR, html=True), name="static")
