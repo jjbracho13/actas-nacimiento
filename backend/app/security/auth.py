@@ -2,7 +2,7 @@ from datetime import datetime, timedelta, timezone
 from typing import Optional
 import bcrypt
 from jose import JWTError, jwt
-from fastapi import Depends, HTTPException, status
+from fastapi import Depends, HTTPException, status, Request
 from fastapi.security import OAuth2PasswordBearer
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -73,6 +73,39 @@ async def get_current_user(
     user = await get_user_by_email(db, email)
     if user is None or not user.activo:
         raise credentials_exception
+
+    return {
+        "id": user.id,
+        "email": user.email,
+        "nombre": user.nombre,
+        "role": user.role,
+    }
+
+
+async def get_current_user_from_query(
+    token: str = Depends(oauth2_scheme),
+    db: AsyncSession = Depends(get_db),
+    request: Optional["Request"] = None,
+) -> dict:
+    if not token and request:
+        token = request.query_params.get("token")
+    if not token:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Credenciales invalidas",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
+    try:
+        payload = jwt.decode(token, settings.SECRET_KEY, algorithms=[settings.ALGORITHM])
+        email: str = payload.get("sub")
+        if email is None:
+            raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Credenciales invalidas")
+    except JWTError:
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Credenciales invalidas")
+
+    user = await get_user_by_email(db, email)
+    if user is None or not user.activo:
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Credenciales invalidas")
 
     return {
         "id": user.id,

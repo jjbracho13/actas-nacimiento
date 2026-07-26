@@ -3,7 +3,7 @@ from fastapi import APIRouter, Depends, HTTPException, Query, status
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import selectinload
 from app.database import get_db
-from app.security.auth import get_current_user
+from app.security.auth import get_current_user, get_current_user_from_query
 from app.services.acta_service import (
     get_all_actas,
     get_acta_by_id,
@@ -128,7 +128,7 @@ async def delete(
 async def download_pdf(
     acta_id: int,
     db: AsyncSession = Depends(get_db),
-    current_user: dict = Depends(get_current_user),
+    current_user: dict = Depends(get_current_user_from_query),
 ):
     acta = await get_acta_by_id(db, acta_id)
     if not acta:
