@@ -2,6 +2,7 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
+    <title>Acta de Nacimiento</title>
     <style>
         @page {
             size: 216mm 356mm;
@@ -10,520 +11,473 @@
         body {
             font-family: "Times New Roman", Times, serif;
             font-size: 9pt;
-            line-height: 1.2;
             color: #000;
             margin: 0;
             padding: 0;
         }
+        table { border-collapse: collapse; }
+        td { padding: 1px 3px; vertical-align: middle; }
     </style>
 </head>
 <body>
 
-<!-- HEADER CNE -->
-<table style="width:555pt; border-collapse:collapse;">
+<table style="width:555pt;">
+<!-- ============ HEADER ============ -->
     <tr>
-        <td style="border:none; padding:0; width:50pt;">
-            <img src="cne_logo.png" style="width:40pt; height:auto;" alt="CNE" />
-        </td>
-        <td style="border:none; padding:0; text-align:center;">
-            <b style="font-size:11pt;">República Bolivariana de Venezuela</b><br/>
-            <b style="font-size:11pt;">Consejo Nacional Electoral</b><br/>
-            <b style="font-size:11pt;">Comisión de Registro Civil y Electoral</b>
+        <td colspan="10" style="border:none; text-align:center; font-size:11pt; font-weight:bold; padding:0;">
+            República Bolivariana de Venezuela<br/>
+            Consejo Nacional Electoral<br/>
+            Comisión de Registro Civil y Electoral
         </td>
     </tr>
 </table>
 
-<!-- ESTADO + ACTA -->
-<table style="width:555pt; border-collapse:collapse;">
+<table style="width:555pt; margin-top:4pt;">
     <tr>
-        <td style="border:none; padding-top:3px; width:55%;">
-            <b>Estado Falcón</b><br/>
-            <b>Municipio Falcón</b><br/>
-            <b>Parroquia Adaure</b>
+        <td colspan="5" style="border:none; padding:2pt 0; font-weight:bold;">
+            Estado Falcón<br/>
+            Municipio Falcón<br/>
+            Parroquia Adaure
         </td>
-        <td style="border:none; text-align:right;">
-            <table style="border-collapse:collapse; float:right;">
-                <tr>
-                    <td style="border:1px solid #000; font-weight:bold; font-size:8pt; padding:1px 5px;">ACTA N°</td>
-                    <td style="border:1px solid #000; font-size:9pt; padding:1px 8px; text-align:center;">{{ acta.numero_acta }}</td>
-                </tr>
-                <tr>
-                    <td style="border:1px solid #000; font-weight:bold; font-size:8pt; padding:1px 5px;">DIA</td>
-                    <td style="border:1px solid #000; font-size:9pt; padding:1px 8px; text-align:center;">{{ acta.fecha_dia }}</td>
-                </tr>
-                <tr>
-                    <td style="border:1px solid #000; font-weight:bold; font-size:8pt; padding:1px 5px;">MES</td>
-                    <td style="border:1px solid #000; font-size:9pt; padding:1px 8px; text-align:center;">{{ acta.fecha_mes }}</td>
-                </tr>
-                <tr>
-                    <td style="border:1px solid #000; font-weight:bold; font-size:8pt; padding:1px 5px;">AÑO</td>
-                    <td style="border:1px solid #000; font-size:9pt; padding:1px 8px; text-align:center;">{{ acta.fecha_anio }}</td>
-                </tr>
+        <td colspan="5" style="border:none; text-align:right;">
+            <table style="float:right;">
+                <tr><td style="border:1px solid #000; font-weight:bold; font-size:8pt; padding:1px 6px;">ACTA N°</td><td style="border:1px solid #000; font-size:9pt; padding:1px 8px; text-align:center;">{{ acta.numero_acta }}</td></tr>
+                <tr><td style="border:1px solid #000; font-weight:bold; font-size:8pt; padding:1px 6px;">DIA</td><td style="border:1px solid #000; font-size:9pt; padding:1px 8px; text-align:center;">{{ acta.fecha_dia }}</td></tr>
+                <tr><td style="border:1px solid #000; font-weight:bold; font-size:8pt; padding:1px 6px;">MES</td><td style="border:1px solid #000; font-size:9pt; padding:1px 8px; text-align:center;">{{ acta.fecha_mes }}</td></tr>
+                <tr><td style="border:1px solid #000; font-weight:bold; font-size:8pt; padding:1px 6px;">AÑO</td><td style="border:1px solid #000; font-size:9pt; padding:1px 8px; text-align:center;">{{ acta.fecha_anio }}</td></tr>
             </table>
         </td>
     </tr>
 </table>
 
-<!-- TIPO INSCRIPCION -->
-<table style="width:555pt; border-collapse:collapse;">
+<table style="width:555pt;">
     <tr>
-        <td style="border:none; padding:3px 5px; font-size:10pt; font-weight:bold;">
-            REGISTRO DE NACIMIENTO
-            &nbsp;&nbsp; RECONOCIMIENTO
-            <span style="border:1px solid #000; font-size:7pt; padding:0 2px;{% if acta.es_reconocimiento %} background-color:#000; color:#fff;{% endif %}">X</span>
-            &nbsp;&nbsp; INSERCIÓN
-            <span style="border:1px solid #000; font-size:7pt; padding:0 2px;{% if acta.es_insercion %} background-color:#000; color:#fff;{% endif %}">X</span>
+        <td colspan="10" style="border:none; font-size:10pt; font-weight:bold; padding:4pt 0;">
+            &nbsp;REGISTRO DE NACIMIENTO
+            &nbsp;&nbsp;RECONOCIMIENTO <span style="border:1px solid #000; font-size:7pt; padding:0 3px;{% if acta.es_reconocimiento %} background-color:#000; color:#fff;{% endif %}">X</span>
+            &nbsp;&nbsp;INSERCIÓN <span style="border:1px solid #000; font-size:7pt; padding:0 3px;{% if acta.es_insercion %} background-color:#000; color:#fff;{% endif %}">X</span>
         </td>
     </tr>
 </table>
 
-<!-- ========== A - REGISTRADOR ========== -->
-<table style="width:555pt; border-collapse:collapse;">
+<!-- ==================== A - REGISTRADOR ==================== -->
+<table style="width:555pt;">
     <tr>
-        <td style="background-color:#000; color:#fff; font-weight:bold; font-size:12pt; text-align:center; padding:2px 4px; border-top:2px solid #000; border-bottom:2px solid #000; width:20pt;">A</td>
-        <td style="font-weight:bold; font-size:9pt; padding:2px 8px; border-top:2px solid #000; border-bottom:2px solid #000;">Datos del Registrador (a) Civil</td>
+        <td style="background-color:#000; color:#fff; font-weight:bold; font-size:12pt; text-align:center; border-top:2px solid #000; border-bottom:2px solid #000; padding:2px 5px; width:16pt;">A</td>
+        <td colspan="9" style="font-weight:bold; font-size:10pt; border-top:2px solid #000; border-bottom:2px solid #000; padding:2px 8px;">Datos del Registrador (a) Civil</td>
     </tr>
 </table>
-<table style="width:555pt; border-collapse:collapse;">
+<table style="width:555pt;">
     <tr>
-        <td style="border:1px solid #000; padding:2px 4px; font-weight:bold; font-size:7.5pt;">NOMBRES:</td>
-        <td style="border:1px solid #000; padding:2px 4px; font-size:9pt;">{{ registrador.nombres if registrador else '' }}</td>
-        <td style="border:1px solid #000; padding:2px 4px; font-weight:bold; font-size:7.5pt;">APELLIDOS:</td>
-        <td style="border:1px solid #000; padding:2px 4px; font-size:9pt;">{{ registrador.apellidos if registrador else '' }}</td>
+        <td colspan="5" style="border:1px solid #000; font-weight:bold; font-size:8pt;">NOMBRES:</td>
+        <td colspan="5" style="border:1px solid #000; font-weight:bold; font-size:8pt;">APELLIDOS:</td>
     </tr>
     <tr>
-        <td style="border:1px solid #000; padding:2px 4px; font-weight:bold; font-size:7.5pt;">DOCUMENTO DE IDENTIDAD N°</td>
-        <td style="border:1px solid #000; padding:2px 4px; font-size:9pt;">{{ registrador.documento_identidad if registrador else '' }}</td>
-        <td style="border:1px solid #000; padding:2px 4px; font-weight:bold; font-size:7.5pt;">OFICINA O UNIDAD DE REGISTRO CIVIL</td>
-        <td style="border:1px solid #000; padding:2px 4px; font-size:9pt;">{{ registrador.oficina_registro_civil if registrador else '' }}</td>
+        <td colspan="5" style="border:1px solid #000; font-size:9pt;">{{ registrador.nombres if registrador else '' }}</td>
+        <td colspan="5" style="border:1px solid #000; font-size:9pt;">{{ registrador.apellidos if registrador else '' }}</td>
     </tr>
     <tr>
-        <td style="border:1px solid #000; padding:2px 4px; font-weight:bold; font-size:7.5pt;">RESOLUCIÓN N°</td>
-        <td style="border:1px solid #000; padding:2px 4px; font-size:9pt;">{{ acta.resolucion_numero or '' }}</td>
-        <td style="border:1px solid #000; padding:2px 4px; font-weight:bold; font-size:7.5pt;">FECHA</td>
-        <td style="border:1px solid #000; padding:2px 4px; font-size:9pt;">{{ acta.resolucion_dia or '' }} / {{ acta.resolucion_mes or '' }} / {{ acta.resolucion_anio or '' }}</td>
+        <td colspan="5" style="border:1px solid #000; font-weight:bold; font-size:8pt;">DOCUMENTO DE IDENTIDAD N°</td>
+        <td colspan="5" style="border:1px solid #000; font-weight:bold; font-size:8pt;">OFICINA O UNIDAD DE REGISTRO CIVIL</td>
     </tr>
     <tr>
-        <td style="border:1px solid #000; padding:2px 4px; font-weight:bold; font-size:7.5pt;">GACETA MUNICIPAL N°</td>
-        <td style="border:1px solid #000; padding:2px 4px; font-size:9pt;">{{ acta.gaceta_municipal or 'N/A' }}</td>
-        <td style="border:1px solid #000; padding:2px 4px; font-weight:bold; font-size:7.5pt;">FECHA</td>
-        <td style="border:1px solid #000; padding:2px 4px; font-size:9pt;">{{ acta.gaceta_dia or '' }} {{ acta.gaceta_mes or '' }} {{ acta.gaceta_anio or '' }}</td>
-    </tr>
-</table>
-
-<!-- ========== B - PRESENTADO ========== -->
-<table style="width:555pt; border-collapse:collapse;">
-    <tr>
-        <td style="background-color:#000; color:#fff; font-weight:bold; font-size:12pt; text-align:center; padding:2px 4px; border-top:2px solid #000; border-bottom:2px solid #000; width:20pt;">B</td>
-        <td style="font-weight:bold; font-size:9pt; padding:2px 8px; border-top:2px solid #000; border-bottom:2px solid #000;">Datos del Presentado o Presentada</td>
-    </tr>
-</table>
-<table style="width:555pt; border-collapse:collapse;">
-    <tr>
-        <td style="border:1px solid #000; padding:2px 4px; font-weight:bold; font-size:7.5pt;">NOMBRES:</td>
-        <td style="border:1px solid #000; padding:2px 4px; font-size:9pt;" colspan="2">{{ presentado.nombres if presentado else '' }}</td>
-        <td style="border:1px solid #000; padding:2px 4px; font-weight:bold; font-size:7.5pt;">PRIMER APELLIDO:</td>
-        <td style="border:1px solid #000; padding:2px 4px; font-size:9pt;">{{ presentado.primer_apellido if presentado else '' }}</td>
-        <td style="border:1px solid #000; padding:2px 4px; font-weight:bold; font-size:7.5pt;">SEGUNDO APELLIDO:</td>
-        <td style="border:1px solid #000; padding:2px 4px; font-size:9pt;">{{ presentado.segundo_apellido if presentado else '' }}</td>
+        <td colspan="5" style="border:1px solid #000; font-size:9pt;">{{ registrador.documento_identidad if registrador else '' }}</td>
+        <td colspan="5" style="border:1px solid #000; font-size:9pt;">{{ registrador.oficina_registro_civil if registrador else '' }}</td>
     </tr>
     <tr>
-        <td style="border:1px solid #000; padding:2px 4px; font-weight:bold; font-size:7.5pt;" rowspan="2">FECHA DE<br/>NACIMIENTO</td>
-        <td style="border:1px solid #000; padding:2px 4px; text-align:center;">
-            <b style="font-size:7.5pt;">DIA</b><br/>{{ presentado.dia_nac if presentado else '' }}
-        </td>
-        <td style="border:1px solid #000; padding:2px 4px; text-align:center;">
-            <b style="font-size:7.5pt;">MES</b><br/>{{ presentado.mes_nac if presentado else '' }}
-        </td>
-        <td style="border:1px solid #000; padding:2px 4px; text-align:center;">
-            <b style="font-size:7.5pt;">AÑO</b><br/>{{ presentado.anio_nac if presentado else '' }}
-        </td>
-        <td style="border:1px solid #000; padding:2px 4px; font-weight:bold; font-size:7.5pt;">SEXO</td>
-        <td style="border:1px solid #000; padding:2px 4px; font-size:11pt; font-weight:bold; text-align:center;">{{ presentado.sexo if presentado else '' }}</td>
-        <td style="border:1px solid #000; padding:2px 4px;"></td>
+        <td colspan="2" style="border:1px solid #000; font-weight:bold; font-size:8pt;">RESOLUCIÓN N°</td>
+        <td colspan="3" style="border:1px solid #000; font-weight:bold; font-size:8pt; text-align:center;">FECHA</td>
+        <td colspan="2" style="border:1px solid #000; font-weight:bold; font-size:8pt; text-align:center;">GACETA MUNICIPAL N°</td>
+        <td colspan="3" style="border:1px solid #000; font-weight:bold; font-size:8pt; text-align:center;">FECHA</td>
     </tr>
     <tr>
-        <td style="border:1px solid #000; padding:2px 4px;" colspan="2">
-            <b style="font-size:7.5pt;">HORA DE NACIMIENTO</b><br/>
-            {{ presentado.hora_nacimiento if presentado and presentado.hora_nacimiento else '' }}
-        </td>
-        <td style="border:1px solid #000; padding:2px 4px; text-align:center;">
-            <span style="border:1px solid #000; background-color:#000; color:#fff; font-size:7pt; font-weight:bold; padding:0 2px;">X</span>
-        </td>
-        <td style="border:1px solid #000; padding:2px 4px; text-align:center;">
-            {{ presentado.am_pm if presentado and presentado.am_pm else '' }}
-        </td>
-        <td style="border:1px solid #000; padding:2px 4px;"></td>
-        <td style="border:1px solid #000; padding:2px 4px;"></td>
-    </tr>
-    <tr>
-        <td style="border:1px solid #000; padding:2px 4px; font-weight:bold; font-size:7.5pt;" rowspan="2">LUGAR DE<br/>NACIMIENTO</td>
-        <td style="border:1px solid #000; padding:2px 4px;" colspan="2">
-            <b style="font-size:7.5pt;">PAIS:</b> VENEZUELA
-        </td>
-        <td style="border:1px solid #000; padding:2px 4px; font-weight:bold; font-size:7.5pt;">ESTADO:</td>
-        <td style="border:1px solid #000; padding:2px 4px;" colspan="2">{{ presentado.estado if presentado else '' }}</td>
-        <td style="border:1px solid #000; padding:2px 4px;"></td>
-    </tr>
-    <tr>
-        <td style="border:1px solid #000; padding:2px 4px;" colspan="2">
-            <b style="font-size:7.5pt;">MUNICIPIO:</b> {{ presentado.municipio if presentado else '' }}
-        </td>
-        <td style="border:1px solid #000; padding:2px 4px;" colspan="2">
-            <b style="font-size:7.5pt;">PARROQUIA:</b> {{ presentado.parroquia if presentado else '' }}
-        </td>
-        <td style="border:1px solid #000; padding:2px 4px;"></td>
-        <td style="border:1px solid #000; padding:2px 4px;"></td>
-    </tr>
-    <tr>
-        <td style="border:1px solid #000; padding:2px 4px; font-weight:bold; font-size:7.5pt;">DIRECCIÓN:</td>
-        <td style="border:1px solid #000; padding:2px 4px; font-size:9pt;" colspan="6">{{ presentado.direccion if presentado else '' }}</td>
+        <td colspan="2" style="border:1px solid #000; font-size:9pt;">{{ acta.resolucion_numero or '' }}</td>
+        <td style="border:1px solid #000; font-size:9pt; text-align:center;">{{ acta.resolucion_dia or '' }}</td>
+        <td style="border:1px solid #000; font-size:9pt; text-align:center;">{{ acta.resolucion_mes or '' }}</td>
+        <td style="border:1px solid #000; font-size:9pt; text-align:center;">{{ acta.resolucion_anio or '' }}</td>
+        <td colspan="2" style="border:1px solid #000; font-size:9pt; text-align:center;">{{ acta.gaceta_municipal or 'N/A' }}</td>
+        <td style="border:1px solid #000; font-size:9pt; text-align:center;">{{ acta.gaceta_dia or '' }}</td>
+        <td style="border:1px solid #000; font-size:9pt; text-align:center;">{{ acta.gaceta_mes or '' }}</td>
+        <td style="border:1px solid #000; font-size:9pt; text-align:center;">{{ acta.gaceta_anio or '' }}</td>
     </tr>
 </table>
 
-<!-- ========== C - CERTIFICADO MEDICO ========== -->
-<table style="width:555pt; border-collapse:collapse;">
+<!-- ==================== B - PRESENTADO ==================== -->
+<table style="width:555pt;">
     <tr>
-        <td style="background-color:#000; color:#fff; font-weight:bold; font-size:12pt; text-align:center; padding:2px 4px; border-top:2px solid #000; border-bottom:2px solid #000; width:20pt;">C</td>
-        <td style="font-weight:bold; font-size:9pt; padding:2px 8px; border-top:2px solid #000; border-bottom:2px solid #000;" colspan="7">Datos De Certificado de Medico de Nacimiento</td>
+        <td style="background-color:#000; color:#fff; font-weight:bold; font-size:12pt; text-align:center; border-top:2px solid #000; border-bottom:2px solid #000; padding:2px 5px; width:16pt;">B</td>
+        <td colspan="9" style="font-weight:bold; font-size:10pt; border-top:2px solid #000; border-bottom:2px solid #000; padding:2px 8px;">Datos del Presentado o Presentada</td>
     </tr>
 </table>
-<table style="width:555pt; border-collapse:collapse;">
+<table style="width:555pt;">
     <tr>
-        <td style="border:1px solid #000; padding:2px 4px; font-weight:bold; font-size:7.5pt;">CERTIFICADO N°</td>
-        <td style="border:1px solid #000; padding:2px 4px; font-size:9pt;">{{ certificado.numero_certificado if certificado else '' }}</td>
-        <td style="border:1px solid #000; padding:2px 4px; font-weight:bold; font-size:7.5pt;">FECHA DE<br/>EXPEDICIÓN</td>
-        <td style="border:1px solid #000; padding:2px 4px; text-align:center;">
-            <b style="font-size:7.5pt;">DIA</b><br/>{{ certificado.dia_expedicion if certificado else '' }}
-        </td>
-        <td style="border:1px solid #000; padding:2px 4px; text-align:center;">
-            <b style="font-size:7.5pt;">MES</b><br/>{{ certificado.mes_expedicion if certificado else '' }}
-        </td>
-        <td style="border:1px solid #000; padding:2px 4px; text-align:center;">
-            <b style="font-size:7.5pt;">AÑO</b><br/>{{ certificado.anio_expedicion if certificado else '' }}
-        </td>
-        <td style="border:1px solid #000; padding:2px 4px; font-weight:bold; font-size:7.5pt;">NOMBRE DEL CENTRO DE SALUD</td>
-        <td style="border:1px solid #000; padding:2px 4px; font-size:9pt;">{{ certificado.nombre_centro_salud if certificado else '' }}</td>
+        <td colspan="5" style="border:1px solid #000; font-weight:bold; font-size:8pt;">NOMBRES:</td>
+        <td colspan="2" style="border:1px solid #000; font-weight:bold; font-size:8pt;">PRIMER APELLIDO:</td>
+        <td colspan="3" style="border:1px solid #000; font-weight:bold; font-size:8pt;">SEGUNDO APELLIDO:</td>
     </tr>
     <tr>
-        <td style="border:1px solid #000; padding:2px 4px; font-weight:bold; font-size:7.5pt;" colspan="3">Nombres y Apellidos de la Autoridad que lo expide</td>
-        <td style="border:1px solid #000; padding:2px 4px; font-size:9pt;" colspan="4">{{ certificado.autoridad_expide if certificado else '' }}</td>
-        <td style="border:1px solid #000; padding:2px 4px; font-size:9pt;">{{ certificado.numero_mpps if certificado else '' }}</td>
+        <td colspan="5" style="border:1px solid #000; font-size:9pt;">{{ presentado.nombres if presentado else '' }}</td>
+        <td colspan="2" style="border:1px solid #000; font-size:9pt;">{{ presentado.primer_apellido if presentado else '' }}</td>
+        <td colspan="3" style="border:1px solid #000; font-size:9pt;">{{ presentado.segundo_apellido if presentado else '' }}</td>
     </tr>
     <tr>
-        <td style="border:1px solid #000; padding:2px 4px; font-weight:bold; font-size:7.5pt;">DIRECCIÓN:</td>
-        <td style="border:1px solid #000; padding:2px 4px; font-size:9pt;" colspan="7">{{ certificado.direccion_centro if certificado else '' }}</td>
-    </tr>
-</table>
-
-<!-- ========== D - MADRE ========== -->
-<table style="width:555pt; border-collapse:collapse;">
-    <tr>
-        <td style="background-color:#000; color:#fff; font-weight:bold; font-size:12pt; text-align:center; padding:2px 4px; border-top:2px solid #000; border-bottom:2px solid #000; width:20pt;">D</td>
-        <td style="font-weight:bold; font-size:9pt; padding:2px 8px; border-top:2px solid #000; border-bottom:2px solid #000;" colspan="6">Hijo o Hija de (Datos de la Madre)</td>
-    </tr>
-</table>
-<table style="width:555pt; border-collapse:collapse;">
-    <tr>
-        <td style="border:1px solid #000; padding:2px 4px; font-weight:bold; font-size:7.5pt;">NOMBRES:</td>
-        <td style="border:1px solid #000; padding:2px 4px; font-size:9pt;" colspan="2">{{ madre.nombres if madre else '' }}</td>
-        <td style="border:1px solid #000; padding:2px 4px; font-weight:bold; font-size:7.5pt;">PRIMER APELLIDO:</td>
-        <td style="border:1px solid #000; padding:2px 4px; font-size:9pt;">{{ madre.primer_apellido if madre else '' }}</td>
-        <td style="border:1px solid #000; padding:2px 4px; font-weight:bold; font-size:7.5pt;">SEGUNDO APELLIDO:</td>
-        <td style="border:1px solid #000; padding:2px 4px; font-size:9pt;">{{ madre.segundo_apellido if madre else '' }}</td>
+        <td colspan="2" rowspan="2" style="border:1px solid #000; font-weight:bold; font-size:8pt; text-align:center;">FECHA DE<br/>NACIMIENTO</td>
+        <td style="border:1px solid #000; font-weight:bold; font-size:8pt; text-align:center;">DIA</td>
+        <td style="border:1px solid #000; font-weight:bold; font-size:8pt; text-align:center;">MES</td>
+        <td style="border:1px solid #000; font-weight:bold; font-size:8pt; text-align:center;">AÑO</td>
+        <td colspan="2" style="border:1px solid #000; font-weight:bold; font-size:8pt; text-align:center;">SEXO</td>
+        <td colspan="2" style="border:1px solid #000; font-weight:bold; font-size:8pt; text-align:center;">HORA DE NACIMIENTO</td>
+        <td style="border:1px solid #000; font-weight:bold; font-size:7pt; text-align:center;">AM/PM</td>
     </tr>
     <tr>
-        <td style="border:1px solid #000; padding:2px 4px; font-weight:bold; font-size:7.5pt;" rowspan="2">DOCUMENTO DE<br/>IDENTIDAD N°</td>
-        <td style="border:1px solid #000; padding:2px 4px; font-size:9pt;" rowspan="2">{{ madre.documento_identidad if madre else '' }}</td>
-        <td style="border:1px solid #000; padding:2px 4px; text-align:center;"><span style="border:1px solid #000;{% if madre and madre.tiene_cedula %} background-color:#000; color:#fff;{% endif %} font-size:7pt; font-weight:bold; padding:0 2px;">X</span> CEDULA</td>
-        <td style="border:1px solid #000; padding:2px 4px; text-align:center;"><span style="border:1px solid #000;{% if madre and madre.tiene_pasaporte %} background-color:#000; color:#fff;{% endif %} font-size:7pt; font-weight:bold; padding:0 2px;">X</span> PASAPORTE</td>
-        <td style="border:1px solid #000; padding:2px 4px; text-align:center;"><span style="border:1px solid #000;{% if madre and madre.tiene_otro %} background-color:#000; color:#fff;{% endif %} font-size:7pt; font-weight:bold; padding:0 2px;">X</span> OTRO</td>
-        <td style="border:1px solid #000; padding:2px 4px; font-weight:bold; font-size:7.5pt;">EDAD</td>
+        <td style="border:1px solid #000; font-size:9pt; text-align:center;">{{ presentado.dia_nac if presentado else '' }}</td>
+        <td style="border:1px solid #000; font-size:9pt; text-align:center;">{{ presentado.mes_nac if presentado else '' }}</td>
+        <td style="border:1px solid #000; font-size:9pt; text-align:center;">{{ presentado.anio_nac if presentado else '' }}</td>
+        <td colspan="2" style="border:1px solid #000; font-size:9pt; text-align:center;">{{ presentado.sexo if presentado else '' }}</td>
+        <td colspan="2" style="border:1px solid #000; font-size:9pt; text-align:center;">{{ presentado.hora_nacimiento if presentado and presentado.hora_nacimiento else '' }}</td>
+        <td style="border:1px solid #000; font-size:9pt; text-align:center;">{{ presentado.am_pm if presentado and presentado.am_pm else '' }}</td>
     </tr>
     <tr>
-        <td style="border:1px solid #000; padding:2px 4px;" colspan="3"></td>
-        <td style="border:1px solid #000; padding:2px 4px; text-align:center;">{{ madre.edad if madre else '' }}</td>
+        <td colspan="2" style="border:1px solid #000; font-weight:bold; font-size:8pt;">LUGAR DE NACIMIENTO</td>
+        <td colspan="3" style="border:1px solid #000; font-weight:bold; font-size:8pt; text-align:center;">ESTADO:</td>
+        <td colspan="3" style="border:1px solid #000; font-weight:bold; font-size:8pt; text-align:center;">MUNICIPIO:</td>
+        <td colspan="2" style="border:1px solid #000; font-weight:bold; font-size:8pt; text-align:center;">PARROQUIA:</td>
     </tr>
     <tr>
-        <td style="border:1px solid #000; padding:2px 4px; font-weight:bold; font-size:7.5pt;">NACIONALIDAD</td>
-        <td style="border:1px solid #000; padding:2px 4px; font-size:9pt;">{{ madre.nacionalidad if madre else '' }}</td>
-        <td style="border:1px solid #000; padding:2px 4px; font-weight:bold; font-size:7.5pt;" colspan="2">PROFESIÓN U OCUPACIÓN</td>
-        <td style="border:1px solid #000; padding:2px 4px; font-size:9pt;" colspan="2">{{ madre.profesion_ocupacion if madre else '' }}</td>
+        <td colspan="2" style="border:1px solid #000; font-size:8pt;">PAIS: VENEZUELA</td>
+        <td colspan="3" style="border:1px solid #000; font-size:9pt;">{{ presentado.estado if presentado else '' }}</td>
+        <td colspan="3" style="border:1px solid #000; font-size:9pt;">{{ presentado.municipio if presentado else '' }}</td>
+        <td colspan="2" style="border:1px solid #000; font-size:9pt;">{{ presentado.parroquia if presentado else '' }}</td>
     </tr>
     <tr>
-        <td style="border:1px solid #000; padding:2px 4px; font-weight:bold; font-size:7.5pt;">COMUNIDAD O PUEBLO INDIGENA</td>
-        <td style="border:1px solid #000; padding:2px 4px; font-size:9pt;">{{ madre.comunidad_indigena if madre else 'N/A' }}</td>
-        <td style="border:1px solid #000; padding:2px 4px; font-weight:bold; font-size:7.5pt;" colspan="2">RESIDENCIA</td>
-        <td style="border:1px solid #000; padding:2px 4px; font-size:9pt;" colspan="2">{{ madre.residencia if madre else '' }}</td>
-    </tr>
-    <tr>
-        <td style="border:1px solid #000; padding:2px 4px; font-weight:bold; font-size:7.5pt;">DECLARANTE</td>
-        <td style="border:1px solid #000; padding:2px 4px;" colspan="2" align="center">
-            <span style="border:1px solid #000;{% if madre and madre.es_declarante %} background-color:#000; color:#fff;{% endif %} font-size:7pt; font-weight:bold; padding:0 2px;">X</span>
-        </td>
-        <td style="border:1px solid #000; padding:2px 4px;" colspan="3"></td>
+        <td colspan="2" style="border:1px solid #000; font-weight:bold; font-size:8pt;">DIRECCIÓN:</td>
+        <td colspan="8" style="border:1px solid #000; font-size:9pt;">{{ presentado.direccion if presentado else '' }}</td>
     </tr>
 </table>
 
-<!-- ========== E - PADRE ========== -->
-<table style="width:555pt; border-collapse:collapse;">
+<!-- ==================== C - CERTIFICADO MEDICO ==================== -->
+<table style="width:555pt;">
     <tr>
-        <td style="background-color:#000; color:#fff; font-weight:bold; font-size:12pt; text-align:center; padding:2px 4px; border-top:2px solid #000; border-bottom:2px solid #000; width:20pt;">E</td>
-        <td style="font-weight:bold; font-size:9pt; padding:2px 8px; border-top:2px solid #000; border-bottom:2px solid #000;" colspan="6">Hijo o Hija de (Datos del Padre)</td>
+        <td style="background-color:#000; color:#fff; font-weight:bold; font-size:12pt; text-align:center; border-top:2px solid #000; border-bottom:2px solid #000; padding:2px 5px; width:16pt;">C</td>
+        <td colspan="9" style="font-weight:bold; font-size:10pt; border-top:2px solid #000; border-bottom:2px solid #000; padding:2px 8px;">Datos De Certificado de Medico de Nacimiento</td>
     </tr>
 </table>
-<table style="width:555pt; border-collapse:collapse;">
+<table style="width:555pt;">
     <tr>
-        <td style="border:1px solid #000; padding:2px 4px; font-weight:bold; font-size:7.5pt;">NOMBRES:</td>
-        <td style="border:1px solid #000; padding:2px 4px; font-size:9pt;" colspan="2">{{ padre.nombres if padre else '' }}</td>
-        <td style="border:1px solid #000; padding:2px 4px; font-weight:bold; font-size:7.5pt;">PRIMER APELLIDO:</td>
-        <td style="border:1px solid #000; padding:2px 4px; font-size:9pt;">{{ padre.primer_apellido if padre else '' }}</td>
-        <td style="border:1px solid #000; padding:2px 4px; font-weight:bold; font-size:7.5pt;">SEGUNDO APELLIDO:</td>
-        <td style="border:1px solid #000; padding:2px 4px; font-size:9pt;">{{ padre.segundo_apellido if padre else '' }}</td>
+        <td colspan="2" style="border:1px solid #000; font-weight:bold; font-size:8pt;">CERTIFICADO N°</td>
+        <td colspan="3" style="border:1px solid #000; font-weight:bold; font-size:8pt; text-align:center;">FECHA DE EXPEDICIÓN</td>
+        <td style="border:1px solid #000; font-weight:bold; font-size:8pt; text-align:center;">DIA</td>
+        <td style="border:1px solid #000; font-weight:bold; font-size:8pt; text-align:center;">MES</td>
+        <td style="border:1px solid #000; font-weight:bold; font-size:8pt; text-align:center;">AÑO</td>
+        <td colspan="2" style="border:1px solid #000; font-weight:bold; font-size:8pt;">NOMBRE DEL CENTRO DE SALUD</td>
     </tr>
     <tr>
-        <td style="border:1px solid #000; padding:2px 4px; font-weight:bold; font-size:7.5pt;" rowspan="2">DOCUMENTO DE<br/>IDENTIDAD N°</td>
-        <td style="border:1px solid #000; padding:2px 4px; font-size:9pt;" rowspan="2">{{ padre.documento_identidad if padre else '' }}</td>
-        <td style="border:1px solid #000; padding:2px 4px; text-align:center;"><span style="border:1px solid #000;{% if padre and padre.tiene_cedula %} background-color:#000; color:#fff;{% endif %} font-size:7pt; font-weight:bold; padding:0 2px;">X</span> CEDULA</td>
-        <td style="border:1px solid #000; padding:2px 4px; text-align:center;"><span style="border:1px solid #000;{% if padre and padre.tiene_pasaporte %} background-color:#000; color:#fff;{% endif %} font-size:7pt; font-weight:bold; padding:0 2px;">X</span> PASAPORTE</td>
-        <td style="border:1px solid #000; padding:2px 4px; text-align:center;"><span style="border:1px solid #000;{% if padre and padre.tiene_otro %} background-color:#000; color:#fff;{% endif %} font-size:7pt; font-weight:bold; padding:0 2px;">X</span> OTRO</td>
-        <td style="border:1px solid #000; padding:2px 4px; font-weight:bold; font-size:7.5pt;">EDAD</td>
+        <td colspan="2" style="border:1px solid #000; font-size:9pt;">{{ certificado.numero_certificado if certificado else '' }}</td>
+        <td colspan="3" style="border:1px solid #000; font-size:9pt; text-align:center; font-style:italic;">Expedición</td>
+        <td style="border:1px solid #000; font-size:9pt; text-align:center;">{{ certificado.dia_expedicion if certificado else '' }}</td>
+        <td style="border:1px solid #000; font-size:9pt; text-align:center;">{{ certificado.mes_expedicion if certificado else '' }}</td>
+        <td style="border:1px solid #000; font-size:9pt; text-align:center;">{{ certificado.anio_expedicion if certificado else '' }}</td>
+        <td colspan="2" style="border:1px solid #000; font-size:9pt;">{{ certificado.nombre_centro_salud if certificado else '' }}</td>
     </tr>
     <tr>
-        <td style="border:1px solid #000; padding:2px 4px;" colspan="3"></td>
-        <td style="border:1px solid #000; padding:2px 4px; text-align:center;">{{ padre.edad if padre else '' }}</td>
+        <td colspan="6" style="border:1px solid #000; font-weight:bold; font-size:8pt;">Nombres y Apellidos de la Autoridad que lo expide</td>
+        <td colspan="2" style="border:1px solid #000; font-weight:bold; font-size:8pt;">Numero de MPPS</td>
+        <td colspan="2" style="border:1px solid #000; font-size:9pt;">{{ certificado.numero_mpps if certificado else '' }}</td>
     </tr>
     <tr>
-        <td style="border:1px solid #000; padding:2px 4px; font-weight:bold; font-size:7.5pt;">NACIONALIDAD</td>
-        <td style="border:1px solid #000; padding:2px 4px; font-size:9pt;">{{ padre.nacionalidad if padre else '' }}</td>
-        <td style="border:1px solid #000; padding:2px 4px; font-weight:bold; font-size:7.5pt;" colspan="2">PROFESIÓN U OCUPACIÓN</td>
-        <td style="border:1px solid #000; padding:2px 4px; font-size:9pt;" colspan="2">{{ padre.profesion_ocupacion if padre else '' }}</td>
+        <td colspan="6" style="border:1px solid #000; font-size:9pt;">{{ certificado.autoridad_expide if certificado else '' }}</td>
+        <td colspan="4" style="border:1px solid #000;"></td>
     </tr>
     <tr>
-        <td style="border:1px solid #000; padding:2px 4px; font-weight:bold; font-size:7.5pt;">COMUNIDAD O PUEBLO INDIGENA</td>
-        <td style="border:1px solid #000; padding:2px 4px; font-size:9pt;">{{ padre.comunidad_indigena if padre else 'N/A' }}</td>
-        <td style="border:1px solid #000; padding:2px 4px; font-weight:bold; font-size:7.5pt;" colspan="2">RESIDENCIA</td>
-        <td style="border:1px solid #000; padding:2px 4px; font-size:9pt;" colspan="2">{{ padre.residencia if padre else '' }}</td>
-    </tr>
-    <tr>
-        <td style="border:1px solid #000; padding:2px 4px; font-weight:bold; font-size:7.5pt;">DECLARANTE</td>
-        <td style="border:1px solid #000; padding:2px 4px;" colspan="2" align="center">
-            <span style="border:1px solid #000;{% if padre and padre.es_declarante %} background-color:#000; color:#fff;{% endif %} font-size:7pt; font-weight:bold; padding:0 2px;">X</span>
-        </td>
-        <td style="border:1px solid #000; padding:2px 4px;" colspan="3"></td>
+        <td colspan="2" style="border:1px solid #000; font-weight:bold; font-size:8pt;">DIRECCIÓN:</td>
+        <td colspan="8" style="border:1px solid #000; font-size:9pt;">{{ certificado.direccion_centro if certificado else '' }}</td>
     </tr>
 </table>
 
-<!-- ========== F - DECLARANTE ========== -->
-<table style="width:555pt; border-collapse:collapse;">
+<!-- ==================== D - MADRE ==================== -->
+<table style="width:555pt;">
     <tr>
-        <td style="background-color:#000; color:#fff; font-weight:bold; font-size:12pt; text-align:center; padding:2px 4px; border-top:2px solid #000; border-bottom:2px solid #000; width:20pt;">F</td>
-        <td style="font-weight:bold; font-size:9pt; padding:2px 8px; border-top:2px solid #000; border-bottom:2px solid #000;" colspan="3">Datos del Declarante (Solo en caso de ser distinto a padre o madre)</td>
+        <td style="background-color:#000; color:#fff; font-weight:bold; font-size:12pt; text-align:center; border-top:2px solid #000; border-bottom:2px solid #000; padding:2px 5px; width:16pt;">D</td>
+        <td colspan="9" style="font-weight:bold; font-size:10pt; border-top:2px solid #000; border-bottom:2px solid #000; padding:2px 8px;">Hijo o Hija de (Datos de la Madre)</td>
     </tr>
 </table>
-<table style="width:555pt; border-collapse:collapse;">
+<table style="width:555pt;">
     <tr>
-        <td style="border:1px solid #000; padding:2px 4px; font-weight:bold; font-size:7.5pt;">NOMBRES Y APELLIDOS:</td>
-        <td style="border:1px solid #000; padding:2px 4px; font-size:9pt;">{{ declarante.nombres_apellidos if declarante and declarante.nombres_apellidos else '' }}</td>
-        <td style="border:1px solid #000; padding:2px 4px; font-weight:bold; font-size:7.5pt;">CARÁCTER QUE ACTUA:</td>
-        <td style="border:1px solid #000; padding:2px 4px; font-size:9pt;">{{ declarante.caracter_actua if declarante else '' }}</td>
+        <td colspan="5" style="border:1px solid #000; font-weight:bold; font-size:8pt;">NOMBRES:</td>
+        <td colspan="2" style="border:1px solid #000; font-weight:bold; font-size:8pt;">PRIMER APELLIDO:</td>
+        <td colspan="3" style="border:1px solid #000; font-weight:bold; font-size:8pt;">SEGUNDO APELLIDO:</td>
     </tr>
     <tr>
-        <td style="border:1px solid #000; padding:2px 4px; font-weight:bold; font-size:7.5pt;">DOCUMENTO DE IDENTIDAD:</td>
-        <td style="border:1px solid #000; padding:2px 4px; font-size:9pt;">{{ declarante.documento_identidad if declarante else '' }}</td>
-        <td style="border:1px solid #000; padding:2px 4px; font-size:8pt;" colspan="2">
-            <span style="border:1px solid #000;{% if declarante and declarante.tiene_cedula %} background-color:#000; color:#fff;{% endif %} font-size:7pt; font-weight:bold; padding:0 2px;">X</span> CED
-            <span style="border:1px solid #000;{% if declarante and declarante.tiene_pasaporte %} background-color:#000; color:#fff;{% endif %} font-size:7pt; font-weight:bold; padding:0 2px;">X</span> PAS
-            <span style="border:1px solid #000;{% if declarante and declarante.tiene_otro %} background-color:#000; color:#fff;{% endif %} font-size:7pt; font-weight:bold; padding:0 2px;">X</span> OTRO
-            &nbsp;&nbsp; EDAD: {{ declarante.edad if declarante else '' }}
-        </td>
+        <td colspan="5" style="border:1px solid #000; font-size:9pt;">{{ madre.nombres if madre else '' }}</td>
+        <td colspan="2" style="border:1px solid #000; font-size:9pt;">{{ madre.primer_apellido if madre else '' }}</td>
+        <td colspan="3" style="border:1px solid #000; font-size:9pt;">{{ madre.segundo_apellido if madre else '' }}</td>
     </tr>
     <tr>
-        <td style="border:1px solid #000; padding:2px 4px; font-weight:bold; font-size:7.5pt;">NACIONALIDAD:</td>
-        <td style="border:1px solid #000; padding:2px 4px; font-size:9pt;">{{ declarante.nacionalidad if declarante else '' }}</td>
-        <td style="border:1px solid #000; padding:2px 4px; font-weight:bold; font-size:7.5pt;">PROFESIÓN U OCUPACIÓN:</td>
-        <td style="border:1px solid #000; padding:2px 4px; font-size:9pt;">{{ declarante.profesion_ocupacion if declarante else '' }}</td>
+        <td colspan="4" rowspan="2" style="border:1px solid #000; font-weight:bold; font-size:8pt; text-align:center;">DOCUMENTO DE<br/>IDENTIDAD N°</td>
+        <td style="border:1px solid #000; font-weight:bold; font-size:8pt; text-align:center;">CEDULA</td>
+        <td style="border:1px solid #000; font-weight:bold; font-size:8pt; text-align:center;">PASAPORTE</td>
+        <td style="border:1px solid #000; font-weight:bold; font-size:8pt; text-align:center;">OTRO</td>
+        <td style="border:1px solid #000; font-weight:bold; font-size:8pt; text-align:center;">EDAD</td>
+        <td colspan="2" style="border:1px solid #000; font-weight:bold; font-size:8pt; text-align:center;">NACIONALIDAD</td>
     </tr>
     <tr>
-        <td style="border:1px solid #000; padding:2px 4px; font-weight:bold; font-size:7.5pt;">RESIDENCIA:</td>
-        <td style="border:1px solid #000; padding:2px 4px; font-size:9pt;" colspan="3">{{ declarante.residencia if declarante else '' }}</td>
+        <td style="border:1px solid #000; font-size:9pt; text-align:center;">{% if madre and madre.tiene_cedula %}X{% endif %}</td>
+        <td style="border:1px solid #000; font-size:9pt; text-align:center;">{% if madre and madre.tiene_pasaporte %}X{% endif %}</td>
+        <td style="border:1px solid #000; font-size:9pt; text-align:center;">{% if madre and madre.tiene_otro %}X{% endif %}</td>
+        <td style="border:1px solid #000; font-size:9pt; text-align:center;">{{ madre.edad if madre else '' }}</td>
+        <td colspan="2" style="border:1px solid #000; font-size:9pt;">{{ madre.nacionalidad if madre else '' }}</td>
+    </tr>
+    <tr>
+        <td colspan="8" style="border:1px solid #000; font-weight:bold; font-size:8pt;">PROFESIÓN U OCUPACIÓN</td>
+        <td colspan="2" style="border:1px solid #000; font-weight:bold; font-size:8pt; text-align:center;">COMUNIDAD O<br/>PUEBLO INDIGENA</td>
+    </tr>
+    <tr>
+        <td colspan="8" style="border:1px solid #000; font-size:9pt;">{{ madre.profesion_ocupacion if madre else '' }}</td>
+        <td colspan="2" style="border:1px solid #000; font-size:9pt; text-align:center;">{{ madre.comunidad_indigena if madre else 'N/A' }}</td>
+    </tr>
+    <tr>
+        <td colspan="8" style="border:1px solid #000; font-weight:bold; font-size:8pt;">RESIDENCIA</td>
+        <td colspan="2" style="border:1px solid #000; font-weight:bold; font-size:8pt; text-align:center;">DECLARANTE</td>
+    </tr>
+    <tr>
+        <td colspan="8" style="border:1px solid #000; font-size:9pt;">{{ madre.residencia if madre else '' }}</td>
+        <td colspan="2" style="border:1px solid #000; font-size:9pt; text-align:center;">{% if madre and madre.es_declarante %}X{% endif %}</td>
     </tr>
 </table>
 
-<!-- ========== G - TESTIGOS ========== -->
-<table style="width:555pt; border-collapse:collapse;">
+<!-- ==================== E - PADRE ==================== -->
+<table style="width:555pt;">
     <tr>
-        <td style="background-color:#000; color:#fff; font-weight:bold; font-size:12pt; text-align:center; padding:2px 4px; border-top:2px solid #000; border-bottom:2px solid #000; width:20pt;">G</td>
-        <td style="font-weight:bold; font-size:9pt; padding:2px 8px; border-top:2px solid #000; border-bottom:2px solid #000;" colspan="5">Datos de los Testigos</td>
+        <td style="background-color:#000; color:#fff; font-weight:bold; font-size:12pt; text-align:center; border-top:2px solid #000; border-bottom:2px solid #000; padding:2px 5px; width:16pt;">E</td>
+        <td colspan="9" style="font-weight:bold; font-size:10pt; border-top:2px solid #000; border-bottom:2px solid #000; padding:2px 8px;">Hijo o Hija de (Datos del Padre)</td>
     </tr>
 </table>
-<table style="width:555pt; border-collapse:collapse;">
+<table style="width:555pt;">
+    <tr>
+        <td colspan="5" style="border:1px solid #000; font-weight:bold; font-size:8pt;">NOMBRES:</td>
+        <td colspan="2" style="border:1px solid #000; font-weight:bold; font-size:8pt;">PRIMER APELLIDO:</td>
+        <td colspan="3" style="border:1px solid #000; font-weight:bold; font-size:8pt;">SEGUNDO APELLIDO:</td>
+    </tr>
+    <tr>
+        <td colspan="5" style="border:1px solid #000; font-size:9pt;">{{ padre.nombres if padre else '' }}</td>
+        <td colspan="2" style="border:1px solid #000; font-size:9pt;">{{ padre.primer_apellido if padre else '' }}</td>
+        <td colspan="3" style="border:1px solid #000; font-size:9pt;">{{ padre.segundo_apellido if padre else '' }}</td>
+    </tr>
+    <tr>
+        <td colspan="4" rowspan="2" style="border:1px solid #000; font-weight:bold; font-size:8pt; text-align:center;">DOCUMENTO DE<br/>IDENTIDAD N°</td>
+        <td style="border:1px solid #000; font-weight:bold; font-size:8pt; text-align:center;">CEDULA</td>
+        <td style="border:1px solid #000; font-weight:bold; font-size:8pt; text-align:center;">PASAPORTE</td>
+        <td style="border:1px solid #000; font-weight:bold; font-size:8pt; text-align:center;">OTRO</td>
+        <td style="border:1px solid #000; font-weight:bold; font-size:8pt; text-align:center;">EDAD</td>
+        <td colspan="2" style="border:1px solid #000; font-weight:bold; font-size:8pt; text-align:center;">NACIONALIDAD</td>
+    </tr>
+    <tr>
+        <td style="border:1px solid #000; font-size:9pt; text-align:center;">{% if padre and padre.tiene_cedula %}X{% endif %}</td>
+        <td style="border:1px solid #000; font-size:9pt; text-align:center;">{% if padre and padre.tiene_pasaporte %}X{% endif %}</td>
+        <td style="border:1px solid #000; font-size:9pt; text-align:center;">{% if padre and padre.tiene_otro %}X{% endif %}</td>
+        <td style="border:1px solid #000; font-size:9pt; text-align:center;">{{ padre.edad if padre else '' }}</td>
+        <td colspan="2" style="border:1px solid #000; font-size:9pt;">{{ padre.nacionalidad if padre else '' }}</td>
+    </tr>
+    <tr>
+        <td colspan="8" style="border:1px solid #000; font-weight:bold; font-size:8pt;">PROFESIÓN U OCUPACIÓN</td>
+        <td colspan="2" style="border:1px solid #000; font-weight:bold; font-size:8pt; text-align:center;">COMUNIDAD O<br/>PUEBLO INDIGENA</td>
+    </tr>
+    <tr>
+        <td colspan="8" style="border:1px solid #000; font-size:9pt;">{{ padre.profesion_ocupacion if padre else '' }}</td>
+        <td colspan="2" style="border:1px solid #000; font-size:9pt; text-align:center;">{{ padre.comunidad_indigena if padre else 'N/A' }}</td>
+    </tr>
+    <tr>
+        <td colspan="8" style="border:1px solid #000; font-weight:bold; font-size:8pt;">RESIDENCIA</td>
+        <td colspan="2" style="border:1px solid #000; font-weight:bold; font-size:8pt; text-align:center;">DECLARANTE</td>
+    </tr>
+    <tr>
+        <td colspan="8" style="border:1px solid #000; font-size:9pt;">{{ padre.residencia if padre else '' }}</td>
+        <td colspan="2" style="border:1px solid #000; font-size:9pt; text-align:center;">{% if padre and padre.es_declarante %}X{% endif %}</td>
+    </tr>
+</table>
+
+<!-- ==================== F - DECLARANTE ==================== -->
+<table style="width:555pt;">
+    <tr>
+        <td style="background-color:#000; color:#fff; font-weight:bold; font-size:12pt; text-align:center; border-top:2px solid #000; border-bottom:2px solid #000; padding:2px 5px; width:16pt;">F</td>
+        <td colspan="9" style="font-weight:bold; font-size:10pt; border-top:2px solid #000; border-bottom:2px solid #000; padding:2px 8px;">Datos del Declarante (Solo en caso de ser distinto a padre o madre)</td>
+    </tr>
+</table>
+<table style="width:555pt;">
+    <tr>
+        <td colspan="8" style="border:1px solid #000; font-weight:bold; font-size:8pt;">NOMBRES Y APELLIDOS:</td>
+        <td colspan="2" style="border:1px solid #000; font-weight:bold; font-size:8pt;">CARÁCTER QUE ACTUA:</td>
+    </tr>
+    <tr>
+        <td colspan="8" style="border:1px solid #000; font-size:9pt;">{{ declarante.nombres_apellidos if declarante and declarante.nombres_apellidos else '' }}</td>
+        <td colspan="2" style="border:1px solid #000; font-size:9pt;">{{ declarante.caracter_actua if declarante else '' }}</td>
+    </tr>
+    <tr>
+        <td colspan="3" style="border:1px solid #000; font-weight:bold; font-size:8pt;">DOCUMENTO DE IDENTIDAD:</td>
+        <td style="border:1px solid #000; font-weight:bold; font-size:8pt; text-align:center;">CEDULA</td>
+        <td style="border:1px solid #000; font-weight:bold; font-size:8pt; text-align:center;">PASAPORTE</td>
+        <td style="border:1px solid #000; font-weight:bold; font-size:8pt; text-align:center;">OTRO</td>
+        <td style="border:1px solid #000; font-weight:bold; font-size:8pt; text-align:center;">EDAD</td>
+        <td colspan="3" style="border:1px solid #000; font-weight:bold; font-size:8pt;">NACIONALIDAD</td>
+    </tr>
+    <tr>
+        <td colspan="3" style="border:1px solid #000; font-size:9pt;">{{ declarante.documento_identidad if declarante else '' }}</td>
+        <td style="border:1px solid #000; font-size:9pt; text-align:center;">{% if declarante and declarante.tiene_cedula %}X{% endif %}</td>
+        <td style="border:1px solid #000; font-size:9pt; text-align:center;">{% if declarante and declarante.tiene_pasaporte %}X{% endif %}</td>
+        <td style="border:1px solid #000; font-size:9pt; text-align:center;">{% if declarante and declarante.tiene_otro %}X{% endif %}</td>
+        <td style="border:1px solid #000; font-size:9pt; text-align:center;">{{ declarante.edad if declarante else '' }}</td>
+        <td colspan="3" style="border:1px solid #000; font-size:9pt;">{{ declarante.nacionalidad if declarante else '' }}</td>
+    </tr>
+    <tr>
+        <td colspan="6" style="border:1px solid #000; font-weight:bold; font-size:8pt;">PROFESIÓN U OCUPACIÓN</td>
+        <td colspan="4" style="border:1px solid #000; font-weight:bold; font-size:8pt;">COMUNIDAD INDIGENA</td>
+    </tr>
+    <tr>
+        <td colspan="6" style="border:1px solid #000; font-size:9pt;">{{ declarante.profesion_ocupacion if declarante else '' }}</td>
+        <td colspan="4" style="border:1px solid #000; font-size:9pt;">{{ declarante.comunidad_indigena if declarante else '' }}</td>
+    </tr>
+    <tr>
+        <td colspan="2" style="border:1px solid #000; font-weight:bold; font-size:8pt;">RESIDENCIA:</td>
+        <td colspan="8" style="border:1px solid #000; font-size:9pt;">{{ declarante.residencia if declarante else '' }}</td>
+    </tr>
+</table>
+
+<!-- ==================== G - TESTIGOS ==================== -->
+<table style="width:555pt;">
+    <tr>
+        <td style="background-color:#000; color:#fff; font-weight:bold; font-size:12pt; text-align:center; border-top:2px solid #000; border-bottom:2px solid #000; padding:2px 5px; width:16pt;">G</td>
+        <td colspan="9" style="font-weight:bold; font-size:10pt; border-top:2px solid #000; border-bottom:2px solid #000; padding:2px 8px;">Datos de los Testigos</td>
+    </tr>
+</table>
+<table style="width:555pt;">
 {% for testigo in testigos %}
     <tr>
-        <td style="border:1px solid #000; padding:2px 4px; font-weight:bold; font-size:7.5pt;">NOMBRES Y APELLIDOS:</td>
-        <td style="border:1px solid #000; padding:2px 4px; font-size:9pt;">{{ testigo.nombres_apellidos }}</td>
-        <td style="border:1px solid #000; padding:2px 4px; font-weight:bold; font-size:7.5pt;">CEDULA DE IDENTIDAD:</td>
-        <td style="border:1px solid #000; padding:2px 4px; font-size:9pt;">{{ testigo.cedula_identidad or '' }}</td>
-        <td style="border:1px solid #000; padding:2px 4px; font-weight:bold; font-size:7.5pt;">EDAD:</td>
-        <td style="border:1px solid #000; padding:2px 4px; font-size:9pt; text-align:center;">{{ testigo.edad or '' }}</td>
+        <td colspan="2" style="border:1px solid #000; font-weight:bold; font-size:8pt;">NOMBRES Y APELLIDOS:</td>
+        <td colspan="8" style="border:1px solid #000; font-size:9pt;">{{ testigo.nombres_apellidos }}</td>
     </tr>
     <tr>
-        <td style="border:1px solid #000; padding:2px 4px; font-weight:bold; font-size:7.5pt;">PROFESIÓN U OCUPACIÓN:</td>
-        <td style="border:1px solid #000; padding:2px 4px; font-size:9pt;">{{ testigo.profesion_ocupacion or '' }}</td>
-        <td style="border:1px solid #000; padding:2px 4px; font-weight:bold; font-size:7.5pt;">NACIONALIDAD:</td>
-        <td style="border:1px solid #000; padding:2px 4px; font-size:9pt;">{{ testigo.nacionalidad or '' }}</td>
-        <td style="border:1px solid #000; padding:2px 4px; font-weight:bold; font-size:7.5pt;">RESIDENCIA:</td>
-        <td style="border:1px solid #000; padding:2px 4px; font-size:9pt;">{{ testigo.residencia or '' }}</td>
+        <td colspan="4" style="border:1px solid #000; font-weight:bold; font-size:8pt;">CEDULA DE IDENTIDAD:</td>
+        <td colspan="2" style="border:1px solid #000; font-weight:bold; font-size:8pt; text-align:center;">EDAD:</td>
+        <td colspan="4" style="border:1px solid #000; font-weight:bold; font-size:8pt;">PROFESIÓN U OCUPACIÓN:</td>
+    </tr>
+    <tr>
+        <td colspan="4" style="border:1px solid #000; font-size:9pt;">{{ testigo.cedula_identidad or '' }}</td>
+        <td colspan="2" style="border:1px solid #000; font-size:9pt; text-align:center;">{{ testigo.edad or '' }}</td>
+        <td colspan="4" style="border:1px solid #000; font-size:9pt;">{{ testigo.profesion_ocupacion or '' }}</td>
+    </tr>
+    <tr>
+        <td colspan="5" style="border:1px solid #000; font-weight:bold; font-size:8pt;">NACIONALIDAD:</td>
+        <td colspan="5" style="border:1px solid #000; font-weight:bold; font-size:8pt;">COMUNIDAD O PUEBLO INDIGENA:</td>
+    </tr>
+    <tr>
+        <td colspan="5" style="border:1px solid #000; font-size:9pt;">{{ testigo.nacionalidad or '' }}</td>
+        <td colspan="5" style="border:1px solid #000; font-size:9pt;">{{ testigo.residencia or '' }}</td>
     </tr>
 {% endfor %}
 </table>
 
-<!-- ========== H ========== -->
-<table style="width:555pt; border-collapse:collapse;">
+<!-- ==================== H-N ==================== -->
+{% macro section(letter, title) %}
+<table style="width:555pt;">
     <tr>
-        <td style="background-color:#000; color:#fff; font-weight:bold; font-size:12pt; text-align:center; padding:2px 4px; border-top:2px solid #000; border-bottom:2px solid #000; width:20pt;">H</td>
-        <td style="font-weight:bold; font-size:9pt; padding:2px 8px; border-top:2px solid #000; border-bottom:2px solid #000;" colspan="7">Datos del Acta a Insertar (Llenar solo en caso de inserción de acta)</td>
+        <td style="background-color:#000; color:#fff; font-weight:bold; font-size:12pt; text-align:center; border-top:2px solid #000; border-bottom:2px solid #000; padding:2px 5px; width:16pt;">{{ letter }}</td>
+        <td colspan="9" style="font-weight:bold; font-size:10pt; border-top:2px solid #000; border-bottom:2px solid #000; padding:2px 8px;">{{ title }}</td>
     </tr>
 </table>
-<table style="width:555pt; border-collapse:collapse;">
+{% endmacro %}
+
+{{ section('H', 'Datos del Acta a Insertar (Llenar solo en caso de inserción de acta)') }}
+<table style="width:555pt;">
     <tr>
-        <td style="border:1px solid #000; padding:2px 4px; font-weight:bold; font-size:7.5pt;">ACTA N°</td>
-        <td style="border:1px solid #000; padding:2px 4px; font-size:9pt;"></td>
-        <td style="border:1px solid #000; padding:2px 4px; font-weight:bold; font-size:7.5pt;">FECHA</td>
-        <td style="border:1px solid #000; padding:2px 4px; text-align:center;"><b style="font-size:7.5pt;">DIA</b></td>
-        <td style="border:1px solid #000; padding:2px 4px; text-align:center;"><b style="font-size:7.5pt;">MES</b></td>
-        <td style="border:1px solid #000; padding:2px 4px; text-align:center;"><b style="font-size:7.5pt;">AÑO</b></td>
-        <td style="border:1px solid #000; padding:2px 4px; font-weight:bold; font-size:7.5pt;">AUTORIDAD QUE LO EXPIDE</td>
-        <td style="border:1px solid #000; padding:2px 4px; font-size:9pt;"></td>
+        <td colspan="5" style="border:1px solid #000; font-weight:bold; font-size:8pt;">ACTA N°</td>
+        <td style="border:1px solid #000; font-weight:bold; font-size:8pt; text-align:center;">FECHA</td>
+        <td style="border:1px solid #000; font-weight:bold; font-size:8pt; text-align:center;">DIA</td>
+        <td style="border:1px solid #000; font-weight:bold; font-size:8pt; text-align:center;">MES</td>
+        <td style="border:1px solid #000; font-weight:bold; font-size:8pt; text-align:center;">AÑO</td>
+        <td style="border:1px solid #000; font-weight:bold; font-size:8pt;">AUTORIDAD QUE LO EXPIDE</td>
     </tr>
 </table>
 
-<!-- ========== I ========== -->
-<table style="width:555pt; border-collapse:collapse;">
+{{ section('I', 'Inscripción por Medida de Protección (Llenar sólo cuando exista una medida de protección)') }}
+<table style="width:555pt;">
     <tr>
-        <td style="background-color:#000; color:#fff; font-weight:bold; font-size:12pt; text-align:center; padding:2px 4px; border-top:2px solid #000; border-bottom:2px solid #000; width:20pt;">I</td>
-        <td style="font-weight:bold; font-size:9pt; padding:2px 8px; border-top:2px solid #000; border-bottom:2px solid #000;" colspan="7">Inscripción por Medida de Protección (Llenar sólo cuando exista una medida de protección)</td>
-    </tr>
-</table>
-<table style="width:555pt; border-collapse:collapse;">
-    <tr>
-        <td style="border:1px solid #000; padding:2px 4px; font-weight:bold; font-size:7.5pt;">CONSEJO DE PROTECCIÓN</td>
-        <td style="border:1px solid #000; padding:2px 4px; font-size:9pt;"></td>
-        <td style="border:1px solid #000; padding:2px 4px; font-weight:bold; font-size:7.5pt;">MEDIDA N°</td>
-        <td style="border:1px solid #000; padding:2px 4px; font-size:9pt;"></td>
-        <td style="border:1px solid #000; padding:2px 4px; font-weight:bold; font-size:7.5pt;">FECHA</td>
-        <td style="border:1px solid #000; padding:2px 4px; text-align:center;"><b style="font-size:7.5pt;">DIA</b></td>
-        <td style="border:1px solid #000; padding:2px 4px; text-align:center;"><b style="font-size:7.5pt;">MES</b></td>
-        <td style="border:1px solid #000; padding:2px 4px; text-align:center;"><b style="font-size:7.5pt;">AÑO</b></td>
-    </tr>
-    <tr>
-        <td style="border:1px solid #000; padding:2px 4px; font-weight:bold; font-size:7.5pt;" colspan="2">NOMBRES Y APELLIDOS DEL CONSEJO (A)</td>
-        <td style="border:1px solid #000; padding:2px 4px; font-size:9pt;" colspan="6"></td>
+        <td colspan="2" style="border:1px solid #000; font-weight:bold; font-size:8pt;">CONSEJO DE PROTECCIÓN</td>
+        <td style="border:1px solid #000; font-weight:bold; font-size:8pt;">MEDIDA N°</td>
+        <td style="border:1px solid #000; font-weight:bold; font-size:8pt; text-align:center;">FECHA</td>
+        <td style="border:1px solid #000; font-weight:bold; font-size:8pt; text-align:center;">DIA</td>
+        <td style="border:1px solid #000; font-weight:bold; font-size:8pt; text-align:center;">MES</td>
+        <td style="border:1px solid #000; font-weight:bold; font-size:8pt; text-align:center;">AÑO</td>
+        <td colspan="3" style="border:1px solid #000; font-weight:bold; font-size:8pt;">NOMBRES Y APELLIDOS DEL CONSEJO (A)</td>
     </tr>
 </table>
 
-<!-- ========== J ========== -->
-<table style="width:555pt; border-collapse:collapse;">
+{{ section('J', 'Inscripción por Decisión Judicial (Llenar solo en caso de sentencia judicial)') }}
+<table style="width:555pt;">
     <tr>
-        <td style="background-color:#000; color:#fff; font-weight:bold; font-size:12pt; text-align:center; padding:2px 4px; border-top:2px solid #000; border-bottom:2px solid #000; width:20pt;">J</td>
-        <td style="font-weight:bold; font-size:9pt; padding:2px 8px; border-top:2px solid #000; border-bottom:2px solid #000;" colspan="7">Inscripción por Decisión Judicial (Llenar solo en caso de sentencia judicial)</td>
-    </tr>
-</table>
-<table style="width:555pt; border-collapse:collapse;">
-    <tr>
-        <td style="border:1px solid #000; padding:2px 4px; font-weight:bold; font-size:7.5pt;">TRIBUNAL O JUZGADO</td>
-        <td style="border:1px solid #000; padding:2px 4px; font-size:9pt;"></td>
-        <td style="border:1px solid #000; padding:2px 4px; font-weight:bold; font-size:7.5pt;">SENTENCIA N°</td>
-        <td style="border:1px solid #000; padding:2px 4px; font-size:9pt;"></td>
-        <td style="border:1px solid #000; padding:2px 4px; font-weight:bold; font-size:7.5pt;">FECHA</td>
-        <td style="border:1px solid #000; padding:2px 4px; text-align:center;"><b style="font-size:7.5pt;">DIA</b></td>
-        <td style="border:1px solid #000; padding:2px 4px; text-align:center;"><b style="font-size:7.5pt;">MES</b></td>
-        <td style="border:1px solid #000; padding:2px 4px; text-align:center;"><b style="font-size:7.5pt;">AÑO</b></td>
-    </tr>
-    <tr>
-        <td style="border:1px solid #000; padding:2px 4px; font-weight:bold; font-size:7.5pt;" colspan="2">NOMBRES Y APELLIDOS DEL JUEZ (A)</td>
-        <td style="border:1px solid #000; padding:2px 4px; font-size:9pt;" colspan="6"></td>
+        <td colspan="2" style="border:1px solid #000; font-weight:bold; font-size:8pt;">TRIBUNAL O JUZGADO</td>
+        <td style="border:1px solid #000; font-weight:bold; font-size:8pt;">SENTENCIA N°</td>
+        <td style="border:1px solid #000; font-weight:bold; font-size:8pt; text-align:center;">FECHA</td>
+        <td style="border:1px solid #000; font-weight:bold; font-size:8pt; text-align:center;">DIA</td>
+        <td style="border:1px solid #000; font-weight:bold; font-size:8pt; text-align:center;">MES</td>
+        <td style="border:1px solid #000; font-weight:bold; font-size:8pt; text-align:center;">AÑO</td>
+        <td colspan="3" style="border:1px solid #000; font-weight:bold; font-size:8pt;">NOMBRES Y APELLIDOS DEL JUEZ (A)</td>
     </tr>
 </table>
 
-<!-- ========== K ========== -->
-<table style="width:555pt; border-collapse:collapse;">
+{{ section('K', 'Inscripción Extemporánea') }}
+<table style="width:555pt;">
     <tr>
-        <td style="background-color:#000; color:#fff; font-weight:bold; font-size:12pt; text-align:center; padding:2px 4px; border-top:2px solid #000; border-bottom:2px solid #000; width:20pt;">K</td>
-        <td style="font-weight:bold; font-size:9pt; padding:2px 8px; border-top:2px solid #000; border-bottom:2px solid #000;" colspan="7">Inscripción Extemporánea</td>
-    </tr>
-</table>
-<table style="width:555pt; border-collapse:collapse;">
-    <tr>
-        <td style="border:1px solid #000; padding:2px 4px; font-weight:bold; font-size:7.5pt;" colspan="3">DATOS DEL INFORME DEL CONSEJO DE PROTECCIÓN O PROVIDENCIA ADMINISTRATIVA N°</td>
-        <td style="border:1px solid #000; padding:2px 4px; font-size:9pt;" colspan="5"></td>
+        <td colspan="3" style="border:1px solid #000; font-weight:bold; font-size:8pt;">DATOS DEL INFORME DEL CONSEJO DE PROTECCIÓN O PROVIDENCIA ADMINISTRATIVA N°</td>
+        <td colspan="7" style="border:1px solid #000; font-size:9pt;"></td>
     </tr>
     <tr>
-        <td style="border:1px solid #000; padding:2px 4px; font-weight:bold; font-size:7.5pt;">AUTORIDAD QUE LO EXPIDE</td>
-        <td style="border:1px solid #000; padding:2px 4px; font-size:9pt;"></td>
-        <td style="border:1px solid #000; padding:2px 4px; font-weight:bold; font-size:7.5pt;">FECHA</td>
-        <td style="border:1px solid #000; padding:2px 4px; text-align:center;"><b style="font-size:7.5pt;">DIA</b></td>
-        <td style="border:1px solid #000; padding:2px 4px; text-align:center;"><b style="font-size:7.5pt;">MES</b></td>
-        <td style="border:1px solid #000; padding:2px 4px; text-align:center;"><b style="font-size:7.5pt;">AÑO</b></td>
+        <td colspan="2" style="border:1px solid #000; font-weight:bold; font-size:8pt;">AUTORIDAD QUE LO EXPIDE</td>
+        <td style="border:1px solid #000; font-weight:bold; font-size:8pt; text-align:center;">FECHA</td>
+        <td style="border:1px solid #000; font-weight:bold; font-size:8pt; text-align:center;">DIA</td>
+        <td style="border:1px solid #000; font-weight:bold; font-size:8pt; text-align:center;">MES</td>
+        <td style="border:1px solid #000; font-weight:bold; font-size:8pt; text-align:center;">AÑO</td>
+        <td colspan="4" style="border:1px solid #000;"></td>
     </tr>
 </table>
 
-<!-- ========== L ========== -->
-<table style="width:555pt; border-collapse:collapse;">
+{{ section('L', 'Circunstancias Especiales del Acto / Observaciones') }}
+<table style="width:555pt;">
     <tr>
-        <td style="background-color:#000; color:#fff; font-weight:bold; font-size:12pt; text-align:center; padding:2px 4px; border-top:2px solid #000; border-bottom:2px solid #000; width:20pt;">L</td>
-        <td style="font-weight:bold; font-size:9pt; padding:2px 8px; border-top:2px solid #000; border-bottom:2px solid #000;">Circunstancias Especiales del Acto / Observaciones</td>
-    </tr>
-</table>
-<table style="width:555pt; border-collapse:collapse;">
-    <tr>
-        <td style="border:1px solid #000; padding:3px 5px; font-size:8pt;">{{ acta.circunstancias_especiales or '' }}</td>
+        <td colspan="10" style="border:1px solid #000; padding:4px 5px; font-size:8pt; min-height:10pt;">{{ acta.circunstancias_especiales or '' }}</td>
     </tr>
 </table>
 
-<!-- ========== M ========== -->
-<table style="width:555pt; border-collapse:collapse;">
+{{ section('M', 'Documentos Presentados') }}
+<table style="width:555pt;">
     <tr>
-        <td style="background-color:#000; color:#fff; font-weight:bold; font-size:12pt; text-align:center; padding:2px 4px; border-top:2px solid #000; border-bottom:2px solid #000; width:20pt;">M</td>
-        <td style="font-weight:bold; font-size:9pt; padding:2px 8px; border-top:2px solid #000; border-bottom:2px solid #000;">Documentos Presentados</td>
-    </tr>
-</table>
-<table style="width:555pt; border-collapse:collapse;">
-    <tr>
-        <td style="border:1px solid #000; padding:3px 5px; font-size:8pt;">{{ acta.documentos_presentados or '' }}</td>
+        <td colspan="10" style="border:1px solid #000; padding:4px 5px; font-size:8pt; min-height:10pt;">{{ acta.documentos_presentados or '' }}</td>
     </tr>
 </table>
 
-<!-- ========== N ========== -->
-<table style="width:555pt; border-collapse:collapse;">
+{{ section('N', 'Nota Marginal') }}
+<table style="width:555pt;">
     <tr>
-        <td style="background-color:#000; color:#fff; font-weight:bold; font-size:12pt; text-align:center; padding:2px 4px; border-top:2px solid #000; border-bottom:2px solid #000; width:20pt;">N</td>
-        <td style="font-weight:bold; font-size:9pt; padding:2px 8px; border-top:2px solid #000; border-bottom:2px solid #000;">Nota Marginal</td>
-    </tr>
-</table>
-<table style="width:555pt; border-collapse:collapse;">
-    <tr>
-        <td style="border:1px solid #000; padding:3px 5px; font-size:7.5pt;">{{ nota_texto }}</td>
+        <td colspan="10" style="border:1px solid #000; padding:4px 5px; font-size:7.5pt;">{{ nota_texto }}</td>
     </tr>
 </table>
 
 <!-- FIRMAS -->
-<table style="width:555pt; border-collapse:collapse; margin-top:8mm;">
+<table style="width:555pt; margin-top:10mm;">
     <tr>
-        <td style="border:none; text-align:center; width:45%;">
-            <table style="border-collapse:collapse; width:180pt; margin:0 auto;">
+        <td colspan="3" style="border:none; text-align:center;">
+            <table style="width:160pt; margin:0 auto;">
                 <tr><td style="border-top:1px solid #000; padding-top:3px; text-align:center; font-size:8pt; border-left:none; border-right:none; border-bottom:none;">FIRMA DEL REGISTRADOR (A)</td></tr>
             </table>
         </td>
-        <td style="border:none; text-align:center; width:10%; padding:0 10pt;">
-            <table style="border:1px dashed #999; width:70pt; height:50pt; border-collapse:collapse; margin:0 auto;">
+        <td colspan="4" style="border:none; text-align:center; vertical-align:bottom;">
+            <table style="border:1px dashed #999; width:70pt; height:50pt; margin:0 auto;">
                 <tr>
                     <td style="text-align:center; vertical-align:middle; font-size:7pt; border:none;">SELLO HUMEDO</td>
                 </tr>
             </table>
         </td>
-        <td style="border:none; text-align:center; width:45%;">
-            <table style="border-collapse:collapse; width:180pt; margin:0 auto;">
+        <td colspan="3" style="border:none; text-align:center;">
+            <table style="width:160pt; margin:0 auto;">
                 <tr><td style="border-top:1px solid #000; padding-top:3px; text-align:center; font-size:8pt; border-left:none; border-right:none; border-bottom:none;">FIRMA DEL DECLARANTE</td></tr>
             </table>
         </td>
