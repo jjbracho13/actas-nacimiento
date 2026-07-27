@@ -67,12 +67,16 @@ for d in STATIC_DIRS:
         break
 
 if FRONTEND_DIR:
+    assets_dir = os.path.join(FRONTEND_DIR, "assets")
+    icons_dir = os.path.join(FRONTEND_DIR, "icons")
+    if os.path.isdir(assets_dir):
+        app.mount("/assets", StaticFiles(directory=assets_dir), name="assets")
+    if os.path.isdir(icons_dir):
+        app.mount("/icons", StaticFiles(directory=icons_dir), name="icons")
+
     @app.get("/{full_path:path}")
     async def serve_spa(request: Request, full_path: str):
         file_path = os.path.join(FRONTEND_DIR, full_path)
         if os.path.isfile(file_path):
             return FileResponse(file_path)
         return FileResponse(os.path.join(FRONTEND_DIR, "index.html"))
-
-    app.mount("/assets", StaticFiles(directory=os.path.join(FRONTEND_DIR, "assets")), name="assets")
-    app.mount("/icons", StaticFiles(directory=os.path.join(FRONTEND_DIR, "icons")), name="icons")
