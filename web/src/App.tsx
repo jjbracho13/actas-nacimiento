@@ -9,8 +9,9 @@ import ActaFormPage from './pages/ActaFormPage';
 import FamiliaresPage from './pages/FamiliaresPage';
 import Layout from './components/Layout';
 
-function ProtectedRoute({ children, user }: { children: React.ReactNode; user: any }) {
+function ProtectedRoute({ children, user, requiredRole }: { children: React.ReactNode; user: any; requiredRole?: string }) {
   if (!user) return <Navigate to="/login" replace />;
+  if (requiredRole && user.role !== requiredRole) return <Navigate to="/" replace />;
   return <>{children}</>;
 }
 
@@ -52,7 +53,7 @@ export default function App() {
         <Route
           path="/actas/nueva"
           element={
-            <ProtectedRoute user={user}>
+            <ProtectedRoute user={user} requiredRole="admin">
               <Layout user={user} onLogout={logout}>
                 <ActaFormPage />
               </Layout>

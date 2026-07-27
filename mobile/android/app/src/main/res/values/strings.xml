@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Actas CNE</string>
+    <string name="title_activity_main">Actas CNE</string>
+    <string name="package_name">com.cne.actas</string>
+    <string name="custom_url_scheme">com.cne.actas</string>
+</resources>

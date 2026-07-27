@@ -8,6 +8,8 @@ export default function FamiliaresPage() {
   const [showForm, setShowForm] = useState(false);
   const [editId, setEditId] = useState<number | null>(null);
   const [f, setF] = useState({ nombre_completo: '', cedula: '', telefono: '', fecha_nacimiento: '', hora_nacimiento: '' });
+  const [error, setError] = useState('');
+  const [success, setSuccess] = useState('');
 
   const load = async () => {
     setLoading(true);
@@ -22,16 +24,25 @@ export default function FamiliaresPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setError('');
+    setSuccess('');
     try {
       if (editId) await familiaresAPI.update(editId, f);
       else await familiaresAPI.create(f);
       resetForm(); load();
-    } catch (err: any) { alert(err.response?.data?.detail || 'Error'); }
+      setSuccess(editId ? 'Familiar actualizado exitosamente' : 'Familiar creado exitosamente');
+      setTimeout(() => setSuccess(''), 3000);
+    } catch (err: any) { setError(err.response?.data?.detail || 'Error al guardar familiar'); }
   };
 
   const handleDelete = async (id: number) => {
     if (!confirm('Eliminar familiar?')) return;
-    await familiaresAPI.delete(id); load();
+    try {
+      await familiaresAPI.delete(id);
+      load();
+      setSuccess('Familiar eliminado exitosamente');
+      setTimeout(() => setSuccess(''), 3000);
+    } catch (err: any) { setError(err.response?.data?.detail || 'Error al eliminar familiar'); }
   };
 
   const startEdit = (fam: Familiar) => {
@@ -54,6 +65,23 @@ export default function FamiliaresPage() {
           )}
         </button>
       </div>
+
+      {error && (
+        <div className="bg-red-50 border border-red-200 text-red-600 text-sm p-3 rounded-xl flex items-center gap-2">
+          <svg className="w-4 h-4 flex-shrink-0" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3.75m9-.75a9 9 0 11-18 0 9 9 0 0118 0zm-9 3.75h.008v.008H12v-.008z" />
+          </svg>
+          {error}
+        </div>
+      )}
+      {success && (
+        <div className="bg-emerald-50 border border-emerald-200 text-emerald-600 text-sm p-3 rounded-xl flex items-center gap-2">
+          <svg className="w-4 h-4 flex-shrink-0" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+          {success}
+        </div>
+      )}
 
       {showForm && (
         <div className="card p-6 mb-6 fade-in">

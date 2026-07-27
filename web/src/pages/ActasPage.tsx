@@ -7,6 +7,8 @@ export default function ActasPage() {
   const [actas, setActas] = useState<ActaNacimiento[]>([]);
   const [search, setSearch] = useState('');
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
+  const [success, setSuccess] = useState('');
 
   const loadActas = async () => {
     setLoading(true);
@@ -27,8 +29,11 @@ export default function ActasPage() {
     try {
       await actasAPI.delete(id);
       setActas((prev) => prev.filter((a) => a.id !== id));
-    } catch (err) {
-      alert('Error al eliminar');
+      setSuccess('Acta eliminada exitosamente');
+      setTimeout(() => setSuccess(''), 3000);
+    } catch (err: any) {
+      setError(err.response?.data?.detail || 'Error al eliminar acta');
+      setTimeout(() => setError(''), 3000);
     }
   };
 
@@ -41,8 +46,9 @@ export default function ActasPage() {
       a.download = `acta_nacimiento_${numero}.pdf`;
       a.click();
       window.URL.revokeObjectURL(url);
-    } catch (err) {
-      alert('Error al descargar PDF');
+    } catch (err: any) {
+      setError(err.response?.data?.detail || 'Error al descargar PDF');
+      setTimeout(() => setError(''), 3000);
     }
   };
 
@@ -60,6 +66,23 @@ export default function ActasPage() {
           Nueva Acta
         </Link>
       </div>
+
+      {error && (
+        <div className="bg-red-50 border border-red-200 text-red-600 text-sm p-3 rounded-xl flex items-center gap-2 mb-6">
+          <svg className="w-4 h-4 flex-shrink-0" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3.75m9-.75a9 9 0 11-18 0 9 9 0 0118 0zm-9 3.75h.008v.008H12v-.008z" />
+          </svg>
+          {error}
+        </div>
+      )}
+      {success && (
+        <div className="bg-emerald-50 border border-emerald-200 text-emerald-600 text-sm p-3 rounded-xl flex items-center gap-2 mb-6">
+          <svg className="w-4 h-4 flex-shrink-0" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+          {success}
+        </div>
+      )}
 
       <div className="table-container">
         <div className="p-5 border-b border-slate-200">

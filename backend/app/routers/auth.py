@@ -58,14 +58,14 @@ async def register(data: dict, db: AsyncSession = Depends(get_db)):
     email = data.get("email", "")
     password = data.get("password", "")
     nombre = data.get("nombre", email.split("@")[0])
-    rol = data.get("role", "operator")
     if not email or not password:
         raise HTTPException(status_code=400, detail="Correo y contrasena requeridos")
+    if len(password) < 6:
+        raise HTTPException(status_code=400, detail="La contrasena debe tener al menos 6 caracteres")
     existing = await get_user_by_email(db, email)
     if existing:
         raise HTTPException(status_code=400, detail="El correo ya esta registrado")
-    db_role = "admin" if rol == "admin" else "user"
-    user = await create_user(db, email, password, nombre, db_role)
+    user = await create_user(db, email, password, nombre, "user")
     return {
         "id": user.id,
         "email": user.email,

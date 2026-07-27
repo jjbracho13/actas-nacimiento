@@ -28,6 +28,8 @@ export default function ActaDetailPage() {
   const { id } = useParams<{ id: string }>();
   const [acta, setActa] = useState<ActaNacimiento | null>(null);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
+  const [success, setSuccess] = useState('');
 
   useEffect(() => {
     if (id) {
@@ -48,8 +50,11 @@ export default function ActaDetailPage() {
       a.download = `acta_nacimiento_${acta.numero_acta}.pdf`;
       a.click();
       window.URL.revokeObjectURL(url);
-    } catch (err) {
-      alert('Error al descargar PDF');
+      setSuccess('PDF descargado exitosamente');
+      setTimeout(() => setSuccess(''), 3000);
+    } catch (err: any) {
+      setError(err.response?.data?.detail || 'Error al descargar PDF');
+      setTimeout(() => setError(''), 3000);
     }
   };
 
@@ -92,6 +97,23 @@ export default function ActaDetailPage() {
           Descargar PDF
         </button>
       </div>
+
+      {error && (
+        <div className="bg-red-50 border border-red-200 text-red-600 text-sm p-3 rounded-xl flex items-center gap-2 mb-6">
+          <svg className="w-4 h-4 flex-shrink-0" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3.75m9-.75a9 9 0 11-18 0 9 9 0 0118 0zm-9 3.75h.008v.008H12v-.008z" />
+          </svg>
+          {error}
+        </div>
+      )}
+      {success && (
+        <div className="bg-emerald-50 border border-emerald-200 text-emerald-600 text-sm p-3 rounded-xl flex items-center gap-2 mb-6">
+          <svg className="w-4 h-4 flex-shrink-0" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+          {success}
+        </div>
+      )}
 
       <div className="space-y-6">
         <Section title="Registrador Civil" icon={<svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" /></svg>}>

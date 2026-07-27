@@ -35,6 +35,7 @@ const navItems = [
         <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
       </svg>
     ),
+    requiredRole: 'admin',
   },
   {
     path: '/familiares',
@@ -57,7 +58,7 @@ export default function Layout({ children, user, onLogout }: LayoutProps) {
         {/* Logo */}
         <div className="p-6 border-b border-white/10">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-blue-700 rounded-xl flex items-center justify-center shadow-lg shadow-blue-500/25">
+            <div className="w-10 h-10 bg-gradient-to-br from-emerald-500 to-emerald-700 rounded-xl flex items-center justify-center shadow-lg shadow-emerald-500/25">
               <svg className="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" />
               </svg>
@@ -72,19 +73,21 @@ export default function Layout({ children, user, onLogout }: LayoutProps) {
         {/* Navigation */}
         <nav className="flex-1 p-4 space-y-1">
           <div className="sidebar-section">Navegacion</div>
-          {navItems.map((item) => {
-            const active = location.pathname === item.path;
-            return (
-              <Link
-                key={item.path}
-                to={item.path}
-                className={active ? 'sidebar-link-active' : 'sidebar-link-inactive'}
-              >
-                {item.icon}
-                {item.label}
-              </Link>
-            );
-          })}
+          {navItems
+            .filter((item) => !item.requiredRole || user?.role === item.requiredRole)
+            .map((item) => {
+              const active = location.pathname === item.path;
+              return (
+                <Link
+                  key={item.path}
+                  to={item.path}
+                  className={active ? 'sidebar-link-active' : 'sidebar-link-inactive'}
+                >
+                  {item.icon}
+                  {item.label}
+                </Link>
+              );
+            })}
         </nav>
 
         {/* User */}
