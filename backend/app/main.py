@@ -58,7 +58,7 @@ async def shutdown():
 
 STATIC_DIRS = [
     os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "static"),
-    os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "frontend", "dist"),
+    os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "web", "dist"),
 ]
 FRONTEND_DIR = None
 for d in STATIC_DIRS:

@@ -11,7 +11,7 @@ BACKEND_PID=$!
 sleep 2
 
 echo "2. Iniciando Frontend (puerto 5173)..."
-cd "$BASEDIR/frontend"
+cd "$BASEDIR/web"
 npm run dev &
 FRONTEND_PID=$!
 

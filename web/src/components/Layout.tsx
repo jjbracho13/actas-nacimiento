@@ -1,9 +1,10 @@
 import React, { ReactNode } from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import type { User } from '../types';
 
 interface LayoutProps {
   children: ReactNode;
-  user: { username: string; role: string } | null;
+  user: User | null;
   onLogout: () => void;
 }
 
