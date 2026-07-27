@@ -1,4 +1,5 @@
 import os
+import time
 from io import BytesIO
 from jinja2 import Environment, FileSystemLoader
 from xhtml2pdf import pisa
@@ -6,9 +7,43 @@ from app.services import texto_nota_marginal
 
 
 TEMPLATE_DIR = os.path.join(os.path.dirname(__file__), "templates")
+CACHE_DIR = os.path.join(os.path.dirname(__file__), "cache")
 
 _jinja_env = Environment(loader=FileSystemLoader(TEMPLATE_DIR))
 _template = _jinja_env.get_template("acta_nacimiento.html")
+
+CACHE_TTL = 3600
+
+
+def _ensure_cache_dir():
+    os.makedirs(CACHE_DIR, exist_ok=True)
+
+
+def _cache_path(acta_id: int) -> str:
+    return os.path.join(CACHE_DIR, f"acta_{acta_id}.pdf")
+
+
+def get_cached_pdf(acta_id: int) -> bytes | None:
+    path = _cache_path(acta_id)
+    if not os.path.isfile(path):
+        return None
+    age = time.time() - os.path.getmtime(path)
+    if age > CACHE_TTL:
+        return None
+    with open(path, "rb") as f:
+        return f.read()
+
+
+def save_pdf_cache(acta_id: int, pdf_bytes: bytes):
+    _ensure_cache_dir()
+    with open(_cache_path(acta_id), "wb") as f:
+        f.write(pdf_bytes)
+
+
+def invalidate_pdf_cache(acta_id: int):
+    path = _cache_path(acta_id)
+    if os.path.isfile(path):
+        os.remove(path)
 
 
 def render_acta_html(acta) -> str:
@@ -67,6 +102,10 @@ def render_acta_html(acta) -> str:
 
 
 def generate_acta_pdf(acta) -> bytes:
+    cached = get_cached_pdf(acta.id)
+    if cached:
+        return cached
+
     html_content = render_acta_html(acta)
     output = BytesIO()
     logo_path = os.path.join(TEMPLATE_DIR, "cne_logo.png")
@@ -74,4 +113,6 @@ def generate_acta_pdf(acta) -> bytes:
     pisa_status = pisa.CreatePDF(html_content, dest=output, path=TEMPLATE_DIR)
     if pisa_status.err:
         raise RuntimeError("Error generating PDF")
-    return output.getvalue()
+    pdf_bytes = output.getvalue()
+    save_pdf_cache(acta.id, pdf_bytes)
+    return pdf_bytes

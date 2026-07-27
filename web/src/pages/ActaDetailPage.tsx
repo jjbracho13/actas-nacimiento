@@ -30,6 +30,7 @@ export default function ActaDetailPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
+  const [downloading, setDownloading] = useState(false);
 
   useEffect(() => {
     if (id) {
@@ -42,6 +43,7 @@ export default function ActaDetailPage() {
 
   const handleDownloadPDF = async () => {
     if (!acta) return;
+    setDownloading(true);
     try {
       const res = await actasAPI.downloadPDF(acta.id);
       const url = window.URL.createObjectURL(new Blob([res.data], { type: 'application/pdf' }));
@@ -55,6 +57,8 @@ export default function ActaDetailPage() {
     } catch (err: any) {
       setError(err.response?.data?.detail || 'Error al descargar PDF');
       setTimeout(() => setError(''), 3000);
+    } finally {
+      setDownloading(false);
     }
   };
 
@@ -90,11 +94,15 @@ export default function ActaDetailPage() {
             </p>
           </div>
         </div>
-        <button onClick={handleDownloadPDF} className="btn-success flex items-center gap-2">
-          <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3" />
-          </svg>
-          Descargar PDF
+        <button onClick={handleDownloadPDF} disabled={downloading} className="btn-success flex items-center gap-2 disabled:opacity-50">
+          {downloading ? (
+            <div className="loading-spinner" style={{width: 16, height: 16, borderWidth: 2}}></div>
+          ) : (
+            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3" />
+            </svg>
+          )}
+          {downloading ? 'Generando...' : 'Descargar PDF'}
         </button>
       </div>
 

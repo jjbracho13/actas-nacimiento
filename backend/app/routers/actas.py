@@ -12,7 +12,7 @@ from app.services.acta_service import (
     create_acta_completa,
     delete_acta,
 )
-from app.pdf.generator import generate_acta_pdf
+from app.pdf.generator import generate_acta_pdf, invalidate_pdf_cache
 from fastapi.responses import Response
 
 router = APIRouter(prefix="/api/actas", tags=["Actas de Nacimiento"])
@@ -121,6 +121,7 @@ async def delete(
     deleted = await delete_acta(db, acta_id)
     if not deleted:
         raise HTTPException(status_code=404, detail="Acta no encontrada")
+    invalidate_pdf_cache(acta_id)
     return {"detail": "Acta eliminada"}
 
 

@@ -9,6 +9,7 @@ export default function ActasPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
+  const [downloadingId, setDownloadingId] = useState<number | null>(null);
 
   const loadActas = async () => {
     setLoading(true);
@@ -38,6 +39,7 @@ export default function ActasPage() {
   };
 
   const handleDownloadPDF = async (id: number, numero: string) => {
+    setDownloadingId(id);
     try {
       const res = await actasAPI.downloadPDF(id);
       const url = window.URL.createObjectURL(new Blob([res.data], { type: 'application/pdf' }));
@@ -49,6 +51,8 @@ export default function ActasPage() {
     } catch (err: any) {
       setError(err.response?.data?.detail || 'Error al descargar PDF');
       setTimeout(() => setError(''), 3000);
+    } finally {
+      setDownloadingId(null);
     }
   };
 
@@ -172,12 +176,17 @@ export default function ActasPage() {
                         </Link>
                         <button
                           onClick={() => handleDownloadPDF(acta.id, acta.numero_acta)}
-                          className="btn-icon text-emerald-500 hover:text-emerald-600 hover:bg-emerald-50"
+                          disabled={downloadingId === acta.id}
+                          className="btn-icon text-emerald-500 hover:text-emerald-600 hover:bg-emerald-50 disabled:opacity-50"
                           title="Descargar PDF"
                         >
-                          <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
-                            <path strokeLinecap="round" strokeLinejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3" />
-                          </svg>
+                          {downloadingId === acta.id ? (
+                            <div className="loading-spinner" style={{width: 16, height: 16, borderWidth: 2}}></div>
+                          ) : (
+                            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
+                              <path strokeLinecap="round" strokeLinejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3" />
+                            </svg>
+                          )}
                         </button>
                         <button
                           onClick={() => handleDelete(acta.id)}
