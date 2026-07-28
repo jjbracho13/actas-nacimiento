@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { familiaresAPI } from '../api';
 import type { Familiar } from '../types';
+import { checkAndNotifyBirthdays } from '../utils/notifications';
 
 export default function FamiliaresPage() {
   const [familiares, setFamiliares] = useState<Familiar[]>([]);
@@ -22,6 +23,7 @@ export default function FamiliaresPage() {
     try {
       const res = await familiaresAPI.list();
       setFamiliares(res.data);
+      checkAndNotifyBirthdays(res.data).catch(() => {});
     } catch (err) {
       console.error(err);
     } finally {
@@ -189,7 +191,21 @@ export default function FamiliaresPage() {
             <p className="text-lg">No hay familiares registrados</p>
           </div>
         ) : (
-          familiares.map((fam) => (
+          <>
+            {familiares.some(f => f.dias_para_cumple === 0) && (
+              <div className="bg-gradient-to-r from-amber-500/20 to-orange-500/20 border border-amber-500/30 rounded-xl p-4">
+                <div className="flex items-center gap-3">
+                  <span className="text-3xl">🎂</span>
+                  <div>
+                    <p className="text-amber-300 font-bold">¡Hoy es el cumpleaños de!</p>
+                    {familiares.filter(f => f.dias_para_cumple === 0).map(f => (
+                      <p key={f.id} className="text-white font-semibold">{f.nombre_completo}</p>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            )}
+            {familiares.map((fam) => (
             <div key={fam.id} className="bg-slate-800/50 border border-slate-700/50 rounded-xl p-4">
               <div className="flex items-start justify-between mb-3">
                 <div className="flex items-center gap-3">
@@ -245,6 +261,8 @@ export default function FamiliaresPage() {
               </div>
             </div>
           ))
+          }
+          </>
         )}
       </div>
     </div>

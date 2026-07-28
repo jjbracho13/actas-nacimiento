@@ -40,6 +40,8 @@ export default function ActaDetailPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
+  const [showPreview, setShowPreview] = useState(false);
+  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
 
   useEffect(() => {
     if (!id) return;
@@ -68,6 +70,24 @@ export default function ActaDetailPage() {
       </div>
     );
   }
+
+  const handlePreview = async () => {
+    try {
+      const token = localStorage.getItem('token');
+      if (!token) { setError('No hay sesión activa'); setTimeout(() => setError(''), 3000); return; }
+      const url = `${serverBase()}/api/actas/${acta.id}/pdf?token=${encodeURIComponent(token)}`;
+      setPreviewUrl(url);
+      setShowPreview(true);
+    } catch (err: any) {
+      setError(err.response?.data?.detail || 'Error al generar vista previa');
+      setTimeout(() => setError(''), 3000);
+    }
+  };
+
+  const closePreview = () => {
+    setPreviewUrl(null);
+    setShowPreview(false);
+  };
 
   const Section = ({ title, children }: { title: string; children: React.ReactNode }) => (
     <div className="bg-slate-800/50 border border-slate-700/50 rounded-xl overflow-hidden">
@@ -196,6 +216,12 @@ export default function ActaDetailPage() {
 
       <div className="flex gap-3">
         <button
+          onClick={handlePreview}
+          className="flex-1 py-2.5 bg-blue-600 hover:bg-blue-500 text-white font-medium rounded-lg transition cursor-pointer text-sm"
+        >
+          Vista Previa
+        </button>
+        <button
           onClick={async () => {
             try {
               const token = localStorage.getItem('token');
@@ -236,6 +262,24 @@ export default function ActaDetailPage() {
           Descargar PDF
         </button>
       </div>
+
+      {showPreview && (
+        <div className="fixed inset-0 bg-black/80 flex flex-col z-50">
+          <div className="flex items-center justify-between px-4 py-3 bg-slate-900">
+            <h3 className="text-sm font-semibold text-white">Vista Previa - Acta N° {acta.numero_acta}</h3>
+            <button onClick={closePreview} className="p-2 text-slate-400 hover:text-white">
+              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+          </div>
+          <div className="flex-1 overflow-hidden">
+            {previewUrl && (
+              <iframe src={previewUrl} className="w-full h-full border-0 bg-white" title="Vista previa del acta" />
+            )}
+          </div>
+        </div>
+      )}
     </div>
   );
 }

@@ -31,6 +31,8 @@ export default function ActaDetailPage() {
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
   const [downloading, setDownloading] = useState(false);
+  const [showPreview, setShowPreview] = useState(false);
+  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
 
   useEffect(() => {
     if (id) {
@@ -60,6 +62,28 @@ export default function ActaDetailPage() {
     } finally {
       setDownloading(false);
     }
+  };
+
+  const handlePreview = async () => {
+    if (!acta) return;
+    try {
+      const res = await actasAPI.downloadPDF(acta.id);
+      const blob = new Blob([res.data], { type: 'application/pdf' });
+      const url = window.URL.createObjectURL(blob);
+      setPreviewUrl(url);
+      setShowPreview(true);
+    } catch (err: any) {
+      setError(err.response?.data?.detail || 'Error al generar vista previa');
+      setTimeout(() => setError(''), 3000);
+    }
+  };
+
+  const closePreview = () => {
+    if (previewUrl) {
+      window.URL.revokeObjectURL(previewUrl);
+    }
+    setPreviewUrl(null);
+    setShowPreview(false);
   };
 
   if (loading) return (
@@ -94,6 +118,13 @@ export default function ActaDetailPage() {
             </p>
           </div>
         </div>
+        <button onClick={handlePreview} className="btn-primary flex items-center gap-2">
+          <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z" />
+            <path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+          </svg>
+          Vista Previa
+        </button>
         <button onClick={handleDownloadPDF} disabled={downloading} className="btn-success flex items-center gap-2 disabled:opacity-50">
           {downloading ? (
             <div className="loading-spinner" style={{width: 16, height: 16, borderWidth: 2}}></div>
@@ -224,6 +255,34 @@ export default function ActaDetailPage() {
           </Section>
         )}
       </div>
+
+      {showPreview && (
+        <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-4" onClick={closePreview}>
+          <div className="bg-white rounded-xl w-full max-w-4xl h-[90vh] flex flex-col" onClick={(e) => e.stopPropagation()}>
+            <div className="flex items-center justify-between px-6 py-4 border-b border-slate-200">
+              <h3 className="text-lg font-semibold text-slate-800">Vista Previa - Acta N° {acta.numero_acta}</h3>
+              <button onClick={closePreview} className="p-2 text-slate-400 hover:text-slate-600 hover:bg-slate-100 rounded-lg">
+                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            </div>
+            <div className="flex-1 overflow-hidden">
+              {previewUrl && (
+                <iframe src={previewUrl} className="w-full h-full border-0" title="Vista previa del acta" />
+              )}
+            </div>
+            <div className="flex justify-end gap-3 px-6 py-4 border-t border-slate-200">
+              <button onClick={closePreview} className="px-4 py-2 text-slate-600 hover:bg-slate-100 rounded-lg text-sm">
+                Cerrar
+              </button>
+              <button onClick={() => { handleDownloadPDF(); closePreview(); }} className="btn-success px-4 py-2 text-sm">
+                Descargar PDF
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
