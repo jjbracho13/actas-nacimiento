@@ -40,8 +40,6 @@ export default function ActaDetailPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
-  const [showPreview, setShowPreview] = useState(false);
-  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
 
   useEffect(() => {
     if (!id) return;
@@ -71,22 +69,57 @@ export default function ActaDetailPage() {
     );
   }
 
+  const getPdfUrl = () => {
+    const token = localStorage.getItem('token');
+    if (!token) return null;
+    return `${serverBase()}/api/actas/${acta.id}/pdf?token=${encodeURIComponent(token)}`;
+  };
+
   const handlePreview = async () => {
     try {
-      const token = localStorage.getItem('token');
-      if (!token) { setError('No hay sesión activa'); setTimeout(() => setError(''), 3000); return; }
-      const url = `${serverBase()}/api/actas/${acta.id}/pdf?token=${encodeURIComponent(token)}`;
-      setPreviewUrl(url);
-      setShowPreview(true);
+      const url = getPdfUrl();
+      if (!url) { setError('No hay sesión activa'); setTimeout(() => setError(''), 3000); return; }
+      window.open(url, '_blank');
     } catch (err: any) {
-      setError(err.response?.data?.detail || 'Error al generar vista previa');
+      setError(err.message || 'Error al abrir vista previa');
       setTimeout(() => setError(''), 3000);
     }
   };
 
-  const closePreview = () => {
-    setPreviewUrl(null);
-    setShowPreview(false);
+  const handleDownload = async () => {
+    try {
+      const token = localStorage.getItem('token');
+      if (!token) { setError('No hay sesión activa'); setTimeout(() => setError(''), 3000); return; }
+      if (isNativeApp()) {
+        const fileName = `acta_${acta.numero_acta}.pdf`;
+        const url = `${serverBase()}/api/actas/${acta.id}/pdf?token=${encodeURIComponent(token)}&_t=${Date.now()}`;
+        const plugin = window.Capacitor?.Plugins?.PdfDownloader;
+        if (plugin) {
+          await plugin.download({ url, filename: fileName });
+          setSuccess('PDF descargado en Descargas/ActasCNE/');
+          setTimeout(() => setSuccess(''), 3000);
+        } else {
+          window.open(url, '_blank');
+        }
+      } else {
+        const r = await actasAPI.downloadPDF(acta.id);
+        const blobUrl = URL.createObjectURL(r.data);
+        const a = document.createElement('a');
+        a.href = blobUrl;
+        a.download = `acta_${acta.numero_acta}.pdf`;
+        document.body.appendChild(a);
+        a.click();
+        setTimeout(() => {
+          document.body.removeChild(a);
+          URL.revokeObjectURL(blobUrl);
+        }, 5000);
+        setSuccess('PDF descargado exitosamente');
+        setTimeout(() => setSuccess(''), 3000);
+      }
+    } catch (err: any) {
+      setError(err.response?.data?.detail || 'Error al descargar PDF');
+      setTimeout(() => setError(''), 3000);
+    }
   };
 
   const Section = ({ title, children }: { title: string; children: React.ReactNode }) => (
@@ -217,69 +250,17 @@ export default function ActaDetailPage() {
       <div className="flex gap-3">
         <button
           onClick={handlePreview}
-          className="flex-1 py-2.5 bg-blue-600 hover:bg-blue-500 text-white font-medium rounded-lg transition cursor-pointer text-sm"
+          className="flex-1 py-2.5 bg-slate-600 hover:bg-slate-500 text-white font-medium rounded-lg transition cursor-pointer text-sm"
         >
           Vista Previa
         </button>
         <button
-          onClick={async () => {
-            try {
-              const token = localStorage.getItem('token');
-              if (!token) { setError('No hay sesión activa'); setTimeout(() => setError(''), 3000); return; }
-              if (isNativeApp()) {
-                const fileName = `acta_${acta.numero_acta}.pdf`;
-                const url = `${serverBase()}/api/actas/${acta.id}/pdf?token=${encodeURIComponent(token)}&_t=${Date.now()}`;
-                const plugin = window.Capacitor?.Plugins?.PdfDownloader;
-                if (plugin) {
-                  await plugin.download({ url, filename: fileName });
-                  setSuccess('PDF descargado en Descargas/ActasCNE/');
-                  setTimeout(() => setSuccess(''), 3000);
-                } else {
-                  window.open(url, '_blank');
-                }
-              } else {
-                const r = await actasAPI.downloadPDF(acta.id);
-                const blobUrl = URL.createObjectURL(r.data);
-                const a = document.createElement('a');
-                a.href = blobUrl;
-                a.download = `acta_${acta.numero_acta}.pdf`;
-                document.body.appendChild(a);
-                a.click();
-                setTimeout(() => {
-                  document.body.removeChild(a);
-                  URL.revokeObjectURL(blobUrl);
-                }, 5000);
-                setSuccess('PDF descargado exitosamente');
-                setTimeout(() => setSuccess(''), 3000);
-              }
-            } catch (err: any) {
-              setError(err.response?.data?.detail || 'Error al descargar PDF');
-              setTimeout(() => setError(''), 3000);
-            }
-          }}
+          onClick={handleDownload}
           className="flex-1 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white font-medium rounded-lg transition cursor-pointer text-sm"
         >
           Descargar PDF
         </button>
       </div>
-
-      {showPreview && (
-        <div className="fixed inset-0 bg-black/80 flex flex-col z-50">
-          <div className="flex items-center justify-between px-4 py-3 bg-slate-900">
-            <h3 className="text-sm font-semibold text-white">Vista Previa - Acta N° {acta.numero_acta}</h3>
-            <button onClick={closePreview} className="p-2 text-slate-400 hover:text-white">
-              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-              </svg>
-            </button>
-          </div>
-          <div className="flex-1 overflow-hidden">
-            {previewUrl && (
-              <iframe src={previewUrl} className="w-full h-full border-0 bg-white" title="Vista previa del acta" />
-            )}
-          </div>
-        </div>
-      )}
     </div>
   );
 }

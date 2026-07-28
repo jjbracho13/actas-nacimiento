@@ -7,26 +7,59 @@ export async function checkAndNotifyBirthdays(familiares: any[]) {
 
   const birthdayPeople = familiares.filter(f => {
     if (!f.fecha_nacimiento) return false;
-    const parts = f.fecha_nacimiento.split('-');
-    if (parts.length !== 3) return false;
-    const month = parseInt(parts[1], 10);
-    const day = parseInt(parts[2], 10);
+
+    let month: number, day: number;
+
+    // Handle YYYY-MM-DD format
+    if (typeof f.fecha_nacimiento === 'string' && f.fecha_nacimiento.includes('-')) {
+      const parts = f.fecha_nacimiento.split('-');
+      if (parts.length === 3) {
+        month = parseInt(parts[1], 10);
+        day = parseInt(parts[2], 10);
+      } else {
+        return false;
+      }
+    }
+    // Handle DD/MM/YYYY or MM/DD/YYYY format
+    else if (typeof f.fecha_nacimiento === 'string' && f.fecha_nacimiento.includes('/')) {
+      const parts = f.fecha_nacimiento.split('/');
+      if (parts.length === 3) {
+        // Assume DD/MM/YYYY (Venezuelan format)
+        day = parseInt(parts[0], 10);
+        month = parseInt(parts[1], 10);
+      } else {
+        return false;
+      }
+    }
+    // Handle ISO date object
+    else if (f.fecha_nacimiento && typeof f.fecha_nacimiento === 'object' && 'month' in f.fecha_nacimiento) {
+      month = f.fecha_nacimiento.month;
+      day = f.fecha_nacimiento.day;
+    }
+    else {
+      return false;
+    }
+
     return month === todayMonth && day === todayDay;
   });
 
   if (birthdayPeople.length === 0) return;
 
-  const permission = await LocalNotifications.requestPermissions();
-  if (permission.display !== 'granted') return;
+  try {
+    const permission = await LocalNotifications.requestPermissions();
+    if (permission.display !== 'granted') return;
 
-  const notifications = birthdayPeople.map((f, index) => ({
-    id: Date.now() + index,
-    title: '¡Feliz Cumpleaños! 🎂',
-    body: `Hoy es el cumpleaños de ${f.nombre_completo}. ¡No olvides felicitarlo!`,
-    schedule: { at: new Date(Date.now() + 1000) },
-    smallIcon: 'ic_launcher_foreground',
-    largeIcon: 'ic_launcher_foreground',
-  }));
+    const notifications = birthdayPeople.map((f, index) => ({
+      id: Date.now() + index,
+      title: '¡Feliz Cumpleaños!',
+      body: `Hoy ${f.nombre_completo} está de cumpleaños. ¡No olvides felicitarlo!`,
+      schedule: { at: new Date(Date.now() + 1000) },
+      smallIcon: 'ic_launcher_foreground',
+      largeIcon: 'ic_launcher_foreground',
+    }));
 
-  await LocalNotifications.schedule({ notifications });
+    await LocalNotifications.schedule({ notifications });
+  } catch (err) {
+    console.warn('Error scheduling birthday notifications:', err);
+  }
 }

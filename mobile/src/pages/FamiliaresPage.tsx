@@ -232,7 +232,7 @@ export default function FamiliaresPage() {
                 <div className="bg-slate-700/30 rounded-lg p-2 text-center">
                   <p className="text-xs text-slate-400">Prox Cumple</p>
                   {fam.dias_para_cumple === 0 ? (
-                    <span className="text-sm font-bold text-emerald-400">HOY!</span>
+                    <span className="text-sm font-bold text-amber-400">¡Hoy está de cumpleaños!</span>
                   ) : (
                     <p className="text-sm font-bold text-white">{fam.dias_para_cumple ?? '-'} dias</p>
                   )}
