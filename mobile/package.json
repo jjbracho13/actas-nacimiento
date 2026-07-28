@@ -16,6 +16,7 @@
     "@capacitor/local-notifications": "^8.2.1",
     "@capgo/capacitor-native-biometric": "^8.6.2",
     "axios": "^1.7.9",
+    "pdfjs-dist": "^4.0.379",
     "react": "^19.2.7",
     "react-dom": "^19.2.7",
     "react-router-dom": "^7.18.1"

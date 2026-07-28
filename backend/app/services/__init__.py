@@ -1,8 +1,12 @@
-from datetime import date, datetime
+from datetime import date, datetime, timezone, timedelta
 
+VENEZUELA_TZ = timezone(timedelta(hours=-4))
+
+def _hoy_ve() -> date:
+    return datetime.now(VENEZUELA_TZ).date()
 
 def calcular_edad_completa(fecha_nacimiento: date) -> dict:
-    hoy = date.today()
+    hoy = _hoy_ve()
     anios = hoy.year - fecha_nacimiento.year
     meses = hoy.month - fecha_nacimiento.month
     dias = hoy.day - fecha_nacimiento.day
@@ -22,7 +26,7 @@ def calcular_edad_completa(fecha_nacimiento: date) -> dict:
 
 
 def calcular_dias_para_cumple(fecha_nacimiento: date) -> dict:
-    hoy = date.today()
+    hoy = _hoy_ve()
     proximo_cumple = fecha_nacimiento.replace(year=hoy.year)
     if proximo_cumple < hoy:
         proximo_cumple = fecha_nacimiento.replace(year=hoy.year + 1)

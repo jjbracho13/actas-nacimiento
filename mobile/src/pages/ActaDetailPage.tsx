@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { actasAPI } from '../api';
 import type { ActaNacimiento } from '../types';
+import PdfViewer from '../components/PdfViewer';
 
 declare global {
   interface Window {
@@ -40,6 +41,9 @@ export default function ActaDetailPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
+  const [showPreview, setShowPreview] = useState(false);
+  const [previewBlobUrl, setPreviewBlobUrl] = useState<string | null>(null);
+  const [previewLoading, setPreviewLoading] = useState(false);
 
   useEffect(() => {
     if (!id) return;
@@ -79,11 +83,39 @@ export default function ActaDetailPage() {
     try {
       const url = getPdfUrl();
       if (!url) { setError('No hay sesión activa'); setTimeout(() => setError(''), 3000); return; }
+      setPreviewLoading(true);
+      setShowPreview(true);
+      const res = await fetch(url);
+      if (!res.ok) throw new Error('Error al generar PDF');
+      const blob = await res.blob();
+      const blobUrl = URL.createObjectURL(blob);
+      setPreviewBlobUrl(blobUrl);
+    } catch (err: any) {
+      setError(err.message || 'Error al generar vista previa');
+      setTimeout(() => setError(''), 3000);
+      setShowPreview(false);
+    } finally {
+      setPreviewLoading(false);
+    }
+  };
+
+  const handlePreviewExternal = async () => {
+    try {
+      const url = getPdfUrl();
+      if (!url) { setError('No hay sesión activa'); setTimeout(() => setError(''), 3000); return; }
       window.open(url, '_blank');
     } catch (err: any) {
       setError(err.message || 'Error al abrir vista previa');
       setTimeout(() => setError(''), 3000);
     }
+  };
+
+  const closePreview = () => {
+    if (previewBlobUrl) {
+      URL.revokeObjectURL(previewBlobUrl);
+    }
+    setPreviewBlobUrl(null);
+    setShowPreview(false);
   };
 
   const handleDownload = async () => {
@@ -250,9 +282,10 @@ export default function ActaDetailPage() {
       <div className="flex gap-3">
         <button
           onClick={handlePreview}
-          className="flex-1 py-2.5 bg-slate-600 hover:bg-slate-500 text-white font-medium rounded-lg transition cursor-pointer text-sm"
+          disabled={previewLoading}
+          className="flex-1 py-2.5 bg-slate-600 hover:bg-slate-500 text-white font-medium rounded-lg transition cursor-pointer text-sm disabled:opacity-50"
         >
-          Vista Previa
+          {previewLoading ? 'Cargando...' : 'Vista Previa'}
         </button>
         <button
           onClick={handleDownload}
@@ -261,6 +294,37 @@ export default function ActaDetailPage() {
           Descargar PDF
         </button>
       </div>
+
+      {showPreview && (
+        <div className="fixed inset-0 bg-black/90 flex flex-col z-50" style={{top: 0}}>
+          <div className="flex items-center justify-between px-4 py-3 bg-slate-900 shrink-0">
+            <h3 className="text-sm font-semibold text-white">Vista Previa - Acta N° {acta.numero_acta}</h3>
+            <div className="flex items-center gap-2">
+              <button onClick={handlePreviewExternal} className="text-xs text-emerald-400 hover:text-emerald-300 px-2 py-1">
+                Abrir en navegador
+              </button>
+              <button onClick={closePreview} className="p-2 text-slate-400 hover:text-white">
+                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            </div>
+          </div>
+          <div className="flex-1 overflow-hidden bg-slate-200">
+            {previewLoading && (
+              <div className="flex items-center justify-center h-full bg-slate-900">
+                <div className="text-center">
+                  <div className="w-10 h-10 border-2 border-emerald-400 border-t-transparent rounded-full animate-spin mx-auto mb-3" />
+                  <p className="text-sm text-slate-400">Cargando PDF...</p>
+                </div>
+              </div>
+            )}
+            {previewBlobUrl && (
+              <PdfViewer url={previewBlobUrl} onLoad={() => setPreviewLoading(false)} />
+            )}
+          </div>
+        </div>
+      )}
     </div>
   );
 }
