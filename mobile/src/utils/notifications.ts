@@ -1,5 +1,15 @@
 import { LocalNotifications } from '@capacitor/local-notifications';
 
+function nextAt8am(): Date {
+  const now = new Date();
+  const target = new Date(now);
+  target.setHours(8, 0, 0, 0);
+  if (target.getTime() <= now.getTime()) {
+    target.setDate(target.getDate() + 1);
+  }
+  return target;
+}
+
 export async function checkAndNotifyBirthdays(familiares: any[]) {
   const today = new Date();
   const todayMonth = today.getMonth() + 1;
@@ -49,11 +59,13 @@ export async function checkAndNotifyBirthdays(familiares: any[]) {
     const permission = await LocalNotifications.requestPermissions();
     if (permission.display !== 'granted') return;
 
+    const scheduleAt = nextAt8am();
+
     const notifications = birthdayPeople.map((f, index) => ({
       id: Date.now() + index,
       title: '¡Feliz Cumpleaños!',
       body: `Hoy ${f.nombre_completo} está de cumpleaños. ¡No olvides felicitarlo!`,
-      schedule: { at: new Date(Date.now() + 1000) },
+      schedule: { at: scheduleAt },
       smallIcon: 'ic_launcher_foreground',
       largeIcon: 'ic_launcher_foreground',
     }));

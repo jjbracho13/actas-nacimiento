@@ -3,37 +3,7 @@ import { useParams, Link } from 'react-router-dom';
 import { actasAPI } from '../api';
 import type { ActaNacimiento } from '../types';
 import PdfViewer from '../components/PdfViewer';
-
-declare global {
-  interface Window {
-    Capacitor?: {
-      getPlatform?: () => string;
-      Plugins?: {
-        PdfDownloader?: {
-          download: (options: { url: string; filename: string }) => Promise<{ downloadId: number }>;
-        };
-      };
-    };
-  }
-}
-
-function isNativeApp(): boolean {
-  try {
-    const c = (window as any).Capacitor;
-    return c && typeof c.getPlatform === 'function' && c.getPlatform() !== 'web';
-  } catch {
-    return false;
-  }
-}
-
-function serverBase(): string {
-  if (isNativeApp()) {
-    const stored = localStorage.getItem('api_url');
-    if (stored) return stored.replace(/\/api\/?$/, '');
-    return 'https://actas-nacimiento.onrender.com';
-  }
-  return '';
-}
+import { isNativeApp, serverBase } from '../utils/platform';
 
 export default function ActaDetailPage() {
   const { id } = useParams<{ id: string }>();
@@ -125,7 +95,7 @@ export default function ActaDetailPage() {
       if (isNativeApp()) {
         const fileName = `acta_${acta.numero_acta}.pdf`;
         const url = `${serverBase()}/api/actas/${acta.id}/pdf?token=${encodeURIComponent(token)}&_t=${Date.now()}`;
-        const plugin = window.Capacitor?.Plugins?.PdfDownloader;
+        const plugin = (window as any).Capacitor?.Plugins?.PdfDownloader;
         if (plugin) {
           await plugin.download({ url, filename: fileName });
           setSuccess('PDF descargado en Descargas/ActasCNE/');

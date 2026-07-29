@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { actasAPI, registradoresAPI } from '../api';
 import type { Registrador } from '../types';
@@ -148,10 +148,24 @@ export default function ActaFormPage() {
   const [form, setForm] = useState<FormData>(initialForm);
   const [registradores, setRegistradores] = useState<Registrador[]>([]);
   const [saving, setSaving] = useState(false);
+  const [formDirty, setFormDirty] = useState(false);
+
+  useEffect(() => {
+    setFormDirty(JSON.stringify(form) !== JSON.stringify(initialForm));
+  }, [form]);
 
   useEffect(() => {
     registradoresAPI.list().then((r) => setRegistradores(r.data)).catch(() => {});
   }, []);
+
+  useEffect(() => {
+    if (!formDirty) return;
+    const handler = (e: BeforeUnloadEvent) => {
+      e.preventDefault();
+    };
+    window.addEventListener('beforeunload', handler);
+    return () => window.removeEventListener('beforeunload', handler);
+  }, [formDirty]);
 
   const update = (field: keyof FormData, value: string | boolean) =>
     setForm((f) => ({ ...f, [field]: value }));
@@ -299,11 +313,11 @@ export default function ActaFormPage() {
         <div className="p-4 grid grid-cols-2 md:grid-cols-4 gap-3">
           <div className="col-span-2 md:col-span-1">
             <label className={labelClass}>N° Acta</label>
-            <input className={inputClass} value={form.numero_acta} onChange={(e) => update('numero_acta', e.target.value)} required />
+            <input className={inputClass} value={form.numero_acta} onChange={(e) => update('numero_acta', e.target.value)} inputMode="numeric" required />
           </div>
           <div>
             <label className={labelClass}>Día</label>
-            <input className={inputClass} value={form.fecha_dia} onChange={(e) => update('fecha_dia', e.target.value)} required />
+            <input className={inputClass} value={form.fecha_dia} onChange={(e) => update('fecha_dia', e.target.value)} inputMode="numeric" required />
           </div>
           <div>
             <label className={labelClass}>Mes</label>
@@ -314,7 +328,7 @@ export default function ActaFormPage() {
           </div>
           <div>
             <label className={labelClass}>Año</label>
-            <input className={inputClass} value={form.fecha_anio} onChange={(e) => update('fecha_anio', e.target.value)} required />
+            <input className={inputClass} value={form.fecha_anio} onChange={(e) => update('fecha_anio', e.target.value)} inputMode="numeric" required />
           </div>
           <div className="col-span-2 md:col-span-2">
             <label className={labelClass}>Registrador</label>
@@ -344,9 +358,9 @@ export default function ActaFormPage() {
           <div><label className={labelClass}>Nombres</label><input className={inputClass} value={form.presentado_nombres} onChange={(e) => update('presentado_nombres', e.target.value)} /></div>
           <div><label className={labelClass}>1er Apellido</label><input className={inputClass} value={form.presentado_primer_apellido} onChange={(e) => update('presentado_primer_apellido', e.target.value)} /></div>
           <div><label className={labelClass}>2do Apellido</label><input className={inputClass} value={form.presentado_segundo_apellido} onChange={(e) => update('presentado_segundo_apellido', e.target.value)} /></div>
-          <div><label className={labelClass}>Día Nac.</label><input className={inputClass} value={form.presentado_dia_nac} onChange={(e) => update('presentado_dia_nac', e.target.value)} /></div>
-          <div><label className={labelClass}>Mes Nac.</label><input className={inputClass} value={form.presentado_mes_nac} onChange={(e) => update('presentado_mes_nac', e.target.value)} /></div>
-          <div><label className={labelClass}>Año Nac.</label><input className={inputClass} value={form.presentado_anio_nac} onChange={(e) => update('presentado_anio_nac', e.target.value)} /></div>
+          <div><label className={labelClass}>Día Nac.</label><input className={inputClass} inputMode="numeric" value={form.presentado_dia_nac} onChange={(e) => update('presentado_dia_nac', e.target.value)} /></div>
+          <div><label className={labelClass}>Mes Nac.</label><input className={inputClass} inputMode="numeric" value={form.presentado_mes_nac} onChange={(e) => update('presentado_mes_nac', e.target.value)} /></div>
+          <div><label className={labelClass}>Año Nac.</label><input className={inputClass} inputMode="numeric" value={form.presentado_anio_nac} onChange={(e) => update('presentado_anio_nac', e.target.value)} /></div>
           <div><label className={labelClass}>Sexo</label>
             <select className={inputClass} value={form.presentado_sexo} onChange={(e) => update('presentado_sexo', e.target.value)}>
               <option value="">Seleccionar</option>
@@ -354,7 +368,7 @@ export default function ActaFormPage() {
               <option value="F">Femenino</option>
             </select>
           </div>
-          <div><label className={labelClass}>Hora Nac.</label><input className={inputClass} value={form.presentado_hora_nacimiento} onChange={(e) => update('presentado_hora_nacimiento', e.target.value)} /></div>
+          <div><label className={labelClass}>Hora Nac.</label><input className={inputClass} inputMode="numeric" value={form.presentado_hora_nacimiento} onChange={(e) => update('presentado_hora_nacimiento', e.target.value)} /></div>
           <div><label className={labelClass}>AM/PM</label>
             <select className={inputClass} value={form.presentado_am_pm} onChange={(e) => update('presentado_am_pm', e.target.value)}>
               <option value="">Seleccionar</option>
@@ -379,9 +393,9 @@ export default function ActaFormPage() {
             <div><label className={labelClass}>Nombres</label><input className={inputClass} value={form.madre_nombres} onChange={(e) => update('madre_nombres', e.target.value)} /></div>
             <div><label className={labelClass}>1er Apellido</label><input className={inputClass} value={form.madre_primer_apellido} onChange={(e) => update('madre_primer_apellido', e.target.value)} /></div>
             <div><label className={labelClass}>2do Apellido</label><input className={inputClass} value={form.madre_segundo_apellido} onChange={(e) => update('madre_segundo_apellido', e.target.value)} /></div>
-            <div><label className={labelClass}>Documento</label><input className={inputClass} value={form.madre_documento_identidad} onChange={(e) => update('madre_documento_identidad', e.target.value)} /></div>
+            <div><label className={labelClass}>Documento</label><input className={inputClass} inputMode="numeric" value={form.madre_documento_identidad} onChange={(e) => update('madre_documento_identidad', e.target.value)} /></div>
             <div><label className={labelClass}>Nacionalidad</label><input className={inputClass} value={form.madre_nacionalidad} onChange={(e) => update('madre_nacionalidad', e.target.value)} /></div>
-            <div><label className={labelClass}>Edad</label><input className={inputClass} value={form.madre_edad} onChange={(e) => update('madre_edad', e.target.value)} /></div>
+            <div><label className={labelClass}>Edad</label><input className={inputClass} inputMode="numeric" value={form.madre_edad} onChange={(e) => update('madre_edad', e.target.value)} /></div>
             <div><label className={labelClass}>Prof./Ocup.</label><input className={inputClass} value={form.madre_profesion_ocupacion} onChange={(e) => update('madre_profesion_ocupacion', e.target.value)} /></div>
             <div><label className={labelClass}>Residencia</label><input className={inputClass} value={form.madre_residencia} onChange={(e) => update('madre_residencia', e.target.value)} /></div>
             <div><label className={labelClass}>Com. Indígena</label><input className={inputClass} value={form.madre_comunidad_indigena} onChange={(e) => update('madre_comunidad_indigena', e.target.value)} /></div>
@@ -402,9 +416,9 @@ export default function ActaFormPage() {
             <div><label className={labelClass}>Nombres</label><input className={inputClass} value={form.padre_nombres} onChange={(e) => update('padre_nombres', e.target.value)} /></div>
             <div><label className={labelClass}>1er Apellido</label><input className={inputClass} value={form.padre_primer_apellido} onChange={(e) => update('padre_primer_apellido', e.target.value)} /></div>
             <div><label className={labelClass}>2do Apellido</label><input className={inputClass} value={form.padre_segundo_apellido} onChange={(e) => update('padre_segundo_apellido', e.target.value)} /></div>
-            <div><label className={labelClass}>Documento</label><input className={inputClass} value={form.padre_documento_identidad} onChange={(e) => update('padre_documento_identidad', e.target.value)} /></div>
+            <div><label className={labelClass}>Documento</label><input className={inputClass} inputMode="numeric" value={form.padre_documento_identidad} onChange={(e) => update('padre_documento_identidad', e.target.value)} /></div>
             <div><label className={labelClass}>Nacionalidad</label><input className={inputClass} value={form.padre_nacionalidad} onChange={(e) => update('padre_nacionalidad', e.target.value)} /></div>
-            <div><label className={labelClass}>Edad</label><input className={inputClass} value={form.padre_edad} onChange={(e) => update('padre_edad', e.target.value)} /></div>
+            <div><label className={labelClass}>Edad</label><input className={inputClass} inputMode="numeric" value={form.padre_edad} onChange={(e) => update('padre_edad', e.target.value)} /></div>
             <div><label className={labelClass}>Prof./Ocup.</label><input className={inputClass} value={form.padre_profesion_ocupacion} onChange={(e) => update('padre_profesion_ocupacion', e.target.value)} /></div>
             <div><label className={labelClass}>Residencia</label><input className={inputClass} value={form.padre_residencia} onChange={(e) => update('padre_residencia', e.target.value)} /></div>
             <div><label className={labelClass}>Com. Indígena</label><input className={inputClass} value={form.padre_comunidad_indigena} onChange={(e) => update('padre_comunidad_indigena', e.target.value)} /></div>
@@ -424,9 +438,9 @@ export default function ActaFormPage() {
           <div className="p-4 space-y-3">
             <div><label className={labelClass}>Nombres y Apellidos</label><input className={inputClass} value={form.declarante_nombres_apellidos} onChange={(e) => update('declarante_nombres_apellidos', e.target.value)} /></div>
             <div><label className={labelClass}>Carácter</label><input className={inputClass} value={form.declarante_caracter_actua} onChange={(e) => update('declarante_caracter_actua', e.target.value)} /></div>
-            <div><label className={labelClass}>Documento</label><input className={inputClass} value={form.declarante_documento_identidad} onChange={(e) => update('declarante_documento_identidad', e.target.value)} /></div>
+            <div><label className={labelClass}>Documento</label><input className={inputClass} inputMode="numeric" value={form.declarante_documento_identidad} onChange={(e) => update('declarante_documento_identidad', e.target.value)} /></div>
             <div><label className={labelClass}>Nacionalidad</label><input className={inputClass} value={form.declarante_nacionalidad} onChange={(e) => update('declarante_nacionalidad', e.target.value)} /></div>
-            <div><label className={labelClass}>Edad</label><input className={inputClass} value={form.declarante_edad} onChange={(e) => update('declarante_edad', e.target.value)} /></div>
+            <div><label className={labelClass}>Edad</label><input className={inputClass} inputMode="numeric" value={form.declarante_edad} onChange={(e) => update('declarante_edad', e.target.value)} /></div>
             <div><label className={labelClass}>Prof./Ocup.</label><input className={inputClass} value={form.declarante_profesion_ocupacion} onChange={(e) => update('declarante_profesion_ocupacion', e.target.value)} /></div>
             <div><label className={labelClass}>Residencia</label><input className={inputClass} value={form.declarante_residencia} onChange={(e) => update('declarante_residencia', e.target.value)} /></div>
             <div><label className={labelClass}>Com. Indígena</label><input className={inputClass} value={form.declarante_comunidad_indigena} onChange={(e) => update('declarante_comunidad_indigena', e.target.value)} /></div>
@@ -442,11 +456,11 @@ export default function ActaFormPage() {
           <div className="p-4 grid grid-cols-2 gap-3">
             <div className="col-span-2"><label className={labelClass}>Centro Salud</label><input className={inputClass} value={form.certificado_nombre_centro_salud} onChange={(e) => update('certificado_nombre_centro_salud', e.target.value)} /></div>
             <div><label className={labelClass}>Autoridad Expide</label><input className={inputClass} value={form.certificado_autoridad_expide} onChange={(e) => update('certificado_autoridad_expide', e.target.value)} /></div>
-            <div><label className={labelClass}>N° MPPS</label><input className={inputClass} value={form.certificado_numero_mpps} onChange={(e) => update('certificado_numero_mpps', e.target.value)} /></div>
-            <div><label className={labelClass}>N° Certificado</label><input className={inputClass} value={form.certificado_numero_certificado} onChange={(e) => update('certificado_numero_certificado', e.target.value)} /></div>
-            <div><label className={labelClass}>Día Exp.</label><input className={inputClass} value={form.certificado_dia_expedicion} onChange={(e) => update('certificado_dia_expedicion', e.target.value)} /></div>
-            <div><label className={labelClass}>Mes Exp.</label><input className={inputClass} value={form.certificado_mes_expedicion} onChange={(e) => update('certificado_mes_expedicion', e.target.value)} /></div>
-            <div><label className={labelClass}>Año Exp.</label><input className={inputClass} value={form.certificado_anio_expedicion} onChange={(e) => update('certificado_anio_expedicion', e.target.value)} /></div>
+            <div><label className={labelClass}>N° MPPS</label><input className={inputClass} inputMode="numeric" value={form.certificado_numero_mpps} onChange={(e) => update('certificado_numero_mpps', e.target.value)} /></div>
+            <div><label className={labelClass}>N° Certificado</label><input className={inputClass} inputMode="numeric" value={form.certificado_numero_certificado} onChange={(e) => update('certificado_numero_certificado', e.target.value)} /></div>
+            <div><label className={labelClass}>Día Exp.</label><input className={inputClass} inputMode="numeric" value={form.certificado_dia_expedicion} onChange={(e) => update('certificado_dia_expedicion', e.target.value)} /></div>
+            <div><label className={labelClass}>Mes Exp.</label><input className={inputClass} inputMode="numeric" value={form.certificado_mes_expedicion} onChange={(e) => update('certificado_mes_expedicion', e.target.value)} /></div>
+            <div><label className={labelClass}>Año Exp.</label><input className={inputClass} inputMode="numeric" value={form.certificado_anio_expedicion} onChange={(e) => update('certificado_anio_expedicion', e.target.value)} /></div>
             <div className="col-span-2"><label className={labelClass}>Dirección Centro</label><input className={inputClass} value={form.certificado_direccion_centro} onChange={(e) => update('certificado_direccion_centro', e.target.value)} /></div>
           </div>
         </div>
@@ -460,8 +474,8 @@ export default function ActaFormPage() {
               <p className="text-xs text-slate-500 uppercase">Testigo 1</p>
               <div className="grid grid-cols-2 gap-3">
                 <div className="col-span-2"><label className={labelClass}>Nombres y Apellidos</label><input className={inputClass} value={form.testigo1_nombres_apellidos} onChange={(e) => update('testigo1_nombres_apellidos', e.target.value)} /></div>
-                <div><label className={labelClass}>Cédula</label><input className={inputClass} value={form.testigo1_cedula_identidad} onChange={(e) => update('testigo1_cedula_identidad', e.target.value)} /></div>
-                <div><label className={labelClass}>Edad</label><input className={inputClass} value={form.testigo1_edad} onChange={(e) => update('testigo1_edad', e.target.value)} /></div>
+                <div><label className={labelClass}>Cédula</label><input className={inputClass} inputMode="numeric" value={form.testigo1_cedula_identidad} onChange={(e) => update('testigo1_cedula_identidad', e.target.value)} /></div>
+                <div><label className={labelClass}>Edad</label><input className={inputClass} inputMode="numeric" value={form.testigo1_edad} onChange={(e) => update('testigo1_edad', e.target.value)} /></div>
                 <div><label className={labelClass}>Prof./Ocup.</label><input className={inputClass} value={form.testigo1_profesion_ocupacion} onChange={(e) => update('testigo1_profesion_ocupacion', e.target.value)} /></div>
                 <div><label className={labelClass}>Nacionalidad</label><input className={inputClass} value={form.testigo1_nacionalidad} onChange={(e) => update('testigo1_nacionalidad', e.target.value)} /></div>
                 <div><label className={labelClass}>Com. Indígena</label><input className={inputClass} value={form.testigo1_comunidad_indigena} onChange={(e) => update('testigo1_comunidad_indigena', e.target.value)} /></div>
@@ -472,8 +486,8 @@ export default function ActaFormPage() {
               <p className="text-xs text-slate-500 uppercase">Testigo 2</p>
               <div className="grid grid-cols-2 gap-3">
                 <div className="col-span-2"><label className={labelClass}>Nombres y Apellidos</label><input className={inputClass} value={form.testigo2_nombres_apellidos} onChange={(e) => update('testigo2_nombres_apellidos', e.target.value)} /></div>
-                <div><label className={labelClass}>Cédula</label><input className={inputClass} value={form.testigo2_cedula_identidad} onChange={(e) => update('testigo2_cedula_identidad', e.target.value)} /></div>
-                <div><label className={labelClass}>Edad</label><input className={inputClass} value={form.testigo2_edad} onChange={(e) => update('testigo2_edad', e.target.value)} /></div>
+                <div><label className={labelClass}>Cédula</label><input className={inputClass} inputMode="numeric" value={form.testigo2_cedula_identidad} onChange={(e) => update('testigo2_cedula_identidad', e.target.value)} /></div>
+                <div><label className={labelClass}>Edad</label><input className={inputClass} inputMode="numeric" value={form.testigo2_edad} onChange={(e) => update('testigo2_edad', e.target.value)} /></div>
                 <div><label className={labelClass}>Prof./Ocup.</label><input className={inputClass} value={form.testigo2_profesion_ocupacion} onChange={(e) => update('testigo2_profesion_ocupacion', e.target.value)} /></div>
                 <div><label className={labelClass}>Nacionalidad</label><input className={inputClass} value={form.testigo2_nacionalidad} onChange={(e) => update('testigo2_nacionalidad', e.target.value)} /></div>
                 <div><label className={labelClass}>Com. Indígena</label><input className={inputClass} value={form.testigo2_comunidad_indigena} onChange={(e) => update('testigo2_comunidad_indigena', e.target.value)} /></div>

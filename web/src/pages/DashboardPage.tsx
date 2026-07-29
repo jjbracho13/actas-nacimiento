@@ -1,22 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { actasAPI, familiaresAPI } from '../services/api';
+import { actasAPI } from '../services/api';
 
 export default function DashboardPage() {
-  const [stats, setStats] = useState({ actas: 0, familiares: 0 });
+  const [stats, setStats] = useState({ total_actas: 0, total_registradores: 0, actas_hoy: 0 });
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    Promise.all([
-      actasAPI.list(0, 1).catch(() => ({ data: [] })),
-      familiaresAPI.list().catch(() => ({ data: [] })),
-    ]).then(([actasRes, famRes]) => {
-      setStats({
-        actas: Array.isArray(actasRes.data) ? actasRes.data.length : 0,
-        familiares: Array.isArray(famRes.data) ? famRes.data.length : 0,
-      });
+    actasAPI.stats().then((res) => {
+      setStats(res.data);
       setLoading(false);
-    });
+    }).catch(() => setLoading(false));
   }, []);
 
   return (
@@ -37,7 +31,7 @@ export default function DashboardPage() {
             </div>
             <span className="text-blue-200 text-xs font-medium bg-white/20 px-2 py-1 rounded-lg">Total</span>
           </div>
-          <p className="text-3xl font-bold">{loading ? '-' : stats.actas}</p>
+          <p className="text-3xl font-bold">{loading ? '-' : stats.total_actas}</p>
           <p className="text-blue-200 text-sm mt-1">Actas de Nacimiento</p>
         </div>
 
@@ -50,8 +44,8 @@ export default function DashboardPage() {
             </div>
             <span className="text-emerald-200 text-xs font-medium bg-white/20 px-2 py-1 rounded-lg">Activos</span>
           </div>
-          <p className="text-3xl font-bold">{loading ? '-' : stats.familiares}</p>
-          <p className="text-emerald-200 text-sm mt-1">Familiares Registrados</p>
+          <p className="text-3xl font-bold">{loading ? '-' : stats.total_registradores}</p>
+          <p className="text-emerald-200 text-sm mt-1">Registradores</p>
         </div>
 
         <Link to="/actas/nueva" className="stat-card bg-gradient-to-br from-amber-500 to-orange-500 text-white group hover:shadow-lg hover:shadow-amber-500/25 transition-all duration-300 hover:-translate-y-1">

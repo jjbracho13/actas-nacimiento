@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { actasAPI } from '../services/api';
 import type { ActaNacimiento } from '../types';
@@ -7,6 +7,8 @@ import ConfirmModal from '../components/ConfirmModal';
 export default function ActasPage() {
   const [actas, setActas] = useState<ActaNacimiento[]>([]);
   const [search, setSearch] = useState('');
+  const [debouncedSearch, setDebouncedSearch] = useState('');
+  const searchTimer = useRef<ReturnType<typeof setTimeout>>();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
@@ -16,7 +18,7 @@ export default function ActasPage() {
   const loadActas = async () => {
     setLoading(true);
     try {
-      const res = search ? await actasAPI.search(search) : await actasAPI.list();
+      const res = debouncedSearch ? await actasAPI.search(debouncedSearch) : await actasAPI.list();
       setActas(res.data);
     } catch (err) {
       console.error(err);
@@ -25,7 +27,14 @@ export default function ActasPage() {
     }
   };
 
-  useEffect(() => { loadActas(); }, [search]);
+  useEffect(() => { loadActas(); }, [debouncedSearch]);
+
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setSearch(value);
+    clearTimeout(searchTimer.current);
+    searchTimer.current = setTimeout(() => setDebouncedSearch(value), 300);
+  };
 
   const handleDelete = (id: number) => {
     setDeleteConfirmId(id);
@@ -106,7 +115,7 @@ export default function ActasPage() {
               type="text"
               placeholder="Buscar por N de acta, nombre..."
               value={search}
-              onChange={(e) => setSearch(e.target.value)}
+              onChange={handleSearchChange}
               className="input-field pl-10"
             />
           </div>

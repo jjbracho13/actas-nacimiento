@@ -1,20 +1,15 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { actasAPI, familiaresAPI } from '../api';
+import { dashboardAPI } from '../api';
 
 export default function DashboardPage() {
-  const [totalActas, setTotalActas] = useState<number | null>(null);
-  const [totalFamiliares, setTotalFamiliares] = useState<number | null>(null);
+  const [stats, setStats] = useState<{ total_actas: number; total_registradores: number; actas_hoy: number } | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    Promise.all([
-      actasAPI.list(0, 100).catch(() => ({ data: [] })),
-      familiaresAPI.list().catch(() => ({ data: [] })),
-    ]).then(([actasRes, famRes]) => {
-      setTotalActas(Array.isArray(actasRes.data) ? actasRes.data.length : 0);
-      setTotalFamiliares(Array.isArray(famRes.data) ? famRes.data.length : 0);
-    }).finally(() => setLoading(false));
+    dashboardAPI.stats().then((res) => {
+      setStats(res.data);
+    }).catch(() => {}).finally(() => setLoading(false));
   }, []);
 
   if (loading) {
@@ -38,15 +33,15 @@ export default function DashboardPage() {
             <span className="text-slate-400 text-sm">Actas de Nacimiento</span>
             <span className="px-2 py-0.5 rounded-full bg-blue-500/20 text-blue-300 text-xs font-medium">Total</span>
           </div>
-          <p className="text-2xl md:text-3xl font-bold text-blue-400">{totalActas ?? '-'}</p>
+          <p className="text-2xl md:text-3xl font-bold text-blue-400">{stats?.total_actas ?? '-'}</p>
         </div>
 
         <div className="bg-gradient-to-br from-emerald-500/20 to-emerald-600/10 border border-emerald-500/20 rounded-xl p-4 md:p-5">
           <div className="flex items-center justify-between mb-3">
-            <span className="text-slate-400 text-sm">Familiares Registrados</span>
-            <span className="px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 text-xs font-medium">Activos</span>
+            <span className="text-slate-400 text-sm">Actas Hoy</span>
+            <span className="px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 text-xs font-medium">Hoy</span>
           </div>
-          <p className="text-2xl md:text-3xl font-bold text-emerald-400">{totalFamiliares ?? '-'}</p>
+          <p className="text-2xl md:text-3xl font-bold text-emerald-400">{stats?.actas_hoy ?? '-'}</p>
         </div>
 
         <Link

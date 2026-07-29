@@ -43,6 +43,7 @@ export const actasAPI = {
   delete: (id: number) => api.delete(`/actas/${id}`),
   downloadPDF: (id: number) =>
     api.get(`/actas/${id}/pdf`, { responseType: 'blob' }),
+  stats: () => api.get('/actas/stats'),
 };
 
 export const registradoresAPI = {
