@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { familiaresAPI } from '../services/api';
 import type { Familiar } from '../types';
+import ConfirmModal from '../components/ConfirmModal';
 
 export default function FamiliaresPage() {
   const [familiares, setFamiliares] = useState<Familiar[]>([]);
@@ -10,6 +11,7 @@ export default function FamiliaresPage() {
   const [f, setF] = useState({ nombre_completo: '', cedula: '', telefono: '', fecha_nacimiento: '', hora_nacimiento: '' });
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
+  const [deleteConfirmId, setDeleteConfirmId] = useState<number | null>(null);
 
   const load = async () => {
     setLoading(true);
@@ -35,14 +37,19 @@ export default function FamiliaresPage() {
     } catch (err: any) { setError(err.response?.data?.detail || 'Error al guardar familiar'); }
   };
 
-  const handleDelete = async (id: number) => {
-    if (!confirm('Eliminar familiar?')) return;
+  const handleDelete = (id: number) => {
+    setDeleteConfirmId(id);
+  };
+
+  const confirmDelete = async () => {
+    if (deleteConfirmId === null) return;
     try {
-      await familiaresAPI.delete(id);
+      await familiaresAPI.delete(deleteConfirmId);
       load();
       setSuccess('Familiar eliminado exitosamente');
       setTimeout(() => setSuccess(''), 3000);
     } catch (err: any) { setError(err.response?.data?.detail || 'Error al eliminar familiar'); }
+    finally { setDeleteConfirmId(null); }
   };
 
   const startEdit = (fam: Familiar) => {
@@ -137,6 +144,17 @@ export default function FamiliaresPage() {
           </div>
         )}
       </div>
+
+      <ConfirmModal
+        open={deleteConfirmId !== null}
+        title="Eliminar familiar"
+        message="¿Estás seguro de eliminar este familiar?"
+        confirmLabel="OK"
+        cancelLabel="Cancelar"
+        variant="danger"
+        onConfirm={confirmDelete}
+        onCancel={() => setDeleteConfirmId(null)}
+      />
     </div>
   );
 }

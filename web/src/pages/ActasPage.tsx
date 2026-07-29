@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { actasAPI } from '../services/api';
 import type { ActaNacimiento } from '../types';
+import ConfirmModal from '../components/ConfirmModal';
 
 export default function ActasPage() {
   const [actas, setActas] = useState<ActaNacimiento[]>([]);
@@ -10,6 +11,7 @@ export default function ActasPage() {
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
   const [downloadingId, setDownloadingId] = useState<number | null>(null);
+  const [deleteConfirmId, setDeleteConfirmId] = useState<number | null>(null);
 
   const loadActas = async () => {
     setLoading(true);
@@ -25,16 +27,22 @@ export default function ActasPage() {
 
   useEffect(() => { loadActas(); }, [search]);
 
-  const handleDelete = async (id: number) => {
-    if (!confirm('Eliminar esta acta permanentemente?')) return;
+  const handleDelete = (id: number) => {
+    setDeleteConfirmId(id);
+  };
+
+  const confirmDelete = async () => {
+    if (deleteConfirmId === null) return;
     try {
-      await actasAPI.delete(id);
-      setActas((prev) => prev.filter((a) => a.id !== id));
+      await actasAPI.delete(deleteConfirmId);
+      setActas((prev) => prev.filter((a) => a.id !== deleteConfirmId));
       setSuccess('Acta eliminada exitosamente');
       setTimeout(() => setSuccess(''), 3000);
     } catch (err: any) {
       setError(err.response?.data?.detail || 'Error al eliminar acta');
       setTimeout(() => setError(''), 3000);
+    } finally {
+      setDeleteConfirmId(null);
     }
   };
 
@@ -206,6 +214,17 @@ export default function ActasPage() {
           </div>
         )}
       </div>
+
+      <ConfirmModal
+        open={deleteConfirmId !== null}
+        title="Eliminar acta"
+        message="¿Estás seguro de eliminar esta acta permanentemente?"
+        confirmLabel="OK"
+        cancelLabel="Cancelar"
+        variant="danger"
+        onConfirm={confirmDelete}
+        onCancel={() => setDeleteConfirmId(null)}
+      />
     </div>
   );
 }

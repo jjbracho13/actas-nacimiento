@@ -1,5 +1,7 @@
+import { useState } from 'react';
 import { Outlet, NavLink, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import ConfirmModal from './ConfirmModal';
 
 const allNavItems = [
   { to: '/', label: 'Panel', icon: HomeIcon },
@@ -11,6 +13,7 @@ const allNavItems = [
 export default function Layout() {
   const { user, logout } = useAuth();
   const location = useLocation();
+  const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
 
   const isActive = (path: string) => {
     if (path === '/') return location.pathname === '/';
@@ -87,9 +90,7 @@ export default function Layout() {
             </NavLink>
           ))}
           <button
-            onClick={() => {
-              if (confirm('Cerrar sesion?')) logout();
-            }}
+            onClick={() => setShowLogoutConfirm(true)}
             className="flex-1 flex flex-col items-center py-2.5 text-xs font-medium text-slate-500 hover:text-red-400 transition"
           >
             <LogoutIcon className="w-5 h-5 mb-0.5" />
@@ -97,6 +98,17 @@ export default function Layout() {
           </button>
         </div>
       </nav>
+
+      <ConfirmModal
+        open={showLogoutConfirm}
+        title="Cerrar sesión"
+        message="¿Estás seguro de cerrar sesión?"
+        confirmLabel="OK"
+        cancelLabel="Cancelar"
+        variant="danger"
+        onConfirm={() => { setShowLogoutConfirm(false); logout(); }}
+        onCancel={() => setShowLogoutConfirm(false)}
+      />
     </div>
   );
 }

@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { actasAPI } from '../api';
 import type { ActaNacimiento } from '../types';
+import ConfirmModal from '../components/ConfirmModal';
 
 declare global {
   interface Window {
@@ -42,6 +43,7 @@ export default function ActasPage() {
   const [searching, setSearching] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
+  const [deleteConfirmId, setDeleteConfirmId] = useState<number | null>(null);
 
   const loadActas = useCallback(async () => {
     setLoading(true);
@@ -79,15 +81,21 @@ export default function ActasPage() {
   const handleDelete = async (id: number, e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
-    if (!confirm('¿Eliminar esta acta?')) return;
+    setDeleteConfirmId(id);
+  };
+
+  const confirmDelete = async () => {
+    if (deleteConfirmId === null) return;
     try {
-      await actasAPI.delete(id);
+      await actasAPI.delete(deleteConfirmId);
       loadActas();
       setSuccess('Acta eliminada exitosamente');
       setTimeout(() => setSuccess(''), 3000);
     } catch (err: any) {
       setError(err.response?.data?.detail || 'Error al eliminar acta');
       setTimeout(() => setError(''), 3000);
+    } finally {
+      setDeleteConfirmId(null);
     }
   };
 
@@ -230,6 +238,17 @@ export default function ActasPage() {
           )}
         </div>
       )}
+
+      <ConfirmModal
+        open={deleteConfirmId !== null}
+        title="Eliminar acta"
+        message="¿Estás seguro de eliminar esta acta?"
+        confirmLabel="OK"
+        cancelLabel="Cancelar"
+        variant="danger"
+        onConfirm={confirmDelete}
+        onCancel={() => setDeleteConfirmId(null)}
+      />
     </div>
   );
 }
