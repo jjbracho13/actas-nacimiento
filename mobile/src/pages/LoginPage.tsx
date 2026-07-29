@@ -175,7 +175,7 @@ export default function LoginPage() {
 
               <div className="flex items-center gap-3">
                 <div className="flex-1 h-px bg-slate-700" />
-                <span className="text-xs text-slate-500">o usa tu contraseña</span>
+                <span className="text-xs text-slate-500 text-center">o usa tu contraseña</span>
                 <div className="flex-1 h-px bg-slate-700" />
               </div>
             </>
@@ -183,12 +183,12 @@ export default function LoginPage() {
 
             <form onSubmit={handleSubmit} className="space-y-5">
             <div>
-              <label className="block text-sm font-medium text-slate-300 mb-1.5">Correo electrónico</label>
+              <label className="block text-sm font-medium text-slate-300 mb-1.5 text-center">Correo electrónico</label>
               <input
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full px-4 py-2.5 bg-slate-900/50 border border-slate-600/50 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500/50 transition"
+                className="w-full px-4 py-2.5 bg-slate-900/50 border border-slate-600/50 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500/50 transition text-center"
                 placeholder="correo@ejemplo.com"
                 required
                 autoFocus
@@ -196,13 +196,13 @@ export default function LoginPage() {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-slate-300 mb-1.5">Contraseña</label>
+              <label className="block text-sm font-medium text-slate-300 mb-1.5 text-center">Contraseña</label>
               <div className="relative">
                 <input
                   type={showPassword ? 'text' : 'password'}
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="w-full px-4 py-2.5 pr-10 bg-slate-900/50 border border-slate-600/50 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500/50 transition"
+                  className="w-full px-4 py-2.5 pr-10 bg-slate-900/50 border border-slate-600/50 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500/50 transition text-center"
                   placeholder="••••••••"
                   required
                 />

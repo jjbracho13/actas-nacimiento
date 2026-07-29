@@ -1,6 +1,5 @@
 import { createContext, useContext, useState, useEffect, useCallback, useRef, type ReactNode } from 'react';
 import { authAPI } from '../api';
-import { deleteCredentials } from '../utils/biometric';
 import type { User } from '../types';
 
 interface AuthContextType {
@@ -17,7 +16,10 @@ const AuthContext = createContext<AuthContextType | null>(null);
 const INACTIVITY_TIMEOUT = 10 * 60 * 1000;
 
 export function AuthProvider({ children }: { children: ReactNode }) {
-  const [user, setUser] = useState<User | null>(null);
+  const [user, setUser] = useState<User | null>(() => {
+    const cached = localStorage.getItem('user_data');
+    return cached ? JSON.parse(cached) : null;
+  });
   const [token, setToken] = useState<string | null>(() => localStorage.getItem('token'));
   const [loading, setLoading] = useState(true);
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -29,9 +31,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
     authAPI
       .me()
-      .then((r) => setUser(r.data))
+      .then((r) => {
+        localStorage.setItem('user_data', JSON.stringify(r.data));
+        setUser(r.data);
+      })
       .catch(() => {
         localStorage.removeItem('token');
+        localStorage.removeItem('user_data');
         setToken(null);
       })
       .finally(() => setLoading(false));
@@ -41,7 +47,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     if (timerRef.current) clearTimeout(timerRef.current);
     timerRef.current = null;
     localStorage.removeItem('token');
-    deleteCredentials().catch(() => {});
+    localStorage.removeItem('user_data');
     setToken(null);
     setUser(null);
   }, []);
@@ -79,6 +85,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     localStorage.setItem('token', t);
     setToken(t);
     const me = await authAPI.me();
+    localStorage.setItem('user_data', JSON.stringify(me.data));
     setUser(me.data);
     setLoading(false);
   }, []);
