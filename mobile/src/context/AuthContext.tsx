@@ -75,6 +75,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const login = useCallback((t: string, u: User) => {
     localStorage.setItem('token', t);
+    localStorage.setItem('user_data', JSON.stringify(u));
     setToken(t);
     setUser(u);
   }, []);
@@ -82,11 +83,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const loginWithPassword = useCallback(async (email: string, password: string) => {
     const r = await authAPI.login(email, password);
     const t = r.data.access_token;
+    const u = r.data.user;
     localStorage.setItem('token', t);
+    localStorage.setItem('user_data', JSON.stringify(u));
     setToken(t);
-    const me = await authAPI.me();
-    localStorage.setItem('user_data', JSON.stringify(me.data));
-    setUser(me.data);
+    setUser(u);
     setLoading(false);
   }, []);
 

@@ -38,7 +38,7 @@ export default function LoginPage() {
   const [regError, setRegError] = useState('');
 
   useEffect(() => {
-    (async () => {
+    const handler = setTimeout(async () => {
       try {
         const available = await isBiometricAvailable();
         setBiometricAvailable(available);
@@ -47,7 +47,8 @@ export default function LoginPage() {
           setHasCredentials(!!creds);
         }
       } catch {}
-    })();
+    }, 1000);
+    return () => clearTimeout(handler);
   }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {

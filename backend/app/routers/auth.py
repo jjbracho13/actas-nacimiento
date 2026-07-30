@@ -12,6 +12,7 @@ from app.security.auth import (
     get_user_by_email,
     create_user,
 )
+from app.models.user import User
 
 router = APIRouter(prefix="/api/auth", tags=["Autenticacion"])
 
@@ -33,7 +34,17 @@ async def login(form_data: OAuth2PasswordRequestForm = Depends(), db: AsyncSessi
         )
     role = user.role if user.role == "admin" else "operator"
     access_token = create_access_token(data={"sub": user.email, "role": role})
-    return {"access_token": access_token, "token_type": "bearer", "role": role}
+    return {
+        "access_token": access_token,
+        "token_type": "bearer",
+        "role": role,
+        "user": {
+            "id": user.id,
+            "email": user.email,
+            "nombre": user.nombre,
+            "role": user.role,
+        },
+    }
 
 
 @router.get("/me")
