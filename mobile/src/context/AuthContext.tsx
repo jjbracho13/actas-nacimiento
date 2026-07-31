@@ -13,7 +13,8 @@ interface AuthContextType {
 
 const AuthContext = createContext<AuthContextType | null>(null);
 
-const INACTIVITY_TIMEOUT = 10 * 60 * 1000;
+const INACTIVITY_TIMEOUT = 3 * 60 * 1000;
+const INACTIVITY_CHECK_INTERVAL = 15 * 1000;
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(() => {
@@ -22,56 +23,68 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   });
   const [token, setToken] = useState<string | null>(() => localStorage.getItem('token'));
   const [loading, setLoading] = useState(true);
-  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const lastActivityRef = useRef(Date.now());
 
   useEffect(() => {
     if (!token) {
       setLoading(false);
       return;
     }
+    if (localStorage.getItem('user_data')) {
+      setLoading(false);
+    }
+    let cancelled = false;
     authAPI
       .me()
       .then((r) => {
+        if (cancelled) return;
         localStorage.setItem('user_data', JSON.stringify(r.data));
         setUser(r.data);
       })
-      .catch(() => {
-        localStorage.removeItem('token');
-        localStorage.removeItem('user_data');
-        setToken(null);
+      .catch((err) => {
+        if (cancelled) return;
+        if (err.response?.status === 401) {
+          localStorage.removeItem('token');
+          localStorage.removeItem('user_data');
+          setToken(null);
+          setUser(null);
+        }
       })
-      .finally(() => setLoading(false));
+      .finally(() => {
+        if (!cancelled) setLoading(false);
+      });
+    return () => { cancelled = true; };
   }, [token]);
 
   const logout = useCallback(() => {
-    if (timerRef.current) clearTimeout(timerRef.current);
-    timerRef.current = null;
     localStorage.removeItem('token');
     localStorage.removeItem('user_data');
     setToken(null);
     setUser(null);
   }, []);
 
-  const resetTimer = useCallback(() => {
-    if (!user) return;
-    if (timerRef.current) clearTimeout(timerRef.current);
-    timerRef.current = setTimeout(() => {
-      logout();
-    }, INACTIVITY_TIMEOUT);
-  }, [user, logout]);
+  const updateActivity = useCallback(() => {
+    lastActivityRef.current = Date.now();
+  }, []);
 
   useEffect(() => {
     if (!user) return;
 
     const events = ['touchstart', 'mousedown', 'keydown', 'scroll', 'click'];
-    events.forEach((e) => document.addEventListener(e, resetTimer, { passive: true }));
-    resetTimer();
+    events.forEach((e) => document.addEventListener(e, updateActivity, { passive: true }));
+    lastActivityRef.current = Date.now();
+
+    const interval = setInterval(() => {
+      if (Date.now() - lastActivityRef.current > INACTIVITY_TIMEOUT) {
+        logout();
+      }
+    }, INACTIVITY_CHECK_INTERVAL);
 
     return () => {
-      events.forEach((e) => document.removeEventListener(e, resetTimer));
-      if (timerRef.current) clearTimeout(timerRef.current);
+      events.forEach((e) => document.removeEventListener(e, updateActivity));
+      clearInterval(interval);
     };
-  }, [user, resetTimer]);
+  }, [user, logout, updateActivity]);
 
   const login = useCallback((t: string, u: User) => {
     localStorage.setItem('token', t);

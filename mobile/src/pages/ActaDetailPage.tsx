@@ -73,7 +73,12 @@ export default function ActaDetailPage() {
     try {
       const url = getPdfUrl();
       if (!url) { setError('No hay sesión activa'); setTimeout(() => setError(''), 3000); return; }
-      window.open(url, '_blank');
+      if (isNativeApp()) {
+        const { Browser } = await import('@capacitor/browser');
+        await Browser.open({ url });
+      } else {
+        window.open(url, '_blank');
+      }
     } catch (err: any) {
       setError(err.message || 'Error al abrir vista previa');
       setTimeout(() => setError(''), 3000);

@@ -1,7 +1,6 @@
-import { useState } from 'react';
 import { Outlet, NavLink, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import ConfirmModal from './ConfirmModal';
+import { useLogout } from './LogoutProvider';
 
 const allNavItems = [
   { to: '/', label: 'Panel', icon: HomeIcon },
@@ -11,9 +10,9 @@ const allNavItems = [
 ];
 
 export default function Layout() {
-  const { user, logout } = useAuth();
+  const { user } = useAuth();
+  const { requestLogout } = useLogout();
   const location = useLocation();
-  const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
 
   const isActive = (path: string) => {
     if (path === '/') return location.pathname === '/';
@@ -57,7 +56,7 @@ export default function Layout() {
                 <p className="text-sm font-medium truncate">{user?.email}</p>
                 <p className="text-xs text-slate-500">{user?.role === 'admin' ? 'Administrador' : 'Operador'}</p>
               </div>
-              <button onClick={logout} className="text-slate-500 hover:text-white transition p-1">
+              <button onClick={requestLogout} className="text-slate-500 hover:text-white transition p-1">
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
                 </svg>
@@ -90,7 +89,7 @@ export default function Layout() {
             </NavLink>
           ))}
           <button
-            onClick={() => setShowLogoutConfirm(true)}
+            onClick={requestLogout}
             className="flex-1 flex flex-col items-center py-2.5 text-xs font-medium text-slate-500 hover:text-red-400 transition"
           >
             <LogoutIcon className="w-5 h-5 mb-0.5" />
@@ -98,17 +97,6 @@ export default function Layout() {
           </button>
         </div>
       </nav>
-
-      <ConfirmModal
-        open={showLogoutConfirm}
-        title="Cerrar sesión"
-        message="¿Estás seguro de cerrar sesión?"
-        confirmLabel="OK"
-        cancelLabel="Cancelar"
-        variant="danger"
-        onConfirm={() => { setShowLogoutConfirm(false); logout(); }}
-        onCancel={() => setShowLogoutConfirm(false)}
-      />
     </div>
   );
 }
