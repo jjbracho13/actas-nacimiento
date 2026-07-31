@@ -22,7 +22,47 @@ export default function PdfViewer({ url, onLoad }: Props) {
   const [currentPage, setCurrentPage] = useState(1);
   const [zoom, setZoom] = useState(1);
   const [error, setError] = useState('');
+  const [pinning, setPinning] = useState(false);
   const cancelledRef = useRef(false);
+  const pinchRef = useRef<{ startDist: number; startZoom: number } | null>(null);
+  const lastTapRef = useRef(0);
+
+  const handleTouchStart = (e: React.TouchEvent) => {
+    if (e.touches.length === 2) {
+      const dist = Math.hypot(
+        e.touches[0].clientX - e.touches[1].clientX,
+        e.touches[0].clientY - e.touches[1].clientY
+      );
+      pinchRef.current = { startDist: dist, startZoom: zoom };
+      setPinning(true);
+    }
+  };
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    if (e.touches.length !== 2 || !pinchRef.current) return;
+    const { startDist, startZoom } = pinchRef.current;
+    if (startDist === 0) return;
+    const dist = Math.hypot(
+      e.touches[0].clientX - e.touches[1].clientX,
+      e.touches[0].clientY - e.touches[1].clientY
+    );
+    const next = Math.min(MAX_ZOOM, Math.max(MIN_ZOOM, +(startZoom * (dist / startDist)).toFixed(2)));
+    setZoom((z) => (Math.abs(next - z) >= 0.05 ? next : z));
+  };
+
+  const handleTouchEnd = () => {
+    const wasPinch = pinchRef.current !== null;
+    pinchRef.current = null;
+    setPinning(false);
+    if (wasPinch) return;
+    const now = Date.now();
+    if (now - lastTapRef.current < 300) {
+      setZoom((z) => (z > 1.25 ? 1 : 1.75));
+      lastTapRef.current = 0;
+    } else {
+      lastTapRef.current = now;
+    }
+  };
 
   useEffect(() => {
     if (!url || !containerRef.current) return;
@@ -86,7 +126,14 @@ export default function PdfViewer({ url, onLoad }: Props) {
   }
 
   return (
-    <div className="h-full overflow-auto bg-slate-200">
+    <div
+      className="h-full overflow-auto bg-slate-200"
+      style={{ touchAction: pinning ? 'none' : 'pan-x pan-y' }}
+      onTouchStart={handleTouchStart}
+      onTouchMove={handleTouchMove}
+      onTouchEnd={handleTouchEnd}
+      onTouchCancel={handleTouchEnd}
+    >
       <div className="sticky top-0 bg-slate-800/90 text-white text-xs text-center py-1 z-10 flex items-center justify-center gap-4">
         <span>Página {currentPage} de {totalPages}</span>
         <div className="flex items-center gap-1">

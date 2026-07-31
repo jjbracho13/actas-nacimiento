@@ -12,7 +12,7 @@ const API_BASE = (() => {
   return '/api';
 })();
 
-const api = axios.create({ baseURL: API_BASE, timeout: 15000 });
+const api = axios.create({ baseURL: API_BASE, timeout: 30000 });
 
 api.interceptors.request.use((config) => {
   const token = localStorage.getItem('token');
@@ -32,13 +32,23 @@ api.interceptors.response.use(
 );
 
 export const authAPI = {
-  login: (email: string, password: string) => {
+  login: async (email: string, password: string) => {
     const params = new URLSearchParams();
     params.append('username', email);
     params.append('password', password);
-    return api.post('/auth/login', params.toString(), {
-      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-    });
+    const attempt = () =>
+      api.post('/auth/login', params.toString(), {
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      });
+    try {
+      return await attempt();
+    } catch (err: any) {
+      if (err.code === 'ECONNABORTED' || !err.response) {
+        await new Promise((r) => setTimeout(r, 800));
+        return attempt();
+      }
+      throw err;
+    }
   },
   me: () => api.get('/auth/me'),
   forgotPassword: (email: string) =>
