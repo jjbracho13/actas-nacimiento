@@ -209,7 +209,7 @@ export default function LoginPage() {
                   required
                   enterKeyHint="go"
                   onKeyDown={(e) => {
-                    if (e.key === 'Enter') {
+                    if (e.key === 'Enter' || e.code === 'NumpadEnter') {
                       e.preventDefault();
                       e.currentTarget.form?.requestSubmit();
                     }
