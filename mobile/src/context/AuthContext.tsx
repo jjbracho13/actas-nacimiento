@@ -70,11 +70,15 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, [token]);
 
   const logout = useCallback(() => {
+    clearInactivityTimer();
+    inactivityPromptRef.current = false;
+    setInactivityPrompt(false);
+    lastActivityRef.current = Date.now();
     localStorage.removeItem('token');
     localStorage.removeItem('user_data');
     setToken(null);
     setUser(null);
-  }, []);
+  }, [clearInactivityTimer]);
 
   const stayLoggedIn = useCallback(() => {
     clearInactivityTimer();
