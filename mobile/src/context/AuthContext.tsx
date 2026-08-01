@@ -14,7 +14,7 @@ interface AuthContextType {
 const AuthContext = createContext<AuthContextType | null>(null);
 
 const INACTIVITY_TIMEOUT = 3 * 60 * 1000;
-const INACTIVITY_CHECK_INTERVAL = 15 * 1000;
+const INACTIVITY_CHECK_INTERVAL = 3 * 1000;
 const INACTIVITY_CLOSE_DELAY = 10; // segundos
 
 export function AuthProvider({ children }: { children: ReactNode }) {
@@ -101,28 +101,44 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     events.forEach((e) => document.addEventListener(e, updateActivity, { passive: true }));
     lastActivityRef.current = Date.now();
 
+    const triggerPrompt = () => {
+      if (inactivityPromptRef.current) return;
+      inactivityPromptRef.current = true;
+      inactivityCountdownRef.current = INACTIVITY_CLOSE_DELAY;
+      setInactivityPrompt(true);
+      setInactivityCountdown(INACTIVITY_CLOSE_DELAY);
+      inactivityTimerRef.current = window.setInterval(() => {
+        inactivityCountdownRef.current -= 1;
+        setInactivityCountdown(inactivityCountdownRef.current);
+        if (inactivityCountdownRef.current <= 0) {
+          clearInactivityTimer();
+          logout();
+        }
+      }, 1000);
+    };
+
     const interval = setInterval(() => {
-      if (
-        !inactivityPromptRef.current &&
-        Date.now() - lastActivityRef.current > INACTIVITY_TIMEOUT
-      ) {
-        inactivityPromptRef.current = true;
-        inactivityCountdownRef.current = INACTIVITY_CLOSE_DELAY;
-        setInactivityPrompt(true);
-        setInactivityCountdown(INACTIVITY_CLOSE_DELAY);
-        inactivityTimerRef.current = window.setInterval(() => {
-          inactivityCountdownRef.current -= 1;
-          setInactivityCountdown(inactivityCountdownRef.current);
-          if (inactivityCountdownRef.current <= 0) {
-            clearInactivityTimer();
-            logout();
-          }
-        }, 1000);
+      if (Date.now() - lastActivityRef.current > INACTIVITY_TIMEOUT) {
+        triggerPrompt();
       }
     }, INACTIVITY_CHECK_INTERVAL);
 
+    const onVisibilityChange = () => {
+      if (document.visibilityState === 'visible') {
+        if (Date.now() - lastActivityRef.current > INACTIVITY_TIMEOUT) {
+          triggerPrompt();
+        } else if (inactivityPromptRef.current) {
+          clearInactivityTimer();
+          inactivityPromptRef.current = false;
+          triggerPrompt();
+        }
+      }
+    };
+    document.addEventListener('visibilitychange', onVisibilityChange);
+
     return () => {
       events.forEach((e) => document.removeEventListener(e, updateActivity));
+      document.removeEventListener('visibilitychange', onVisibilityChange);
       clearInterval(interval);
       clearInactivityTimer();
     };
