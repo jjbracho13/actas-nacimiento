@@ -30,6 +30,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const inactivityPromptRef = useRef(false);
   const inactivityTimerRef = useRef<number | null>(null);
   const inactivityCountdownRef = useRef(INACTIVITY_CLOSE_DELAY);
+  const promptShownAtRef = useRef(Date.now());
 
   const clearInactivityTimer = useCallback(() => {
     if (inactivityTimerRef.current !== null) {
@@ -105,20 +106,27 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     events.forEach((e) => document.addEventListener(e, updateActivity, { passive: true }));
     lastActivityRef.current = Date.now();
 
+    const startCountdown = () => {
+      clearInactivityTimer();
+      inactivityTimerRef.current = window.setInterval(() => {
+        const remaining = INACTIVITY_CLOSE_DELAY - Math.floor((Date.now() - promptShownAtRef.current) / 1000);
+        inactivityCountdownRef.current = Math.max(remaining, 0);
+        setInactivityCountdown(inactivityCountdownRef.current);
+        if (remaining <= 0) {
+          clearInactivityTimer();
+          logout();
+        }
+      }, 500);
+    };
+
     const triggerPrompt = () => {
       if (inactivityPromptRef.current) return;
       inactivityPromptRef.current = true;
       inactivityCountdownRef.current = INACTIVITY_CLOSE_DELAY;
       setInactivityPrompt(true);
       setInactivityCountdown(INACTIVITY_CLOSE_DELAY);
-      inactivityTimerRef.current = window.setInterval(() => {
-        inactivityCountdownRef.current -= 1;
-        setInactivityCountdown(inactivityCountdownRef.current);
-        if (inactivityCountdownRef.current <= 0) {
-          clearInactivityTimer();
-          logout();
-        }
-      }, 1000);
+      promptShownAtRef.current = Date.now();
+      startCountdown();
     };
 
     const interval = setInterval(() => {
@@ -128,14 +136,19 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }, INACTIVITY_CHECK_INTERVAL);
 
     const onVisibilityChange = () => {
-      if (document.visibilityState === 'visible') {
-        if (Date.now() - lastActivityRef.current > INACTIVITY_TIMEOUT) {
-          triggerPrompt();
-        } else if (inactivityPromptRef.current) {
+      if (document.visibilityState !== 'visible') return;
+      if (inactivityPromptRef.current) {
+        const remaining = INACTIVITY_CLOSE_DELAY - Math.floor((Date.now() - promptShownAtRef.current) / 1000);
+        if (remaining <= 0) {
           clearInactivityTimer();
-          inactivityPromptRef.current = false;
-          triggerPrompt();
+          logout();
+          return;
         }
+        inactivityCountdownRef.current = remaining;
+        setInactivityCountdown(remaining);
+        startCountdown();
+      } else if (Date.now() - lastActivityRef.current > INACTIVITY_TIMEOUT) {
+        triggerPrompt();
       }
     };
     document.addEventListener('visibilitychange', onVisibilityChange);
