@@ -29,3 +29,4 @@ Thumbs.db
 
 backend/pdf/cache/
 mobile/actas-cne.apk
+*.tsbuildinfo
