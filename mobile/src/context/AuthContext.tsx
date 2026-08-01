@@ -29,6 +29,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const lastActivityRef = useRef(Date.now());
   const inactivityPromptRef = useRef(false);
   const inactivityTimerRef = useRef<number | null>(null);
+  const inactivityCountdownRef = useRef(INACTIVITY_CLOSE_DELAY);
 
   const clearInactivityTimer = useCallback(() => {
     if (inactivityTimerRef.current !== null) {
@@ -106,17 +107,16 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         Date.now() - lastActivityRef.current > INACTIVITY_TIMEOUT
       ) {
         inactivityPromptRef.current = true;
+        inactivityCountdownRef.current = INACTIVITY_CLOSE_DELAY;
         setInactivityPrompt(true);
         setInactivityCountdown(INACTIVITY_CLOSE_DELAY);
         inactivityTimerRef.current = window.setInterval(() => {
-          setInactivityCountdown((c) => {
-            if (c <= 1) {
-              clearInactivityTimer();
-              logout();
-              return 0;
-            }
-            return c - 1;
-          });
+          inactivityCountdownRef.current -= 1;
+          setInactivityCountdown(inactivityCountdownRef.current);
+          if (inactivityCountdownRef.current <= 0) {
+            clearInactivityTimer();
+            logout();
+          }
         }, 1000);
       }
     }, INACTIVITY_CHECK_INTERVAL);
