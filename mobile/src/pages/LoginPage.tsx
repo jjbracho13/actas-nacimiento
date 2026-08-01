@@ -193,6 +193,7 @@ export default function LoginPage() {
                 placeholder="correo@ejemplo.com"
                 required
                 autoFocus
+                enterKeyHint="next"
               />
             </div>
 
@@ -206,6 +207,13 @@ export default function LoginPage() {
                   className="w-full px-4 py-2.5 pr-10 bg-slate-900/50 border border-slate-600/50 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500/50 transition text-center"
                   placeholder="••••••••"
                   required
+                  enterKeyHint="go"
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter') {
+                      e.preventDefault();
+                      e.currentTarget.form?.requestSubmit();
+                    }
+                  }}
                 />
                 <button
                   type="button"
