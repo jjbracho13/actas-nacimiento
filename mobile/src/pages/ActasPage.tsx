@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { actasAPI } from '../api';
 import type { ActaNacimiento } from '../types';
 import ConfirmModal from '../components/ConfirmModal';
@@ -7,6 +7,8 @@ import { isNativeApp, serverBase } from '../utils/platform';
 
 export default function ActasPage() {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const hoy = searchParams.get('hoy') === '1';
   const [actas, setActas] = useState<ActaNacimiento[]>([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState('');
@@ -18,14 +20,14 @@ export default function ActasPage() {
   const loadActas = useCallback(async () => {
     setLoading(true);
     try {
-      const r = await actasAPI.list();
+      const r = await actasAPI.list(0, 50, hoy);
       setActas(r.data);
     } catch {
       /* ignore */
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [hoy]);
 
   useEffect(() => {
     loadActas();
@@ -110,10 +112,18 @@ export default function ActasPage() {
 
   return (
     <div className="space-y-6">
-      <div>
+      <div className="flex items-center gap-2 flex-wrap">
         <h1 className="text-xl md:text-2xl font-bold text-white">Actas</h1>
-        <p className="text-slate-400 text-sm mt-1">Buscar y gestionar actas de nacimiento</p>
+        {hoy && (
+          <button
+            onClick={() => navigate('/actas')}
+            className="px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 text-xs font-medium cursor-pointer"
+          >
+            Hoy (creadas hoy)
+          </button>
+        )}
       </div>
+      <p className="text-slate-400 text-sm mt-1">Buscar y gestionar actas de nacimiento</p>
 
       <div className="flex gap-2">
         <div className="flex-1 relative">

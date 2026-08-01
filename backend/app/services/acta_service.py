@@ -1,6 +1,7 @@
 from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy import select, or_
+from sqlalchemy import select, or_, func
 from sqlalchemy.orm import selectinload
+from datetime import date
 from app.models.acta import ActaNacimiento
 from app.models.registrador import RegistradorCivil
 from app.models.presentado import Presentado
@@ -20,6 +21,21 @@ async def get_all_actas(db: AsyncSession, skip: int = 0, limit: int = 100):
             selectinload(ActaNacimiento.registrador),
             selectinload(ActaNacimiento.presentado),
         )
+        .order_by(ActaNacimiento.id.desc())
+        .offset(skip)
+        .limit(limit)
+    )
+    return result.scalars().all()
+
+
+async def get_actas_hoy(db: AsyncSession, skip: int = 0, limit: int = 100):
+    result = await db.execute(
+        select(ActaNacimiento)
+        .options(
+            selectinload(ActaNacimiento.registrador),
+            selectinload(ActaNacimiento.presentado),
+        )
+        .where(func.date(ActaNacimiento.created_at) == date.today())
         .order_by(ActaNacimiento.id.desc())
         .offset(skip)
         .limit(limit)

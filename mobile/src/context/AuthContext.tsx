@@ -15,6 +15,7 @@ const AuthContext = createContext<AuthContextType | null>(null);
 
 const INACTIVITY_TIMEOUT = 3 * 60 * 1000;
 const INACTIVITY_CHECK_INTERVAL = 15 * 1000;
+const INACTIVITY_CLOSE_DELAY = 10; // segundos
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(() => {
@@ -23,7 +24,18 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   });
   const [token, setToken] = useState<string | null>(() => localStorage.getItem('token'));
   const [loading, setLoading] = useState(true);
+  const [inactivityPrompt, setInactivityPrompt] = useState(false);
+  const [inactivityCountdown, setInactivityCountdown] = useState(INACTIVITY_CLOSE_DELAY);
   const lastActivityRef = useRef(Date.now());
+  const inactivityPromptRef = useRef(false);
+  const inactivityTimerRef = useRef<number | null>(null);
+
+  const clearInactivityTimer = useCallback(() => {
+    if (inactivityTimerRef.current !== null) {
+      window.clearInterval(inactivityTimerRef.current);
+      inactivityTimerRef.current = null;
+    }
+  }, []);
 
   useEffect(() => {
     if (!token) {
@@ -63,6 +75,20 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setUser(null);
   }, []);
 
+  const stayLoggedIn = useCallback(() => {
+    clearInactivityTimer();
+    inactivityPromptRef.current = false;
+    setInactivityPrompt(false);
+    lastActivityRef.current = Date.now();
+  }, [clearInactivityTimer]);
+
+  const closeSession = useCallback(() => {
+    clearInactivityTimer();
+    inactivityPromptRef.current = false;
+    setInactivityPrompt(false);
+    logout();
+  }, [clearInactivityTimer, logout]);
+
   const updateActivity = useCallback(() => {
     lastActivityRef.current = Date.now();
   }, []);
@@ -75,16 +101,32 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     lastActivityRef.current = Date.now();
 
     const interval = setInterval(() => {
-      if (Date.now() - lastActivityRef.current > INACTIVITY_TIMEOUT) {
-        logout();
+      if (
+        !inactivityPromptRef.current &&
+        Date.now() - lastActivityRef.current > INACTIVITY_TIMEOUT
+      ) {
+        inactivityPromptRef.current = true;
+        setInactivityPrompt(true);
+        setInactivityCountdown(INACTIVITY_CLOSE_DELAY);
+        inactivityTimerRef.current = window.setInterval(() => {
+          setInactivityCountdown((c) => {
+            if (c <= 1) {
+              clearInactivityTimer();
+              logout();
+              return 0;
+            }
+            return c - 1;
+          });
+        }, 1000);
       }
     }, INACTIVITY_CHECK_INTERVAL);
 
     return () => {
       events.forEach((e) => document.removeEventListener(e, updateActivity));
       clearInterval(interval);
+      clearInactivityTimer();
     };
-  }, [user, logout, updateActivity]);
+  }, [user, logout, updateActivity, clearInactivityTimer]);
 
   const login = useCallback((t: string, u: User) => {
     localStorage.setItem('token', t);
@@ -107,6 +149,30 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   return (
     <AuthContext.Provider value={{ user, token, loading, login, loginWithPassword, logout }}>
       {children}
+      {inactivityPrompt && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
+          <div className="bg-slate-800 border border-slate-700/50 rounded-2xl p-6 w-full max-w-sm text-center space-y-4">
+            <p className="text-sm text-white font-semibold">¿Aún quieres permanecer en la aplicación?</p>
+            <p className="text-sm text-slate-400">
+              La sesión se cerrará en <span className="text-white font-mono">{inactivityCountdown}</span> segundos si no respondes.
+            </p>
+            <div className="flex items-center justify-center gap-3">
+              <button
+                onClick={stayLoggedIn}
+                className="px-6 py-2.5 bg-slate-700 hover:bg-slate-600 text-white text-sm font-medium rounded-lg transition cursor-pointer"
+              >
+                Permanecer
+              </button>
+              <button
+                onClick={closeSession}
+                className="px-6 py-2.5 bg-red-600 hover:bg-red-500 text-white text-sm font-medium rounded-lg transition cursor-pointer"
+              >
+                Cerrar sesión
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </AuthContext.Provider>
   );
 }

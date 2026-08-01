@@ -6,6 +6,7 @@ from app.database import get_db
 from app.security.auth import get_current_user, get_current_user_from_query
 from app.services.acta_service import (
     get_all_actas,
+    get_actas_hoy,
     get_acta_by_id,
     get_acta_by_numero,
     search_actas,
@@ -57,10 +58,14 @@ async def stats(
 async def list_actas(
     skip: int = Query(0, ge=0),
     limit: int = Query(100, ge=1, le=500),
+    hoy: bool = Query(False),
     db: AsyncSession = Depends(get_db),
     current_user: dict = Depends(get_current_user),
 ):
-    actas = await get_all_actas(db, skip=skip, limit=limit)
+    if hoy:
+        actas = await get_actas_hoy(db, skip=skip, limit=limit)
+    else:
+        actas = await get_all_actas(db, skip=skip, limit=limit)
     return actas
 
 

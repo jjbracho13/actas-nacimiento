@@ -58,8 +58,8 @@ export const authAPI = {
 };
 
 export const actasAPI = {
-  list: (skip = 0, limit = 50) =>
-    api.get('/actas/', { params: { skip, limit } }),
+  list: (skip = 0, limit = 50, hoy = false) =>
+    api.get('/actas/', { params: { skip, limit, hoy } }),
   get: (id: number) => api.get(`/actas/${id}`),
   getByNumero: (numero: string) => api.get(`/actas/numero/${numero}`),
   search: (q: string) => api.get('/actas/search', { params: { q } }),

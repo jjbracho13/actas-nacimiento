@@ -28,21 +28,33 @@ export default function DashboardPage() {
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-        <div className="bg-gradient-to-br from-blue-500/20 to-blue-600/10 border border-blue-500/20 rounded-xl p-4 md:p-5">
+        <Link
+          to="/actas"
+          className="bg-gradient-to-br from-blue-500/20 to-blue-600/10 border border-blue-500/20 rounded-xl p-4 md:p-5 hover:shadow-lg hover:shadow-blue-500/10 hover:-translate-y-0.5 transition-all block group"
+        >
           <div className="flex items-center justify-between mb-3">
             <span className="text-slate-400 text-sm">Actas de Nacimiento</span>
             <span className="px-2 py-0.5 rounded-full bg-blue-500/20 text-blue-300 text-xs font-medium">Total</span>
           </div>
-          <p className="text-2xl md:text-3xl font-bold text-blue-400">{stats?.total_actas ?? '-'}</p>
-        </div>
+          <div className="flex items-center justify-between">
+            <p className="text-2xl md:text-3xl font-bold text-blue-400">{stats?.total_actas ?? '-'}</p>
+            <span className="text-blue-400 text-sm group-hover:translate-x-1 transition-transform">Ver todas ›</span>
+          </div>
+        </Link>
 
-        <div className="bg-gradient-to-br from-emerald-500/20 to-emerald-600/10 border border-emerald-500/20 rounded-xl p-4 md:p-5">
+        <Link
+          to="/actas?hoy=1"
+          className="bg-gradient-to-br from-emerald-500/20 to-emerald-600/10 border border-emerald-500/20 rounded-xl p-4 md:p-5 hover:shadow-lg hover:shadow-emerald-500/10 hover:-translate-y-0.5 transition-all block group"
+        >
           <div className="flex items-center justify-between mb-3">
             <span className="text-slate-400 text-sm">Actas Hoy</span>
             <span className="px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 text-xs font-medium">Hoy</span>
           </div>
-          <p className="text-2xl md:text-3xl font-bold text-emerald-400">{stats?.actas_hoy ?? '-'}</p>
-        </div>
+          <div className="flex items-center justify-between">
+            <p className="text-2xl md:text-3xl font-bold text-emerald-400">{stats?.actas_hoy ?? '-'}</p>
+            <span className="text-emerald-400 text-sm group-hover:translate-x-1 transition-transform">Ver hoy ›</span>
+          </div>
+        </Link>
 
         <Link
           to="/actas/nueva"
