@@ -13,7 +13,7 @@ interface AuthContextType {
 
 const AuthContext = createContext<AuthContextType | null>(null);
 
-const INACTIVITY_TIMEOUT = 3 * 60 * 1000;
+const INACTIVITY_TIMEOUT = 60 * 1000;
 const INACTIVITY_CHECK_INTERVAL = 3 * 1000;
 const INACTIVITY_CLOSE_DELAY = 10; // segundos
 
